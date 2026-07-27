@@ -1,103 +1,45 @@
-import Link from 'next/link';
+'use client';
+import { useState } from 'react';
 import Nav from '@/components/site/Nav';
 import Footer from '@/components/site/Footer';
-import ArticleCard from '@/components/site/ArticleCard';
-import HeroSplit from '@/components/site/HeroSplit';
 import Kicker from '@/components/site/Kicker';
-import { HOMEPAGE_CATEGORIES } from '@/lib/sections';
-import { ArrowUpRight } from 'lucide-react';
-import { db } from '@/packages/db';
+import { toast } from 'sonner';
+import { Loader2 } from 'lucide-react';
 
-export const revalidate = 900; // ISR: re-check every 15 minutes
-
-export default async function Home() {
-  let articles = [];
-  try { articles = await db.articles.list({ status: 'published', limit: 40 }); } catch { articles = []; }
-
-  // The homepage always reflects whatever has actually been published —
-  // by you in /admin, or by your n8n workflow. Nothing is auto-generated.
-  const hero = articles[0];
-  const trending = articles.slice(1, 5);
-  const latestStories = articles.slice(1, 4);
-  const editorsPicks = articles.slice(4, 7);
-  const bySection = (slug) => articles.filter((a) => a.section === slug).slice(0, 4);
-
+export default function NewsletterPage() {
+  const [email, setEmail] = useState('');
+  const [busy, setBusy] = useState(false);
+  const submit = async (e) => {
+    e.preventDefault();
+    if (!email) return;
+    setBusy(true);
+    const r = await fetch('/api/newsletter', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email }) });
+    setBusy(false);
+    if (r.ok) { toast.success('You are on the list.'); setEmail(''); } else toast.error('Something broke.');
+  };
   return (
     <div className="min-h-screen">
       <Nav />
-      <main>
-        {/* HERO — featured story */}
-        <HeroSplit hero={hero} trending={trending} />
+      <main className="container pt-10 pb-24">
+        <div className="max-w-2xl mx-auto text-center py-16">
+          <Kicker>The Sunday Dispatch</Kicker>
+          <h1 className="text-hero italic mt-4 text-[#181818]">A quieter kind of newsletter.</h1>
+          <p className="mt-6 text-lead text-[#555555]">One essay. Five signals. Zero noise. Delivered every Sunday morning. Read it with coffee. Close it with a plan.</p>
+          <form onSubmit={submit} className="mt-10 flex gap-2 max-w-lg mx-auto">
+            <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@work.com" className="flex-1 border border-[#181818] rounded-sm p-3 outline-none bg-white text-[#181818]" />
+            <button disabled={busy} className="bg-[#181818] text-white px-6 text-eyebrow hover:bg-brand transition-colors">{busy ? <Loader2 size={14} className="animate-spin" /> : 'Subscribe'}</button>
+          </form>
+          <p className="mt-4 text-eyebrow text-[#555555]">No spam. Ever. Unsubscribe in one click.</p>
+        </div>
 
-        {/* LATEST STORIES */}
-        {latestStories.length > 0 && (
-          <section className="container py-16 md:py-20">
-            <div className="flex items-end justify-between mb-8 pb-5 border-b border-[#D8D3CB]">
-              <div>
-                <Kicker color="#D46A2E">Fresh off the desk</Kicker>
-                <h2 className="text-h2 italic mt-2 text-[#181818]">Latest stories</h2>
-              </div>
-              <Link href="/latest" className="hidden md:inline-flex items-center gap-2 text-sm text-[#181818] hover:text-brand group">
-                <span className="text-eyebrow">View all</span>
-                <ArrowUpRight size={15} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-              </Link>
+        <div className="max-w-3xl mx-auto grid md:grid-cols-3 gap-8 mt-16 border-t border-[#D8D3CB] pt-16 text-center">
+          {[{n:'One essay',d:'Long enough to matter. Short enough to finish.'},{n:'Five signals',d:'Curated across AI, business, and craft.'},{n:'Zero noise',d:'No sponsors. No filler. No hot takes.'}].map((x)=>(
+            <div key={x.n}>
+              <div className="text-h4 italic text-[#181818]">{x.n}</div>
+              <p className="text-meta text-[#555555] mt-2">{x.d}</p>
             </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-7">
-              {latestStories.map((a, i) => <ArticleCard key={a.id} article={a} index={i} />)}
-            </div>
-          </section>
-        )}
-
-        {/* EDITOR'S PICKS */}
-        {editorsPicks.length > 0 && (
-          <section className="container py-16 md:py-20">
-            <div className="flex items-end justify-between mb-8 pb-5 border-b border-[#D8D3CB]">
-              <div>
-                <Kicker color="#D46A2E">Curated</Kicker>
-                <h2 className="text-h2 italic mt-2 text-[#181818]">Editor&#39;s picks</h2>
-              </div>
-            </div>
-            <div className="max-w-4xl">
-              {editorsPicks.map((a, i) => <ArticleCard key={a.id} article={a} variant="compact" index={i} />)}
-            </div>
-          </section>
-        )}
-
-        {/* CATEGORY SECTIONS — Artificial Intelligence, Business & Strategy, Career & Growth */}
-        {HOMEPAGE_CATEGORIES.map(({ slug, title }) => {
-          const items = bySection(slug);
-          if (items.length === 0) return null;
-          return (
-            <section key={slug} className="container py-16 md:py-20">
-              <div className="flex items-end justify-between mb-8 pb-5 border-b border-[#D8D3CB]">
-                <div>
-                  <Kicker color="#D46A2E">Category</Kicker>
-                  <h2 className="text-h2 italic mt-2 text-[#181818]">{title}</h2>
-                </div>
-                <Link href={`/${slug}`} className="hidden md:inline-flex items-center gap-2 text-sm text-[#181818] hover:text-brand group">
-                  <span className="text-eyebrow">See all</span>
-                  <ArrowUpRight size={15} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                </Link>
-              </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                {items.map((a, i) => <ArticleCard key={a.id} article={a} index={i} />)}
-              </div>
-            </section>
-          );
-        })}
-
-        {/* NEWSLETTER */}
-        <section className="container py-16 md:py-20">
-          <div className="relative overflow-hidden rounded-md bg-[#181818] text-white px-8 py-14 md:px-14 md:py-16 grid gap-8 md:grid-cols-[1fr_auto] md:items-center grain">
-            <div>
-              <h2 className="text-h1 italic">Ideas. Intelligence. Impact.</h2>
-              <p className="mt-3 text-lead text-white/60 max-w-md">One email, delivered when it matters. The sharpest thinking on AI, business, and career growth — no fluff.</p>
-            </div>
-            <Link href="/newsletter" className="inline-flex items-center justify-center gap-2 bg-brand hover:opacity-90 text-white rounded-full px-7 py-3.5 text-eyebrow whitespace-nowrap transition-opacity">
-              Subscribe →
-            </Link>
-          </div>
-        </section>
+          ))}
+        </div>
       </main>
       <Footer />
     </div>

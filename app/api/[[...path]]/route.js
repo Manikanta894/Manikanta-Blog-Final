@@ -7,6 +7,7 @@ import { generateArticle, coverImageFor } from '@/packages/ai';
 import { generateSocial, enqueueSocial, dispatchQueue, postToLinkedIn, postToInstagram } from '@/packages/social';
 import { ingestRss, pipelinePublish, runScheduler, sendNewsletter, processInboxItem } from '@/packages/automation';
 import { slugify, SECTIONS, pollinationsUrl } from '@/packages/utils';
+import { ADMIN_SESSION_COOKIE, isValidSession } from '@/lib/auth';
 
 const j = (data, init = {}) => NextResponse.json(data, init);
 const err = (msg, code = 400) => j({ error: msg }, { status: code });
@@ -29,13 +30,20 @@ async function handler(request, ctx) {
         limit: parseInt(url.searchParams.get('limit') || '30'),
       }) });
       if (method === 'POST' && !p1) {
-        // Auth: if ARTICLES_API_SECRET is set in the environment, require it on every
-        // create request (e.g. from n8n) via the x-api-secret header. Without this,
-        // this endpoint is publicly writable to anyone who has the URL.
-        const requiredSecret = process.env.ARTICLES_API_SECRET;
-        if (requiredSecret) {
-          const provided = request.headers.get('x-api-secret');
-          if (provided !== requiredSecret) return err('unauthorized', 401);
+        // Auth: writes to this endpoint are allowed from two places —
+        //  1) your own logged-in admin session (the Editor tab), OR
+        //  2) an external caller (n8n) presenting the x-api-secret header,
+        //     required whenever ARTICLES_API_SECRET is set.
+        // Without this, this endpoint would otherwise be publicly writable
+        // to anyone who has the URL.
+        const cookieValue = request.cookies.get(ADMIN_SESSION_COOKIE)?.value;
+        const hasAdminSession = await isValidSession(cookieValue);
+        if (!hasAdminSession) {
+          const requiredSecret = process.env.ARTICLES_API_SECRET;
+          if (requiredSecret) {
+            const provided = request.headers.get('x-api-secret');
+            if (provided !== requiredSecret) return err('unauthorized', 401);
+          }
         }
         const body = await request.json();
         return j({ article: await db.articles.create({ ...body, slug: body.slug || slugify(body.title || 'untitled') + '-' + Math.random().toString(36).slice(2, 6) }) });
