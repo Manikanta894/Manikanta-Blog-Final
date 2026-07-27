@@ -1,10 +1,8 @@
 'use client';
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { Loader2, Lock } from 'lucide-react';
 
 export default function AdminLoginPage() {
-  const router = useRouter();
   const [password, setPassword] = useState('');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
@@ -25,8 +23,12 @@ export default function AdminLoginPage() {
         setBusy(false);
         return;
       }
-      router.push('/admin');
-      router.refresh();
+      // A hard redirect (not router.push) guarantees the browser has fully
+      // applied the just-set session cookie before the next request for
+      // /admin goes out. router.push here can occasionally race the cookie,
+      // which made middleware bounce back to /login and left this button
+      // stuck mid-spin since the login page never actually unmounts.
+      window.location.href = '/admin';
     } catch {
       setError('Could not reach the server');
       setBusy(false);
