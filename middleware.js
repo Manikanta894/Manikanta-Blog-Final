@@ -33,14 +33,24 @@ export async function middleware(request) {
   // redirect to every other visitor hitting /admin, authenticated or not.
   const noStore = (res) => { res.headers.set('Cache-Control', 'no-store, must-revalidate'); return res; };
 
+  // TEMPORARY DIAGNOSTIC — safe to leave in briefly, remove once the login
+  // issue is confirmed fixed. Reveals only booleans, never the secret or
+  // the token itself, via response headers you can read in DevTools.
+  const debugHeaders = (res) => {
+    res.headers.set('x-debug-cookie-present', String(!!cookieValue));
+    res.headers.set('x-debug-secret-configured', String(!!process.env.ADMIN_SESSION_SECRET));
+    return res;
+  };
+
   // Gate the admin UI itself (everything under /admin except the login page)
   if (pathname.startsWith('/admin') && pathname !== '/admin/login') {
-    if (!(await isValidSession(cookieValue))) {
+    const valid = await isValidSession(cookieValue);
+    if (!valid) {
       const url = request.nextUrl.clone();
       url.pathname = '/admin/login';
-      return noStore(NextResponse.redirect(url));
+      return debugHeaders(noStore(NextResponse.redirect(url)));
     }
-    return noStore(NextResponse.next());
+    return debugHeaders(noStore(NextResponse.next()));
   }
 
   // Gate the rest of the API surface (settings, subscribers, media, logs,

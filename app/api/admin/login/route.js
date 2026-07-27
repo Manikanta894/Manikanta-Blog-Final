@@ -17,6 +17,7 @@ export async function POST(request) {
 
   const token = await getExpectedSessionToken();
   const res = NextResponse.json({ ok: true });
+  res.headers.set('x-debug-secret-configured', String(!!process.env.ADMIN_SESSION_SECRET)); // TEMP diagnostic
   res.cookies.set(ADMIN_SESSION_COOKIE, token, {
     httpOnly: true,
     secure: true,
