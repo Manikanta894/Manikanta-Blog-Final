@@ -2,6 +2,10 @@
 import { useState } from 'react';
 import { Loader2, Lock } from 'lucide-react';
 
+// Must never be cached — this page's outcome (redirect vs. form) depends
+// on the session cookie, evaluated fresh by middleware on every request.
+export const dynamic = 'force-dynamic';
+
 export default function AdminLoginPage() {
   const [password, setPassword] = useState('');
   const [busy, setBusy] = useState(false);

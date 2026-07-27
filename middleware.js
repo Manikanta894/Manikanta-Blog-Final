@@ -27,14 +27,20 @@ export async function middleware(request) {
   const method = request.method;
   const cookieValue = request.cookies.get(ADMIN_SESSION_COOKIE)?.value;
 
+  // Auth depends entirely on the request's cookie, so none of these
+  // responses may ever be cached/shared across visitors by a CDN — that
+  // would (and, on Vercel, silently did) serve one visitor's login
+  // redirect to every other visitor hitting /admin, authenticated or not.
+  const noStore = (res) => { res.headers.set('Cache-Control', 'no-store, must-revalidate'); return res; };
+
   // Gate the admin UI itself (everything under /admin except the login page)
   if (pathname.startsWith('/admin') && pathname !== '/admin/login') {
     if (!(await isValidSession(cookieValue))) {
       const url = request.nextUrl.clone();
       url.pathname = '/admin/login';
-      return NextResponse.redirect(url);
+      return noStore(NextResponse.redirect(url));
     }
-    return NextResponse.next();
+    return noStore(NextResponse.next());
   }
 
   // Gate the rest of the API surface (settings, subscribers, media, logs,
@@ -43,9 +49,12 @@ export async function middleware(request) {
   if (pathname.startsWith('/api/')) {
     if (isPublicApi(pathname, method)) return NextResponse.next();
     if (!(await isValidSession(cookieValue))) {
-      return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
+      return noStore(NextResponse.json({ error: 'unauthorized' }, { status: 401 }));
     }
+    return noStore(NextResponse.next());
   }
+
+  if (pathname === '/admin/login') return noStore(NextResponse.next());
 
   return NextResponse.next();
 }
