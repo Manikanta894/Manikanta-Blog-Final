@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { ArrowUpRight, Clock } from 'lucide-react';
 import { SECTIONS } from '@/lib/sections';
+import { coverImageFor } from '@/packages/utils';
 
 export default function HeroSplit({ hero, trending = [] }) {
   if (!hero) return null;
@@ -11,6 +12,7 @@ export default function HeroSplit({ hero, trending = [] }) {
   const words = (hero.content || '').split(/\s+/).length;
   const readMin = Math.max(2, Math.round(words / 220));
   const sectionName = SECTIONS.find((s) => s.slug === hero.section)?.name || hero.section;
+  const heroCover = hero.coverImage || coverImageFor(hero.title, hero.section);
 
   return (
     <section className="container pt-10 pb-4">
@@ -24,14 +26,12 @@ export default function HeroSplit({ hero, trending = [] }) {
         >
           <Link href={`/article/${hero.slug}`} className="group block">
             <div className="relative overflow-hidden rounded-md bg-[#D8D3CB] aspect-[16/10] grain">
-              {hero.coverImage && (
-                <img
-                  src={hero.coverImage}
-                  alt={hero.title}
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-                  style={{ filter: 'grayscale(15%) contrast(1.02)' }}
-                />
-              )}
+              <img
+                src={heroCover}
+                alt={hero.title}
+                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                style={{ filter: 'grayscale(15%) contrast(1.02)' }}
+              />
             </div>
             <div className="mt-6">
               <div className="flex items-center gap-3">
@@ -88,9 +88,12 @@ export default function HeroSplit({ hero, trending = [] }) {
                           <span>{min} min</span><span>&middot;</span><span>{dStr}</span>
                         </div>
                       </div>
-                      {a.coverImage && (
-                        <img src={a.coverImage} alt="" className="w-20 h-20 object-cover rounded shrink-0" style={{ filter: 'grayscale(15%) contrast(1.02)' }} />
-                      )}
+                      <img
+                        src={a.coverImage || coverImageFor(a.title, a.section)}
+                        alt=""
+                        className="w-20 h-20 object-cover rounded shrink-0"
+                        style={{ filter: 'grayscale(15%) contrast(1.02)' }}
+                      />
                     </Link>
                   </motion.article>
                 );

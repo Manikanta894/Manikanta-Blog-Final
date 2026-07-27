@@ -5,8 +5,10 @@ import Footer from '@/components/site/Footer';
 import Kicker from '@/components/site/Kicker';
 import ArticleCard from '@/components/site/ArticleCard';
 import ArticleActions from '@/components/site/ArticleActions';
+import ReadingProgress from '@/components/site/ReadingProgress';
+import ArticleTOC from '@/components/site/ArticleTOC';
 import { db } from '@/packages/db';
-import { renderMd, mdToText } from '@/packages/utils';
+import { renderMd, mdToText, ensureEditorialStructure, extractHeadings, coverImageFor } from '@/packages/utils';
 
 export const revalidate = 3600; // ISR: re-check every hour so Google sees fresh content fast
 
@@ -25,7 +27,8 @@ export async function generateMetadata({ params }) {
   const title = article.seo?.title || `${article.title} — ${SITE_NAME}`;
   const description = article.seo?.description || article.excerpt || mdToText(article.content, 160);
   const url = `${SITE_URL}/article/${article.slug}`;
-  const image = article.coverImage ? [{ url: article.coverImage, width: 1600, height: 900, alt: article.title }] : undefined;
+  const coverImage = article.coverImage || coverImageFor(article.title, article.section);
+  const image = [{ url: coverImage, width: 1600, height: 900, alt: article.title }];
 
   return {
     title,
@@ -48,7 +51,7 @@ export async function generateMetadata({ params }) {
       card: 'summary_large_image',
       title: article.title,
       description,
-      images: article.coverImage ? [article.coverImage] : undefined,
+      images: [coverImage],
     },
     robots: { index: article.status === 'published', follow: true },
   };
@@ -68,12 +71,22 @@ export default async function ArticlePage({ params }) {
   const readMin = Math.max(2, Math.round((article.content || '').split(/\s+/).length / 220));
   const url = `${SITE_URL}/article/${article.slug}`;
 
+  // Cover image is mandatory: fall back to a deterministic auto-generated
+  // one when the article (old or new) doesn't have one saved.
+  const coverImage = article.coverImage || coverImageFor(article.title, article.section);
+
+  // Guarantee visual structure on every article, old and new: at least one
+  // pull-quote and one Key Takeaways callout, auto-extracted from the
+  // article's own text when the source markdown doesn't already have them.
+  const content = ensureEditorialStructure(article.content);
+  const headings = extractHeadings(content);
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Article',
     headline: article.title,
     description: article.excerpt || mdToText(article.content, 160),
-    image: article.coverImage ? [article.coverImage] : undefined,
+    image: [coverImage],
     datePublished: article.publishedAt || article.createdAt,
     dateModified: article.updatedAt || article.publishedAt || article.createdAt,
     author: { '@type': 'Person', name: 'Manikanta R', url: `${SITE_URL}/about` },
@@ -91,6 +104,7 @@ export default async function ArticlePage({ params }) {
     <div className="min-h-screen">
       {/* eslint-disable-next-line react/no-danger */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <ReadingProgress targetId="article-body" />
       <Nav />
       <article className="pt-10 pb-24">
         <div className="container max-w-3xl text-center">
@@ -104,29 +118,32 @@ export default async function ArticlePage({ params }) {
           </div>
         </div>
 
-        {article.coverImage && (
-          <div className="container max-w-6xl mt-14">
-            <img
-              src={article.coverImage}
-              alt={article.title}
-              width={1600}
-              height={900}
-              className="w-full aspect-[16/9] object-cover rounded-sm"
-              style={{ filter: 'grayscale(15%) contrast(1.02)' }}
-            />
-          </div>
-        )}
+        <div className="container max-w-6xl mt-14">
+          <img
+            src={coverImage}
+            alt={article.title}
+            width={1600}
+            height={900}
+            className="w-full aspect-[16/9] object-cover rounded-sm"
+            style={{ filter: 'grayscale(15%) contrast(1.02)' }}
+          />
+        </div>
 
-        <div className="container max-w-2xl mt-16">
-          <div className="prose-editorial dropcap" dangerouslySetInnerHTML={{ __html: renderMd(article.content) }} />
+        <div className="container max-w-6xl mt-16">
+          <div className={headings.length >= 3 ? 'grid grid-cols-1 lg:grid-cols-[220px_minmax(0,1fr)] gap-16' : 'flex justify-center'}>
+            {headings.length >= 3 && <ArticleTOC headings={headings} />}
+            <div id="article-body" className="max-w-2xl w-full">
+              <div className="prose-editorial dropcap" dangerouslySetInnerHTML={{ __html: renderMd(content) }} />
 
-          {article.hashtags?.length > 0 && (
-            <div className="mt-16 pt-8 border-t border-[#D8D3CB] flex flex-wrap gap-2">
-              {article.hashtags.map((h) => (
-                <span key={h} className="text-eyebrow text-[#555555] border border-[#D8D3CB] px-2 py-1 rounded-sm">{h}</span>
-              ))}
+              {article.hashtags?.length > 0 && (
+                <div className="mt-16 pt-8 border-t border-[#D8D3CB] flex flex-wrap gap-2">
+                  {article.hashtags.map((h) => (
+                    <span key={h} className="text-eyebrow text-[#555555] border border-[#D8D3CB] px-2 py-1 rounded-sm">{h}</span>
+                  ))}
+                </div>
+              )}
             </div>
-          )}
+          </div>
         </div>
 
         {related.length > 0 && (

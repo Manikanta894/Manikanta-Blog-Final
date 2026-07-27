@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { SECTIONS } from '@/lib/sections';
+import { coverImageFor } from '@/packages/utils';
 
 function readingMinutes(article) {
   const words = (article.content || '').split(/\s+/).length;
@@ -22,6 +23,7 @@ export default function ArticleCard({ article, variant = 'default', index = 0 })
   const date = article.publishedAt ? new Date(article.publishedAt) : new Date(article.createdAt || Date.now());
   const dateStr = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
   const readMin = readingMinutes(article);
+  const cover = article.coverImage || coverImageFor(article.title, article.section);
 
   // Full-width featured card — used on category pages.
   if (variant === 'hero') {
@@ -34,14 +36,12 @@ export default function ArticleCard({ article, variant = 'default', index = 0 })
       >
         <Link href={href} className="block">
           <div className="relative overflow-hidden rounded-md bg-[#D8D3CB] aspect-[16/9] grain">
-            {article.coverImage && (
-              <img
-                src={article.coverImage}
-                alt={article.title}
-                className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-                style={{ filter: 'grayscale(15%) contrast(1.02)' }}
-              />
-            )}
+            <img
+              src={cover}
+              alt={article.title}
+              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+              style={{ filter: 'grayscale(15%) contrast(1.02)' }}
+            />
           </div>
           <div className="mt-6">
             <CategoryLabel section={article.section} />
@@ -72,9 +72,7 @@ export default function ArticleCard({ article, variant = 'default', index = 0 })
       >
         <Link href={href} className="grid grid-cols-[100px_1fr] sm:grid-cols-[120px_1fr] gap-5 items-start py-5 border-b border-[#D8D3CB] last:border-0 transition-[padding] duration-200 group-hover:pl-1.5">
           <div className="relative overflow-hidden rounded aspect-square bg-[#D8D3CB]">
-            {article.coverImage && (
-              <img src={article.coverImage} alt="" className="absolute inset-0 w-full h-full object-cover" style={{ filter: 'grayscale(15%) contrast(1.02)' }} />
-            )}
+            <img src={cover} alt="" className="absolute inset-0 w-full h-full object-cover" style={{ filter: 'grayscale(15%) contrast(1.02)' }} />
           </div>
           <div className="min-w-0">
             <CategoryLabel section={article.section} />
@@ -103,14 +101,12 @@ export default function ArticleCard({ article, variant = 'default', index = 0 })
     >
       <Link href={href} className="block">
         <div className="relative overflow-hidden aspect-[4/3] bg-[#D8D3CB]">
-          {article.coverImage && (
-            <img
-              src={article.coverImage}
-              alt={article.title}
-              className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.05]"
-              style={{ filter: 'grayscale(15%) contrast(1.02)' }}
-            />
-          )}
+          <img
+            src={cover}
+            alt={article.title}
+            className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.05]"
+            style={{ filter: 'grayscale(15%) contrast(1.02)' }}
+          />
         </div>
         <div className="p-5">
           <CategoryLabel section={article.section} />

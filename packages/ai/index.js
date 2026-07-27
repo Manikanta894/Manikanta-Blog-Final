@@ -4,7 +4,14 @@
 // Keys can come from: (1) settings row in DB, (2) env vars (fallback).
 
 import { db } from '../db/index.js';
-import { pollinationsUrl, safeJson } from '../utils/index.js';
+import { pollinationsUrl, safeJson, coverImageFor } from '../utils/index.js';
+
+// Re-exported so `import { coverImageFor } from '@/packages/ai'` keeps working
+// anywhere that already used it — the implementation now lives in
+// packages/utils (pure, no `db` import) so client components can use the
+// same deterministic fallback without pulling server-only code into the
+// browser bundle.
+export { coverImageFor };
 
 const GROQ_MODELS = ['llama-3.3-70b-versatile', 'qwen/qwen3-32b', 'llama-3.1-8b-instant'];
 const OR_MODELS = ['meta-llama/llama-3.3-70b-instruct:free', 'qwen/qwen-2.5-72b-instruct:free'];
@@ -100,6 +107,9 @@ function mockArticle(section) {
     '- Write down the one question you are afraid to ask.',
     '- Read something older than you are.', '',
     '## The Bottom Line',
+    '',
+    '> Most advice ages badly because it was never about you. Test everything against your own week before you keep it.',
+    '',
     'The signal is here. It always was. Your job this week is to sit still long enough to hear it.',
   ].join('\n');
   return {
@@ -130,8 +140,8 @@ STRUCTURE REQUIREMENTS (this is a long-form piece, not a blog snippet):
 - Open with a concrete hook: a specific scene, statistic, or contrarian claim — never "In today's world..." or a dictionary-style definition.
 - 5-7 "##" H2 sections, each with a distinct sub-argument (not just restating the title). Use "###" H3s inside sections where it helps a reader scan.
 - Include at least one bulleted list AND one numbered list where they genuinely help (frameworks, steps, comparisons).
-- Include exactly one pull quote using "> " markdown — a single sharp, quotable line.
-- Include exactly 2 inline images placed at natural transition points, written as: ![short descriptive alt text](IMAGE: a short visual scene description for an image generator) — literally use the token "IMAGE:" followed by the visual prompt inside the parentheses; do not invent a real URL.
+- PULL QUOTES (required, separate from images — do not skip this): include 1-2 real blockquote pull-quotes using "> " markdown. Each must be a single sharp, self-contained, quotable sentence — not a restated heading. Place them INSIDE the body, roughly a third and two-thirds of the way through the piece (e.g. after the 2nd and 5th "##" section) — never as the very first line and never both back-to-back. If you include 2, they must make different points, not paraphrase each other.
+- Include exactly 2 inline images placed at natural transition points, written as: ![short descriptive alt text](IMAGE: a short visual scene description for an image generator) — literally use the token "IMAGE:" followed by the visual prompt inside the parentheses; do not invent a real URL. Images and pull-quotes are separate requirements — both must appear.
 - Add a "## Frequently Asked Questions" section near the end with exactly 3 Q&A pairs written as "### Question" followed by a short answer paragraph — this is for Google's FAQ rich results, so phrase questions the way a real reader would type them into Google.
 - End with a "## Key Takeaways" section as a short bulleted list (4-6 bullets).
 - Naturally weave in 2-3 specific, plausible real-world reference points (named companies, tools, studies, or historical examples appropriate to the section) rather than vague generalities — but do not fabricate statistics with false precision; keep specific claims qualitative or clearly framed as illustrative where you are not citing a verifiable source.
@@ -161,15 +171,4 @@ Return strict JSON only, no markdown fences, no commentary outside the JSON:
   return { ...parsed, provider };
 }
 
-export function coverImageFor(title, section) {
-  const styles = {
-    ai: 'abstract data topology, glowing neural mesh, dark violet, cinematic',
-    business: 'financial district at dusk, moody, cinematic',
-    career: 'lone figure in a glass tower, golden hour, cinematic',
-    productivity: 'organized desk, notebook, morning light',
-    essays: 'linen paper, quill, ink, editorial still life',
-    signals: 'newswire ticker, halftone print, high contrast',
-  };
-  const style = styles[section] || 'cinematic editorial photograph';
-  return pollinationsUrl(`${title}, ${style}, magazine cover, 35mm film, no text, no watermark`);
-}
+
