@@ -25,7 +25,7 @@ export default function HeroSplit({ hero, trending = [] }) {
           className="lg:col-span-3"
         >
           <Link href={`/article/${hero.slug}`} className="group block">
-            <div className="relative overflow-hidden rounded-md bg-[#D8D3CB] aspect-[16/10] grain">
+            <div className="relative overflow-hidden rounded-md bg-[--shimmer-base] aspect-[16/10] grain">
               <img
                 src={heroCover}
                 alt={hero.title}
@@ -38,15 +38,15 @@ export default function HeroSplit({ hero, trending = [] }) {
                 <span className="rounded-full border border-brand px-3 py-1 text-eyebrow text-brand">
                   Featured
                 </span>
-                <span className="text-eyebrow text-[#555555]">{sectionName}</span>
+                <span className="text-eyebrow text-[--brand-text-secondary]">{sectionName}</span>
               </div>
-              <h1 className="text-h1 italic mt-4 text-[#181818] group-hover:text-brand transition-colors">
+              <h1 className="text-h1 italic mt-4 text-[--brand-text] group-hover:text-brand transition-colors">
                 {hero.title}
               </h1>
-              <p className="mt-4 text-lead text-[#555555] max-w-2xl">{hero.excerpt}</p>
-              <div className="mt-6 flex items-center gap-3 text-eyebrow text-[#555555]">
+              <p className="mt-4 text-lead text-[--brand-text-secondary] max-w-2xl">{hero.excerpt}</p>
+              <div className="mt-6 flex items-center gap-3 text-eyebrow text-[--brand-text-secondary]">
                 <span className="inline-flex items-center gap-1.5"><Clock size={12} /> {readMin} min read</span>
-                <span className="w-1 h-1 rounded-full bg-[#D8D3CB]" />
+                <span className="w-1 h-1 rounded-full bg-[--brand-border]" />
                 <span>{heroDateStr}</span>
               </div>
             </div>
@@ -55,10 +55,10 @@ export default function HeroSplit({ hero, trending = [] }) {
 
         {/* Trending rail */}
         {trending.length > 0 && (
-          <aside className="lg:col-span-2 lg:border-l lg:border-[#D8D3CB] lg:pl-10">
+          <aside className="lg:col-span-2 lg:border-l lg:border-[--brand-border] lg:pl-10">
             <div className="flex items-center justify-between mb-5">
               <span className="text-eyebrow text-brand">Trending Now</span>
-              <Link href="/latest" className="text-eyebrow text-[#555555] hover:text-[#181818]">
+              <Link href="/latest" className="text-eyebrow text-[--brand-text-secondary] hover:text-[--brand-text]">
                 See all →
               </Link>
             </div>
@@ -74,17 +74,17 @@ export default function HeroSplit({ hero, trending = [] }) {
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5, delay: 0.1 + i * 0.06 }}
-                    className="group border-b border-[#D8D3CB] last:border-0 py-4 first:pt-0"
+                    className="group border-b border-[--brand-border] last:border-0 py-4 first:pt-0"
                   >
                     <Link href={`/article/${a.slug}`} className="flex gap-4 items-start">
                       <div className="flex-1 min-w-0">
                         <div className="text-eyebrow text-brand mb-1">
                           {SECTIONS.find((s) => s.slug === a.section)?.name || a.section}
                         </div>
-                        <h3 className="text-h4 italic text-[#181818] group-hover:text-brand transition-colors line-clamp-2">
+                        <h3 className="text-h4 italic text-[--brand-text] group-hover:text-brand transition-colors line-clamp-2">
                           {a.title}
                         </h3>
-                        <div className="mt-1.5 flex items-center gap-2 text-eyebrow text-[#555555]">
+                        <div className="mt-1.5 flex items-center gap-2 text-eyebrow text-[--brand-text-secondary]">
                           <span>{min} min</span><span>&middot;</span><span>{dStr}</span>
                         </div>
                       </div>

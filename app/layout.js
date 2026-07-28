@@ -1,6 +1,7 @@
 import { Instrument_Serif, Inter_Tight, JetBrains_Mono } from 'next/font/google';
 import './globals.css';
 import { Toaster } from 'sonner';
+import { ThemeProvider } from 'next-themes';
 
 // Matches the portfolio's display/body/mono stack exactly (Instrument Serif +
 // Inter Tight + JetBrains Mono) so the blog reads as the same brand.
@@ -47,10 +48,12 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${instrumentSerif.variable} ${interTight.variable} ${jetbrainsMono.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`${instrumentSerif.variable} ${interTight.variable} ${jetbrainsMono.variable}`}>
       <body className="font-sans antialiased">
-        {children}
-        <Toaster position="bottom-right" richColors closeButton />
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+          {children}
+          <Toaster position="bottom-right" richColors closeButton />
+        </ThemeProvider>
       </body>
     </html>
   );

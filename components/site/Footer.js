@@ -6,7 +6,7 @@ export default function Footer() {
   const links = activeSocialLinks();
 
   return (
-    <footer className="mt-24 relative overflow-hidden bg-[#181818] text-white">
+    <footer className="mt-24 relative overflow-hidden bg-[var(--brand-text)] text-white">
       <div
         className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[500px] rounded-full pointer-events-none"
         style={{ background: 'radial-gradient(closest-side, rgba(212,106,46,0.20), transparent)' }}

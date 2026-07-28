@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { SECTIONS } from '@/lib/sections';
 import { coverImageFor } from '@/packages/utils';
+import ShimmerImage from './ShimmerImage';
 
 function readingMinutes(article) {
   const words = (article.content || '').split(/\s+/).length;
@@ -35,12 +36,13 @@ export default function ArticleCard({ article, variant = 'default', index = 0 })
         className="group"
       >
         <Link href={href} className="block">
-          <div className="relative overflow-hidden rounded-md bg-[#D8D3CB] aspect-[16/9] grain">
-            <img
+          <div className="relative overflow-hidden rounded-md bg-[--shimmer-base] aspect-[16/9] grain">
+            <ShimmerImage
               src={cover}
               alt={article.title}
               className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
               style={{ filter: 'grayscale(15%) contrast(1.02)' }}
+              wrapperClass="absolute inset-0"
             />
           </div>
           <div className="mt-6">
@@ -71,8 +73,8 @@ export default function ArticleCard({ article, variant = 'default', index = 0 })
         className="group"
       >
         <Link href={href} className="grid grid-cols-[100px_1fr] sm:grid-cols-[120px_1fr] gap-5 items-start py-5 border-b border-[#D8D3CB] last:border-0 transition-[padding] duration-200 group-hover:pl-1.5">
-          <div className="relative overflow-hidden rounded aspect-square bg-[#D8D3CB]">
-            <img src={cover} alt="" className="absolute inset-0 w-full h-full object-cover" style={{ filter: 'grayscale(15%) contrast(1.02)' }} />
+          <div className="relative overflow-hidden rounded aspect-square bg-[--shimmer-base]">
+            <ShimmerImage src={cover} alt="" className="absolute inset-0 w-full h-full object-cover" style={{ filter: 'grayscale(15%) contrast(1.02)' }} wrapperClass="absolute inset-0" />
           </div>
           <div className="min-w-0">
             <CategoryLabel section={article.section} />
@@ -100,12 +102,13 @@ export default function ArticleCard({ article, variant = 'default', index = 0 })
       className="group rounded-md border border-[#D8D3CB] bg-white overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_30px_-18px_rgba(24,24,24,0.25)]"
     >
       <Link href={href} className="block">
-        <div className="relative overflow-hidden aspect-[4/3] bg-[#D8D3CB]">
-          <img
+        <div className="relative overflow-hidden aspect-[4/3] bg-[--shimmer-base]">
+          <ShimmerImage
             src={cover}
             alt={article.title}
             className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.05]"
             style={{ filter: 'grayscale(15%) contrast(1.02)' }}
+            wrapperClass="absolute inset-0"
           />
         </div>
         <div className="p-5">

@@ -23,20 +23,20 @@ export default function NewsletterPage() {
       <main className="container pt-10 pb-24">
         <div className="max-w-2xl mx-auto text-center py-16">
           <Kicker>The Sunday Dispatch</Kicker>
-          <h1 className="text-hero italic mt-4 text-[#181818]">A quieter kind of newsletter.</h1>
-          <p className="mt-6 text-lead text-[#555555]">One essay. Five signals. Zero noise. Delivered every Sunday morning. Read it with coffee. Close it with a plan.</p>
+          <h1 className="text-hero italic mt-4 text-[--brand-text]">A quieter kind of newsletter.</h1>
+          <p className="mt-6 text-lead text-[--brand-text-secondary]">One essay. Five signals. Zero noise. Delivered every Sunday morning. Read it with coffee. Close it with a plan.</p>
           <form onSubmit={submit} className="mt-10 flex gap-2 max-w-lg mx-auto">
-            <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@work.com" className="flex-1 border border-[#181818] rounded-sm p-3 outline-none bg-white text-[#181818]" />
-            <button disabled={busy} className="bg-[#181818] text-white px-6 text-eyebrow hover:bg-brand transition-colors">{busy ? <Loader2 size={14} className="animate-spin" /> : 'Subscribe'}</button>
+            <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@work.com" className="flex-1 border border-[--brand-border] rounded-sm p-3 outline-none bg-[--brand-card] text-[--brand-text]" />
+            <button disabled={busy} className="bg-[--brand-text] text-white px-6 text-eyebrow hover:bg-brand transition-colors">{busy ? <Loader2 size={14} className="animate-spin" /> : 'Subscribe'}</button>
           </form>
-          <p className="mt-4 text-eyebrow text-[#555555]">No spam. Ever. Unsubscribe in one click.</p>
+          <p className="mt-4 text-eyebrow text-[--brand-text-secondary]">No spam. Ever. Unsubscribe in one click.</p>
         </div>
 
-        <div className="max-w-3xl mx-auto grid md:grid-cols-3 gap-8 mt-16 border-t border-[#D8D3CB] pt-16 text-center">
+        <div className="max-w-3xl mx-auto grid md:grid-cols-3 gap-8 mt-16 border-t border-[--brand-border] pt-16 text-center">
           {[{n:'One essay',d:'Long enough to matter. Short enough to finish.'},{n:'Five signals',d:'Curated across AI, business, and craft.'},{n:'Zero noise',d:'No sponsors. No filler. No hot takes.'}].map((x)=>(
             <div key={x.n}>
-              <div className="text-h4 italic text-[#181818]">{x.n}</div>
-              <p className="text-meta text-[#555555] mt-2">{x.d}</p>
+              <div className="text-h4 italic text-[--brand-text]">{x.n}</div>
+              <p className="text-meta text-[--brand-text-secondary] mt-2">{x.d}</p>
             </div>
           ))}
         </div>

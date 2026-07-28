@@ -29,10 +29,10 @@ export default function SearchPage() {
       <main className="container pt-10 pb-24">
         <div className="text-center max-w-2xl mx-auto py-10">
           <Kicker>Find Anything</Kicker>
-          <h1 className="text-hero italic mt-4 text-[#181818]">Search</h1>
+          <h1 className="text-hero italic mt-4 text-[--brand-text]">Search</h1>
           <div className="mt-8 relative">
-            <SearchIcon size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#555555]" />
-            <input autoFocus value={q} onChange={(e) => setQ(e.target.value)} placeholder="Try: agents, MBA, focus, moat…" className="w-full border border-[#D8D3CB] rounded-sm pl-11 pr-4 py-4 text-lead outline-none focus:border-[#181818] bg-white text-[#181818]" />
+            <SearchIcon size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-[--brand-text-secondary]" />
+            <input autoFocus value={q} onChange={(e) => setQ(e.target.value)} placeholder="Try: agents, MBA, focus, moat…" className="w-full border border-[--brand-border] rounded-sm pl-11 pr-4 py-4 text-lead outline-none focus:border-[--brand-text] bg-[--brand-card] text-[--brand-text]" />
           </div>
         </div>
 

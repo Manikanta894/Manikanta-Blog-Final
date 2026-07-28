@@ -31,7 +31,7 @@ export default async function SectionPage({ params }) {
         <Nav />
         <div className="container py-40 text-center">
           <Kicker>404</Kicker>
-          <h1 className="text-h1 italic mt-3 text-[#181818]">Nothing here yet.</h1>
+          <h1 className="text-h1 italic mt-3 text-[--brand-text]">Nothing here yet.</h1>
         </div>
         <Footer />
       </div>
@@ -48,13 +48,13 @@ export default async function SectionPage({ params }) {
       <main className="container pt-10 pb-16">
         <div className="text-center max-w-3xl mx-auto py-10">
           <Kicker color={cfg.accent}>{cfg.kicker}</Kicker>
-          <h1 className="text-hero italic mt-4 text-[#181818]">{cfg.name}</h1>
-          <p className="mt-5 text-lead text-[#555555]">{cfg.desc}</p>
+          <h1 className="text-hero italic mt-4 text-[--brand-text]">{cfg.name}</h1>
+          <p className="mt-5 text-lead text-[--brand-text-secondary]">{cfg.desc}</p>
           <div className="hairline mt-8 max-w-sm mx-auto" />
         </div>
 
         {articles.length === 0 ? (
-          <div className="text-center py-20 text-[#555555]">No articles published in this section yet.</div>
+          <div className="text-center py-20 text-[--brand-text-secondary]">No articles published in this section yet.</div>
         ) : (
           <>
             {hero && (
