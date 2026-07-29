@@ -29,9 +29,9 @@ export default function Footer() {
   return (
     <>
       <BackToTop />
-      <footer className="border-t border-[--brand-border] mt-32">
-        <div className="max-w-[1200px] mx-auto px-5 py-16">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-10">
+      <footer className="border-t border-[--brand-border] mt-20">
+        <div className="max-w-[1200px] mx-auto px-5 py-10">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             <div className="col-span-2 md:col-span-1">
               <Link href="/" className="text-[17px] font-semibold tracking-tight text-[--brand-text]">INSIGHTS</Link>
               <p className="mt-3 text-sm text-[--brand-text-secondary] leading-relaxed max-w-[220px]">
@@ -46,8 +46,8 @@ export default function Footer() {
             </div>
 
             <div>
-              <span className="text-[11px] font-semibold text-[--brand-text-secondary] uppercase tracking-wider block mb-4">Sections</span>
-              <div className="flex flex-col gap-2.5">
+              <span className="text-[11px] font-semibold text-[--brand-text-secondary] uppercase tracking-wider block mb-3">Sections</span>
+              <div className="flex flex-col gap-2">
                 {['ai','tech','business','essays','productivity'].map((s) => (
                   <Link key={s} href={`/${s}`} className="text-sm text-[--brand-text-secondary] hover:text-[--brand-text] transition-colors capitalize">{s}</Link>
                 ))}
@@ -55,8 +55,8 @@ export default function Footer() {
             </div>
 
             <div>
-              <span className="text-[11px] font-semibold text-[--brand-text-secondary] uppercase tracking-wider block mb-4">Pages</span>
-              <div className="flex flex-col gap-2.5">
+              <span className="text-[11px] font-semibold text-[--brand-text-secondary] uppercase tracking-wider block mb-3">Pages</span>
+              <div className="flex flex-col gap-2">
                 {[
                   { href: '/latest', label: 'Latest' },
                   { href: '/search', label: 'Search' },
@@ -70,7 +70,7 @@ export default function Footer() {
             </div>
 
             <div>
-              <span className="text-[11px] font-semibold text-[--brand-text-secondary] uppercase tracking-wider block mb-4">Connect</span>
+              <span className="text-[11px] font-semibold text-[--brand-text-secondary] uppercase tracking-wider block mb-3">Connect</span>
               <a href="mailto:contact@manikantar.in"
                 className="flex items-center gap-1.5 text-sm text-[--brand-text-secondary] hover:text-[--brand-text] transition-colors mb-4"
               >
@@ -91,7 +91,7 @@ export default function Footer() {
             </div>
           </div>
 
-          <div className="mt-16 pt-6 border-t border-[--brand-border] flex flex-col sm:flex-row justify-between gap-2 text-xs text-[--brand-text-secondary]">
+          <div className="mt-10 pt-5 border-t border-[--brand-border] flex flex-col sm:flex-row justify-between gap-2 text-xs text-[--brand-text-secondary]">
             <span>&copy; {year} INSIGHTS. All rights reserved.</span>
             <span>Crafted with care in India</span>
           </div>
