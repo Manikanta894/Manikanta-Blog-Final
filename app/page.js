@@ -4,6 +4,7 @@ import Footer from '@/components/site/Footer';
 import ArticleCard from '@/components/site/ArticleCard';
 import HeroSplit from '@/components/site/HeroSplit';
 import NewsletterForm from '@/components/site/NewsletterForm';
+import Reveal from '@/components/site/Reveal';
 import { HOMEPAGE_CATEGORIES } from '@/lib/sections';
 import { db } from '@/packages/db';
 import { Sparkles, TrendingUp, BookOpen } from 'lucide-react';
@@ -26,7 +27,8 @@ export default async function Home() {
         <HeroSplit hero={hero} trending={trending} />
 
         {latestStories.length > 0 && (
-          <section className="max-w-[1200px] mx-auto px-5 py-14">
+          <Reveal>
+            <section className="max-w-[1200px] mx-auto px-5 py-14">
             <div className="flex items-center justify-between mb-8">
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-lg bg-[--brand-accent-soft] flex items-center justify-center">
@@ -42,13 +44,15 @@ export default async function Home() {
               {latestStories.map((a, i) => <ArticleCard key={a.id} article={a} index={i} />)}
             </div>
           </section>
+          </Reveal>
         )}
 
         {HOMEPAGE_CATEGORIES.map(({ slug, title }) => {
           const items = bySection(slug);
           if (items.length === 0) return null;
           return (
-            <section key={slug} className="max-w-[1200px] mx-auto px-5 py-14">
+            <Reveal key={slug}>
+            <section className="max-w-[1200px] mx-auto px-5 py-14">
               <div className="flex items-center justify-between mb-8">
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 rounded-lg bg-[--brand-accent-soft] flex items-center justify-center">
@@ -64,9 +68,11 @@ export default async function Home() {
                 {items.map((a, i) => <ArticleCard key={a.id} article={a} index={i} />)}
               </div>
             </section>
+            </Reveal>
           );
         })}
 
+        <Reveal>
         <section className="max-w-[1200px] mx-auto px-5 py-20">
           <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[--brand-accent] to-emerald-700 p-10 md:p-16 text-white shadow-elevated">
             <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2" />
@@ -81,6 +87,7 @@ export default async function Home() {
             </div>
           </div>
         </section>
+        </Reveal>
       </main>
       <Footer />
     </div>

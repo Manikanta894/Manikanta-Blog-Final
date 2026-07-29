@@ -1,8 +1,10 @@
 'use client';
 import Link from 'next/link';
+import { useRef, useState } from 'react';
 import { SECTIONS } from '@/lib/sections';
 import { coverImageFor } from '@/packages/utils';
 import ShimmerImage from './ShimmerImage';
+import Reveal from './Reveal';
 import { ArrowUpRight } from 'lucide-react';
 
 function readingMinutes(article) {
@@ -23,58 +25,83 @@ export default function ArticleCard({ article, variant = 'default', index = 0 })
   const dateStr = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
   const readMin = readingMinutes(article);
   const cover = article.coverImage || coverImageFor(article.title, article.section);
+  const cardRef = useRef(null);
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
+
+  function handleMouse(e) {
+    const el = cardRef.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    setTilt({ x: x * 6, y: y * -6 });
+  }
+
+  function handleLeave() { setTilt({ x: 0, y: 0 }); }
 
   if (variant === 'compact') {
     return (
-      <article className="group -mx-3 px-3 rounded-xl transition-all hover:bg-[--brand-accent-soft]">
-        <Link href={href} className="flex gap-5 py-5 border-b border-[--brand-border] items-start">
-          <div className="flex-1 min-w-0">
-            <CategoryLabel section={article.section} />
-            <h3 className="cool-h3 mt-1 mb-1.5 text-[--brand-text] group-hover:text-[--brand-accent] transition-colors">{article.title}</h3>
-            <p className="text-sm text-[--brand-text-secondary] line-clamp-2 leading-relaxed">{article.excerpt}</p>
-            <div className="flex items-center gap-2 mt-3 text-sm text-[--brand-text-secondary]">
-              <div className="avatar avatar-sm"><span>{AUTHOR.initial}</span></div>
-              <span className="font-semibold text-[--brand-text]">{AUTHOR.name}</span>
-              <span className="text-[--brand-border]">/</span>
-              <span>{dateStr}</span>
-              <span className="w-1 h-1 rounded-full bg-[--brand-border]" />
-              <span>{readMin} min read</span>
+      <Reveal delay={index * 50}>
+        <article className="group -mx-3 px-3 rounded-xl transition-all hover:bg-[--brand-accent-soft]">
+          <Link href={href} className="flex gap-5 py-5 border-b border-[--brand-border] items-start">
+            <div className="flex-1 min-w-0">
+              <CategoryLabel section={article.section} />
+              <h3 className="cool-h3 mt-1 mb-1.5 text-[--brand-text] group-hover:text-[--brand-accent] transition-colors">{article.title}</h3>
+              <p className="text-sm text-[--brand-text-secondary] line-clamp-2 leading-relaxed">{article.excerpt}</p>
+              <div className="flex items-center gap-2 mt-3 text-sm text-[--brand-text-secondary]">
+                <div className="avatar avatar-sm"><span>{AUTHOR.initial}</span></div>
+                <span className="font-semibold text-[--brand-text]">{AUTHOR.name}</span>
+                <span className="text-[--brand-border]">/</span>
+                <span>{dateStr}</span>
+                <span className="w-1 h-1 rounded-full bg-[--brand-border]" />
+                <span>{readMin} min read</span>
+              </div>
             </div>
-          </div>
-          {cover && (
-            <div className="w-24 h-24 sm:w-28 sm:h-28 shrink-0 rounded-xl overflow-hidden bg-[--shimmer-base] shadow-sm">
-              <ShimmerImage src={cover} alt="" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" wrapperClass="w-full h-full" />
-            </div>
-          )}
-        </Link>
-      </article>
+            {cover && (
+              <div className="w-24 h-24 sm:w-28 sm:h-28 shrink-0 rounded-xl overflow-hidden bg-[--shimmer-base] shadow-sm">
+                <ShimmerImage src={cover} alt="" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" wrapperClass="w-full h-full" />
+              </div>
+            )}
+          </Link>
+        </article>
+      </Reveal>
     );
   }
 
   return (
-    <article className="group">
-      <Link href={href}>
-        {cover && (
-          <div className="relative overflow-hidden rounded-xl aspect-[3/2] bg-[--shimmer-base] mb-3 shadow-sm card-hover">
-            <ShimmerImage src={cover} alt="" className="absolute inset-0 w-full h-full object-cover transition-all duration-500 group-hover:scale-105" wrapperClass="absolute inset-0" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+    <Reveal delay={index * 80}>
+      <article
+        ref={cardRef}
+        onMouseMove={handleMouse}
+        onMouseLeave={handleLeave}
+        className="group"
+      >
+        <Link href={href}>
+          {cover && (
+            <div
+              className="relative overflow-hidden rounded-xl aspect-[3/2] bg-[--shimmer-base] mb-3 shadow-sm card-hover"
+              style={{ transform: `rotateX(${tilt.y}deg) rotateY(${tilt.x}deg)`, transition: tilt.x === 0 && tilt.y === 0 ? 'transform 0.5s cubic-bezier(0.22, 1, 0.36, 1)' : 'none' }}
+            >
+              <ShimmerImage src={cover} alt="" className="absolute inset-0 w-full h-full object-cover transition-all duration-500 group-hover:scale-105" wrapperClass="absolute inset-0" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+            </div>
+          )}
+          <div className="flex items-center justify-between mb-2">
+            <CategoryLabel section={article.section} />
+            <ArrowUpRight size={14} className="text-[--brand-text-secondary] opacity-0 group-hover:opacity-100 transition-all -translate-y-1 group-hover:translate-y-0 text-[--brand-accent]" />
           </div>
-        )}
-        <div className="flex items-center justify-between mb-2">
-          <CategoryLabel section={article.section} />
-          <ArrowUpRight size={14} className="text-[--brand-text-secondary] opacity-0 group-hover:opacity-100 transition-all -translate-y-1 group-hover:translate-y-0 text-[--brand-accent]" />
-        </div>
-        <h3 className="cool-h3 text-[--brand-text] group-hover:text-[--brand-accent] transition-colors mb-1.5">{article.title}</h3>
-        {article.excerpt && <p className="text-sm text-[--brand-text-secondary] line-clamp-2 leading-relaxed mb-4">{article.excerpt}</p>}
-        <div className="flex items-center gap-2 text-sm text-[--brand-text-secondary]">
-          <div className="avatar avatar-sm"><span>{AUTHOR.initial}</span></div>
-          <span className="font-semibold text-[--brand-text]">{AUTHOR.name}</span>
-          <span className="text-[--brand-border]">/</span>
-          <span>{dateStr}</span>
-          <span className="w-1 h-1 rounded-full bg-[--brand-border]" />
-          <span>{readMin} min read</span>
-        </div>
-      </Link>
-    </article>
+          <h3 className="cool-h3 text-[--brand-text] group-hover:text-[--brand-accent] transition-colors mb-1.5">{article.title}</h3>
+          {article.excerpt && <p className="text-sm text-[--brand-text-secondary] line-clamp-2 leading-relaxed mb-4">{article.excerpt}</p>}
+          <div className="flex items-center gap-2 text-sm text-[--brand-text-secondary]">
+            <div className="avatar avatar-sm"><span>{AUTHOR.initial}</span></div>
+            <span className="font-semibold text-[--brand-text]">{AUTHOR.name}</span>
+            <span className="text-[--brand-border]">/</span>
+            <span>{dateStr}</span>
+            <span className="w-1 h-1 rounded-full bg-[--brand-border]" />
+            <span>{readMin} min read</span>
+          </div>
+        </Link>
+      </article>
+    </Reveal>
   );
 }
