@@ -35,7 +35,7 @@ export async function generateMetadata({ params }) {
   return {
     title,
     description,
-    keywords: article.seo?.keywords || article.hashtags || undefined,
+    keywords: Array.isArray(article.seo?.keywords) ? article.seo.keywords : typeof article.seo?.keywords === 'string' ? article.seo.keywords.split(',').map(s => s.trim()) : article.hashtags || undefined,
     alternates: { canonical: url },
     openGraph: {
       title: article.title,
@@ -88,7 +88,7 @@ export default async function ArticlePage({ params }) {
     author: { '@type': 'Person', name: 'Manikanta R', url: `${SITE_URL}/about` },
     publisher: { '@type': 'Organization', name: SITE_NAME, logo: { '@type': 'ImageObject', url: `${SITE_URL}/icon.png` } },
     mainEntityOfPage: { '@type': 'WebPage', '@id': url },
-    keywords: (article.seo?.keywords || article.hashtags || []).join(', '),
+    keywords: (Array.isArray(article.seo?.keywords) ? article.seo.keywords : typeof article.seo?.keywords === 'string' ? article.seo.keywords.split(',').map(s => s.trim()) : article.hashtags || []).join(', '),
     articleSection: article.section,
   };
 

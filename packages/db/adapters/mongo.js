@@ -11,8 +11,14 @@ const dbName =
     : 'manii_journal';
 
 if (!global._mongoClientPromise) {
-  const client = new MongoClient(uri);
-  global._mongoClientPromise = client.connect();
+  const client = new MongoClient(uri, { serverSelectionTimeoutMS: 3000 });
+  global._mongoClientPromise = client.connect().catch((err) => {
+    if (process.env.DB_DRIVER === 'demo') {
+      return null; // silent fallback — we're in demo mode
+    }
+    console.warn('[mongo] MongoDB unavailable:', err.message);
+    return null;
+  });
 }
 const clientPromise = global._mongoClientPromise;
 
