@@ -5,7 +5,6 @@ import { SECTIONS } from '@/lib/sections';
 import { coverImageFor } from '@/packages/utils';
 import ShimmerImage from './ShimmerImage';
 import Reveal from './Reveal';
-import { ArrowUpRight } from 'lucide-react';
 
 function readingMinutes(article) {
   const words = (article.content || '').split(/\s+/).length;
@@ -86,11 +85,10 @@ export default function ArticleCard({ article, variant = 'default', index = 0 })
               <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
           )}
-          <div className="flex items-center justify-between mb-2">
-            <CategoryLabel section={article.section} />
-            <ArrowUpRight size={14} className="text-[--brand-text-secondary] opacity-0 group-hover:opacity-100 transition-all -translate-y-1 group-hover:translate-y-0 text-[--brand-accent]" />
+          <div className="flex items-center mb-2">
+            <span className="text-xs font-semibold uppercase tracking-[0.12em] text-[--brand-text-secondary]">{SECTIONS.find((s) => s.slug === article.section)?.name || article.section}</span>
           </div>
-          <h3 className="cool-h3 text-[--brand-text] group-hover:text-[--brand-accent] transition-colors mb-1.5">{article.title}</h3>
+          <h3 className="cool-h3 text-[--brand-text] mb-1.5 group-hover:opacity-80 transition-opacity">{article.title}</h3>
           {article.excerpt && <p className="text-sm text-[--brand-text-secondary] line-clamp-2 leading-relaxed mb-4">{article.excerpt}</p>}
           <div className="flex items-center gap-2 text-sm text-[--brand-text-secondary]">
             <div className="avatar avatar-sm"><span>{AUTHOR.initial}</span></div>

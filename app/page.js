@@ -28,7 +28,7 @@ export default async function Home() {
 
         {latestStories.length > 0 && (
           <Reveal>
-            <section className="max-w-[1200px] mx-auto px-5 py-14">
+            <section className="max-w-[1200px] mx-auto px-5 py-20">
             <div className="flex items-center justify-between mb-8">
               <div className="flex items-center gap-3">
                 <div className="w-8 h-8 rounded-lg bg-[--brand-accent-soft] flex items-center justify-center">
@@ -52,7 +52,7 @@ export default async function Home() {
           if (items.length === 0) return null;
           return (
             <Reveal key={slug}>
-            <section className="max-w-[1200px] mx-auto px-5 py-14">
+            <section className="max-w-[1200px] mx-auto px-5 py-20">
               <div className="flex items-center justify-between mb-8">
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 rounded-lg bg-[--brand-accent-soft] flex items-center justify-center">
