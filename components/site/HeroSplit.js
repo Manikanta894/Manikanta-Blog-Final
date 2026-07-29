@@ -14,12 +14,12 @@ export default function HeroSplit({ hero, trending = [] }) {
   const heroCover = hero.coverImage || coverImageFor(hero.title, hero.section);
 
   return (
-    <section className="max-w-[1200px] mx-auto px-5 pt-10 pb-8">
+    <section className="max-w-[1200px] mx-auto px-5 pt-6 pb-4">
       <div className="flex flex-col lg:flex-row gap-10 lg:gap-14">
         {/* Featured — dramatic hero card */}
         <div className="lg:flex-[2] min-w-0">
           <Link href={`/article/${hero.slug}`} className="group block">
-            <div className="relative overflow-hidden rounded-2xl bg-[--shimmer-base] aspect-[16/9] sm:aspect-[16/10] shadow-elevated">
+            <div className="relative overflow-hidden rounded-2xl bg-[--shimmer-base] aspect-[21/9] sm:aspect-[2.5/1] shadow-sm md:rounded-3xl">
               <img
                 src={heroCover}
                 alt={hero.title}

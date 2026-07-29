@@ -127,7 +127,7 @@ export default async function ArticlePage({ params }) {
 
         {/* Cover image */}
         <div className="max-w-[900px] mx-auto px-5 mb-12">
-          <div className="aspect-[3/2] rounded-2xl overflow-hidden bg-[--shimmer-base] shadow-lg">
+          <div className="aspect-[2/1] rounded-2xl overflow-hidden bg-[--shimmer-base] shadow-sm">
             <img src={coverImage} alt={article.title} width={1600} height={900} className="w-full h-full object-cover" />
           </div>
         </div>

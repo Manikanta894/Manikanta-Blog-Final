@@ -79,7 +79,7 @@ export default function ArticleCard({ article, variant = 'default', index = 0 })
         <Link href={href}>
           {cover && (
             <div
-              className="relative overflow-hidden rounded-xl aspect-[3/2] bg-[--shimmer-base] mb-3 shadow-sm card-hover"
+              className="relative overflow-hidden rounded-xl aspect-[2/1] bg-[--shimmer-base] mb-3 shadow-sm card-hover"
               style={{ transform: `rotateX(${tilt.y}deg) rotateY(${tilt.x}deg)`, transition: tilt.x === 0 && tilt.y === 0 ? 'transform 0.5s cubic-bezier(0.22, 1, 0.36, 1)' : 'none' }}
             >
               <ShimmerImage src={cover} alt="" className="absolute inset-0 w-full h-full object-cover transition-all duration-500 group-hover:scale-105" wrapperClass="absolute inset-0" />
