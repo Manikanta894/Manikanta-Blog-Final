@@ -14,7 +14,7 @@ export default function CursorGlow() {
     <div
       className="pointer-events-none fixed inset-0 z-[9999] opacity-60 transition-opacity duration-1000"
       style={{
-        background: `radial-gradient(600px circle at ${pos.x}px ${pos.y}px, rgba(22,163,74,0.06), transparent 50%)`,
+        background: `radial-gradient(600px circle at ${pos.x}px ${pos.y}px, rgba(79,70,229,0.07), transparent 50%)`,
       }}
       aria-hidden
     />

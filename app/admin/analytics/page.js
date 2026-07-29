@@ -67,7 +67,7 @@ export default function AnalyticsPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
             {[
               { label: 'Total Articles', value: stats.articles, icon: BookOpen, color: '#7C3AED' },
-              { label: 'Published', value: stats.published, icon: Eye, color: '#059669' },
+              { label: 'Published', value: stats.published, icon: Eye, color: '#4F46E5' },
               { label: 'Subscribers', value: stats.subscribers, icon: TrendingUp, color: '#0284C7' },
               { label: 'Drafts', value: stats.drafts, icon: Clock, color: '#EA580C' },
             ].map((card, i) => (

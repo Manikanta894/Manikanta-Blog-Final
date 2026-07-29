@@ -22,7 +22,7 @@ function BackToTop() {
   }, []);
   return (
     <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-      className={`fixed bottom-8 right-8 z-50 w-11 h-11 rounded-2xl bg-[--brand-accent] text-white flex items-center justify-center shadow-lg shadow-green-500/20 hover:shadow-xl hover:shadow-green-500/30 hover:-translate-y-1 transition-all duration-300 ${visible ? 'opacity-100 scale-100' : 'opacity-0 scale-75 pointer-events-none'}`}
+      className={`fixed bottom-8 right-8 z-50 w-11 h-11 rounded-2xl bg-[--brand-accent] text-white flex items-center justify-center shadow-lg shadow-indigo-500/20 hover:shadow-xl hover:shadow-indigo-500/30 hover:-translate-y-1 transition-all duration-300 ${visible ? 'opacity-100 scale-100' : 'opacity-0 scale-75 pointer-events-none'}`}
       aria-label="Back to top"
     >
       <ArrowUp size={18} />
@@ -54,7 +54,7 @@ export default function Footer() {
                 <div className="mt-4 flex gap-2.5">
                   {links.map((s) => (
                     <a key={s.key} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.name}
-                      className="w-9 h-9 rounded-xl bg-[--brand-card] border border-[--brand-border] flex items-center justify-center text-[--brand-text-secondary] hover:text-[--brand-accent] hover:border-[--brand-accent]/30 hover:shadow-md hover:shadow-green-500/10 hover:-translate-y-0.5 transition-all duration-200"
+                      className="w-9 h-9 rounded-xl bg-[--brand-card] border border-[--brand-border] flex items-center justify-center text-[--brand-text-secondary] hover:text-[--brand-accent] hover:border-[--brand-accent]/30 hover:shadow-md hover:shadow-indigo-500/10 hover:-translate-y-0.5 transition-all duration-200"
                     >
                       <SocialIcon iconKey={s.key} size={15} />
                     </a>
@@ -104,7 +104,7 @@ export default function Footer() {
                 <span className="text-[11px] font-bold uppercase tracking-[0.15em] text-[--brand-accent]">Stay updated</span>
                 <p className="mt-3 text-sm text-[--brand-text-secondary] leading-relaxed">Get the latest posts delivered straight to your inbox.</p>
                 <Link href="/newsletter"
-                  className="mt-4 inline-flex items-center gap-1.5 bg-[--brand-accent] text-white text-sm font-bold rounded-xl px-5 py-2.5 hover:opacity-90 transition-all hover:shadow-md hover:shadow-green-500/20"
+                  className="mt-4 inline-flex items-center gap-1.5 bg-[--brand-accent] text-white text-sm font-bold rounded-xl px-5 py-2.5 hover:opacity-90 transition-all hover:shadow-md hover:shadow-indigo-500/20"
                 >
                   <Mail size={14} />
                   Subscribe

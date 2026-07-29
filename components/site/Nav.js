@@ -107,7 +107,7 @@ export default function Nav() {
           </Link>
           <Link
             href="/newsletter"
-            className="hidden sm:inline-flex items-center gap-2 rounded-lg bg-[--brand-accent] text-white px-4 py-2 text-sm font-medium hover:opacity-90 transition-all hover:shadow-md hover:shadow-green-500/20"
+            className="hidden sm:inline-flex items-center gap-2 rounded-lg bg-[--brand-accent] text-white px-4 py-2 text-sm font-medium hover:opacity-90 transition-all hover:shadow-md hover:shadow-indigo-500/20"
           >
             <Sparkles size={14} />
             Subscribe

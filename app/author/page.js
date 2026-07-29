@@ -20,7 +20,7 @@ export default async function AuthorPage() {
       <Nav />
       <main className="max-w-[900px] mx-auto px-5 pt-14 pb-24">
         <div className="flex flex-col sm:flex-row gap-8 items-start pb-12 border-b border-[--brand-border] mb-14">
-          <div className="avatar w-24 h-24 text-4xl shrink-0 shadow-lg shadow-green-500/20"><span>M</span></div>
+          <div className="avatar w-24 h-24 text-4xl shrink-0 shadow-lg shadow-indigo-500/20"><span>M</span></div>
           <div>
             <h1 className="cool-hero text-[--brand-text]">Manikanta</h1>
             <p className="mt-4 text-lg text-[--brand-text-secondary] leading-relaxed max-w-xl">

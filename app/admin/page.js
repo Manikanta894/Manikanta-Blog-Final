@@ -506,7 +506,7 @@ function Editor() {
           <div className="border-t border-neutral-200 pt-4 flex flex-col gap-2">
             <button onClick={() => save('draft')} disabled={saving} className="text-xs font-mono uppercase tracking-[0.2em] border border-neutral-200 px-3 py-2.5 hover:bg-neutral-50 disabled:opacity-50">{saving ? 'Saving…' : 'Save Draft'}</button>
             <button onClick={() => save('published')} disabled={saving} className="text-xs font-mono uppercase tracking-[0.2em] bg-neutral-900 text-white px-3 py-2.5 hover:bg-neutral-800 disabled:opacity-50">{saving ? '…' : form.id ? 'Save & Publish' : 'Publish'}</button>
-            <button onClick={publishToHashnode} disabled={hashnodeBusy} className="text-xs font-mono uppercase tracking-[0.2em] border border-emerald-300 text-emerald-700 px-3 py-2.5 hover:bg-emerald-50 disabled:opacity-50">{hashnodeBusy ? '…' : 'Publish to Hashnode'}</button>
+            <button onClick={publishToHashnode} disabled={hashnodeBusy} className="text-xs font-mono uppercase tracking-[0.2em] border border-indigo-300 text-indigo-700 px-3 py-2.5 hover:bg-indigo-50 disabled:opacity-50">{hashnodeBusy ? '…' : 'Publish to Hashnode'}</button>
             {hashnodeResult && <a href={hashnodeResult.url} target="_blank" rel="noopener noreferrer" className="text-xs text-emerald-600 underline text-center">View on Hashnode →</a>}
           </div>
         </div>

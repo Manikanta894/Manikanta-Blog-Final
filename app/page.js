@@ -74,7 +74,7 @@ export default async function Home() {
 
         <Reveal>
         <section className="max-w-[1200px] mx-auto px-5 py-20">
-          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[--brand-accent] to-emerald-700 p-10 md:p-16 text-white shadow-elevated">
+          <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[--brand-accent] to-[--brand-accent-2] p-10 md:p-16 text-white shadow-elevated">
             <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2" />
             <div className="absolute bottom-0 left-0 w-48 h-48 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/2" />
             <div className="relative max-w-lg mx-auto text-center">

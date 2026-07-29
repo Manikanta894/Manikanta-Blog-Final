@@ -92,7 +92,7 @@ export default function Comments({ articleSlug, articleTitle }) {
           className="w-full border border-[--brand-border] rounded-xl px-4 py-3 text-sm bg-[--brand-card] text-[--brand-text] outline-none focus:border-[--brand-accent] focus:ring-1 focus:ring-[--brand-accent]/20 transition-all resize-none"
         />
         <div className="flex items-center gap-3">
-          <button type="submit" className="inline-flex items-center gap-1.5 bg-[--brand-accent] text-white rounded-xl px-5 py-3 text-sm font-bold hover:opacity-90 transition-all hover:shadow-md hover:shadow-green-500/20">
+          <button type="submit" className="inline-flex items-center gap-1.5 bg-[--brand-accent] text-white rounded-xl px-5 py-3 text-sm font-bold hover:opacity-90 transition-all hover:shadow-md hover:shadow-indigo-500/20">
             Post comment
           </button>
           <AnimatePresence>
