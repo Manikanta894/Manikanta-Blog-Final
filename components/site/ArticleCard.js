@@ -55,7 +55,7 @@ export default function ArticleCard({ article, variant = 'default', index = 0 })
     <article className="group">
       <Link href={href}>
         {cover && (
-          <div className="relative overflow-hidden rounded-xl aspect-[16/9] bg-[--shimmer-base] mb-4 shadow-sm card-hover">
+          <div className="relative overflow-hidden rounded-xl aspect-[3/2] bg-[--shimmer-base] mb-3 shadow-sm card-hover">
             <ShimmerImage src={cover} alt="" className="absolute inset-0 w-full h-full object-cover transition-all duration-500 group-hover:scale-105" wrapperClass="absolute inset-0" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
           </div>
