@@ -3,12 +3,12 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import SocialIcon from './SocialIcon';
 import { activeSocialLinks } from '@/lib/social';
-import { ArrowUp, Mail, Sparkles, BookOpen, Library, Tag } from 'lucide-react';
+import { ArrowUp, Mail, Sparkles, BookOpen, Target, Library, TrendingUp, Hash } from 'lucide-react';
 
 const SECTIONS = [
   { slug: 'ai', name: 'AI', icon: Sparkles },
   { slug: 'tech', name: 'Tech', icon: BookOpen },
-  { slug: 'business', name: 'Business', icon: Tag },
+  { slug: 'business', name: 'Business', icon: Target },
   { slug: 'essays', name: 'Essays', icon: BookOpen },
   { slug: 'productivity', name: 'Productivity', icon: Library },
 ];
@@ -22,12 +22,16 @@ function BackToTop() {
   }, []);
   return (
     <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-      className={`fixed bottom-8 right-8 z-50 w-11 h-11 rounded-2xl bg-[--brand-accent] text-white flex items-center justify-center shadow-lg shadow-indigo-500/20 hover:shadow-xl hover:shadow-indigo-500/30 hover:-translate-y-1 transition-all duration-300 ${visible ? 'opacity-100 scale-100' : 'opacity-0 scale-75 pointer-events-none'}`}
+      className={`fixed bottom-8 right-8 z-50 w-12 h-12 rounded-2xl bg-[--brand-accent] text-white flex items-center justify-center shadow-lg shadow-indigo-500/25 hover:shadow-xl hover:shadow-indigo-500/35 hover:-translate-y-1 transition-all duration-300 group ${visible ? 'opacity-100 scale-100' : 'opacity-0 scale-75 pointer-events-none'}`}
       aria-label="Back to top"
     >
-      <ArrowUp size={18} />
+      <ArrowUp size={18} className="group-hover:-translate-y-0.5 transition-transform" />
     </button>
   );
+}
+
+function Dot({ className = '' }) {
+  return <span className={`inline-block w-1.5 h-1.5 rounded-full bg-[--brand-accent] ${className}`} />;
 }
 
 export default function Footer() {
@@ -37,43 +41,47 @@ export default function Footer() {
   return (
     <>
       <BackToTop />
-      <footer className="relative mt-24 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-[--brand-bg] via-[--brand-accent-soft]/30 to-[--brand-accent-soft]/10 pointer-events-none" />
-        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[--brand-accent]/40 to-transparent" />
+      <footer className="relative mt-32">
+        <div className="absolute top-0 left-0 right-0 h-0.5 bg-gradient-to-r from-transparent via-[--brand-accent]/50 to-transparent animate-pulse-glow" />
 
-        <div className="relative max-w-[1200px] mx-auto px-5 pt-16 pb-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-12 pb-12 border-b border-[--brand-border]/60">
-            <div className="md:col-span-1">
-              <div className="font-display italic text-2xl tracking-tight bg-gradient-to-r from-[--brand-accent] to-emerald-300 bg-clip-text text-transparent">INSIGHTS</div>
-              <p className="mt-3 text-sm text-[--brand-text-secondary] leading-relaxed">Ideas. Intelligence. Impact. A digital publication on AI, business, and the future of work.</p>
-              <div className="mt-5 flex items-center gap-2 text-xs text-[--brand-text-secondary]">
-                <Mail size={12} />
-                <a href="mailto:contact@manikantar.in" className="hover:text-[--brand-accent] transition-colors">contact@manikantar.in</a>
-              </div>
-              {links.length > 0 && (
-                <div className="mt-4 flex gap-2.5">
-                  {links.map((s) => (
-                    <a key={s.key} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.name}
-                      className="w-9 h-9 rounded-xl bg-[--brand-card] border border-[--brand-border] flex items-center justify-center text-[--brand-text-secondary] hover:text-[--brand-accent] hover:border-[--brand-accent]/30 hover:shadow-md hover:shadow-indigo-500/10 hover:-translate-y-0.5 transition-all duration-200"
-                    >
-                      <SocialIcon iconKey={s.key} size={15} />
-                    </a>
-                  ))}
-                </div>
-              )}
+        <div className="relative max-w-[1200px] mx-auto px-5 pt-20 pb-10">
+          <div className="max-w-3xl mb-16">
+            <div className="font-display italic text-[clamp(32px,5vw,56px)] leading-[0.95] tracking-[-0.03em] text-[--brand-text]">
+              Ideas.<br />
+              <span className="text-gradient">Intelligence.</span><br />
+              Impact.
             </div>
+            <p className="mt-6 text-base text-[--brand-text-secondary] leading-relaxed max-w-lg">
+              A premium digital publication exploring AI, business, and the future of work — written by builders, for builders.
+            </p>
+            <div className="mt-6 flex items-center gap-3">
+              <Link href="/newsletter"
+                className="inline-flex items-center gap-2 bg-[--brand-accent] text-white rounded-xl px-6 py-3 text-sm font-bold hover:opacity-90 transition-all hover:shadow-lg hover:shadow-indigo-500/25"
+              >
+                <Sparkles size={14} />
+                Join the newsletter
+              </Link>
+              <a href="mailto:contact@manikantar.in"
+                className="inline-flex items-center gap-2 rounded-xl border border-[--brand-border] px-5 py-3 text-sm font-medium text-[--brand-text-secondary] hover:text-[--brand-text] hover:border-[--brand-accent]/30 hover:bg-[--brand-accent-soft]/50 transition-all"
+              >
+                <Mail size={14} />
+                Say hello
+              </a>
+            </div>
+          </div>
 
-            <div>
-              <span className="text-[11px] font-bold uppercase tracking-[0.15em] text-[--brand-accent]">Sections</span>
-              <div className="mt-4 flex flex-col gap-2.5">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 py-12 border-t border-[--brand-border]">
+            <div className="col-span-2 md:col-span-1">
+              <span className="text-xs font-bold uppercase tracking-[0.2em] text-[--brand-text-secondary] mb-5 block">Sections</span>
+              <div className="flex flex-col gap-3">
                 {SECTIONS.map((sec) => {
                   const Icon = sec.icon;
                   return (
                     <Link key={sec.slug} href={`/${sec.slug}`}
-                      className="group flex items-center gap-2.5 text-sm text-[--brand-text-secondary] hover:text-[--brand-text] transition-colors"
+                      className="group flex items-center gap-3 text-sm text-[--brand-text-secondary] hover:text-[--brand-text] transition-colors"
                     >
-                      <span className="w-6 h-6 rounded-lg bg-[--brand-accent-soft]/50 flex items-center justify-center group-hover:bg-[--brand-accent-soft] transition-colors">
-                        <Icon size={11} className="text-[--brand-accent]" />
+                      <span className="w-7 h-7 rounded-lg bg-[--brand-accent-soft]/60 flex items-center justify-center group-hover:bg-[--brand-accent-soft] group-hover:scale-110 transition-all duration-200">
+                        <Icon size={12} className="text-[--brand-accent]" />
                       </span>
                       {sec.name}
                     </Link>
@@ -83,45 +91,66 @@ export default function Footer() {
             </div>
 
             <div>
-              <span className="text-[11px] font-bold uppercase tracking-[0.15em] text-[--brand-accent]">Pages</span>
-              <div className="mt-4 flex flex-col gap-2.5">
+              <span className="text-xs font-bold uppercase tracking-[0.2em] text-[--brand-text-secondary] mb-5 block">Browse</span>
+              <div className="flex flex-col gap-3">
                 {[
-                  { href: '/latest', label: 'Latest' },
-                  { href: '/newsletter', label: 'Newsletter' },
-                  { href: '/search', label: 'Search' },
-                  { href: '/author', label: 'Author' },
-                ].map((p) => (
-                  <Link key={p.href} href={p.href}
-                    className="text-sm text-[--brand-text-secondary] hover:text-[--brand-text] transition-colors"
-                  >{p.label}</Link>
-                ))}
+                  { href: '/latest', label: 'Latest', icon: TrendingUp },
+                  { href: '/search', label: 'Search', icon: Hash },
+                  { href: '/author', label: 'Author', icon: BookOpen },
+                ].map((p) => {
+                  const Icon = p.icon;
+                  return (
+                    <Link key={p.href} href={p.href}
+                      className="group flex items-center gap-3 text-sm text-[--brand-text-secondary] hover:text-[--brand-text] transition-colors"
+                    >
+                      <span className="w-7 h-7 rounded-lg bg-[--brand-accent-soft]/60 flex items-center justify-center group-hover:bg-[--brand-accent-soft] group-hover:scale-110 transition-all duration-200">
+                        <Icon size={12} className="text-[--brand-accent]" />
+                      </span>
+                      {p.label}
+                    </Link>
+                  );
+                })}
               </div>
             </div>
 
-            <div className="relative">
-              <div className="absolute -inset-4 rounded-2xl bg-gradient-to-br from-[--brand-accent]/5 to-transparent opacity-60 pointer-events-none" />
-              <div className="relative">
-                <span className="text-[11px] font-bold uppercase tracking-[0.15em] text-[--brand-accent]">Stay updated</span>
-                <p className="mt-3 text-sm text-[--brand-text-secondary] leading-relaxed">Get the latest posts delivered straight to your inbox.</p>
-                <Link href="/newsletter"
-                  className="mt-4 inline-flex items-center gap-1.5 bg-[--brand-accent] text-white text-sm font-bold rounded-xl px-5 py-2.5 hover:opacity-90 transition-all hover:shadow-md hover:shadow-indigo-500/20"
-                >
-                  <Mail size={14} />
-                  Subscribe
-                </Link>
+            <div>
+              <span className="text-xs font-bold uppercase tracking-[0.2em] text-[--brand-text-secondary] mb-5 block">Company</span>
+              <div className="flex flex-col gap-3">
+                <Link href="/about" className="text-sm text-[--brand-text-secondary] hover:text-[--brand-text] transition-colors">About</Link>
+                <Link href="/newsletter" className="text-sm text-[--brand-text-secondary] hover:text-[--brand-text] transition-colors">Newsletter</Link>
+                <Link href="/privacy" className="text-sm text-[--brand-text-secondary] hover:text-[--brand-text] transition-colors">Privacy</Link>
               </div>
+            </div>
+
+            <div className="col-span-2 md:col-span-1">
+              <span className="text-xs font-bold uppercase tracking-[0.2em] text-[--brand-text-secondary] mb-5 block">Connect</span>
+              <a href="mailto:contact@manikantar.in"
+                className="inline-flex items-center gap-2 text-sm text-[--brand-text-secondary] hover:text-[--brand-accent] transition-colors mb-4"
+              >
+                <Mail size={13} />
+                contact@manikantar.in
+              </a>
+              {links.length > 0 && (
+                <div className="flex gap-2">
+                  {links.map((s) => (
+                    <a key={s.key} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.name}
+                      className="w-9 h-9 rounded-xl border border-[--brand-border] flex items-center justify-center text-[--brand-text-secondary] hover:text-[--brand-accent] hover:border-[--brand-accent]/30 hover:bg-[--brand-accent-soft]/50 hover:-translate-y-0.5 transition-all duration-200"
+                    >
+                      <SocialIcon iconKey={s.key} size={15} />
+                    </a>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
 
-          <div className="mt-8 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-[--brand-text-secondary]">
-            <span>&copy; {year} INSIGHTS. All rights reserved.</span>
-            <div className="flex items-center gap-4">
-              <Link href="/privacy" className="hover:text-[--brand-text] transition-colors">Privacy</Link>
-              <span className="w-1 h-1 rounded-full bg-[--brand-border]" />
-              <Link href="/about" className="hover:text-[--brand-text] transition-colors">About</Link>
-              <span className="w-1 h-1 rounded-full bg-[--brand-border]" />
-              <span className="hidden sm:inline">Built with care</span>
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-4 pt-8 border-t border-[--brand-border] text-xs text-[--brand-text-secondary]">
+            <div className="flex items-center gap-2">
+              <span className="font-display italic text-sm text-[--brand-text]">INSIGHTS</span>
+              <Dot />
+              <span>&copy; {year}</span>
             </div>
+            <span>Crafted with care in India</span>
           </div>
         </div>
       </footer>
