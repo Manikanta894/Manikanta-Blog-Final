@@ -6,56 +6,39 @@ export default function Footer() {
   const links = activeSocialLinks();
 
   return (
-    <footer className="mt-24 relative overflow-hidden bg-[var(--brand-text)] text-white">
-      <div
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[500px] rounded-full pointer-events-none"
-        style={{ background: 'radial-gradient(closest-side, rgba(212,106,46,0.20), transparent)' }}
-      />
-      <div className="container py-16 relative">
-        <div className="grid md:grid-cols-2 gap-12 items-start pb-12 border-b border-white/10">
-          <div>
-            <div className="font-display italic text-4xl md:text-5xl tracking-tight">INSIGHTS</div>
-            <p className="mt-4 max-w-sm text-white/60 leading-relaxed">Ideas. Intelligence. Impact. A digital publication on AI, business, and the future of work.</p>
-            <Link href="/newsletter" className="mt-6 inline-flex items-center gap-2 bg-brand hover:opacity-90 text-white rounded-full px-5 py-2.5 text-xs font-mono uppercase tracking-[0.16em] transition-opacity">
-              Subscribe to the Newsletter →
-            </Link>
-
+    <footer className="border-t border-[--brand-border] mt-20">
+      <div className="max-w-[1200px] mx-auto px-5 py-12">
+        <div className="flex flex-col md:flex-row justify-between gap-8 pb-10 border-b border-[--brand-border]">
+          <div className="max-w-xs">
+            <div className="font-display italic text-xl tracking-tight text-[--brand-text]">INSIGHTS</div>
+            <p className="mt-3 text-sm text-[--brand-text-secondary] leading-relaxed">Ideas. Intelligence. Impact. A digital publication on AI, business, and the future of work.</p>
             {links.length > 0 && (
-              <div className="mt-8 flex flex-wrap gap-2.5">
+              <div className="mt-5 flex gap-3">
                 {links.map((s) => (
-                  <a
-                    key={s.key}
-                    href={s.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={s.name}
-                    title={s.name}
-                    className="w-10 h-10 flex items-center justify-center rounded-full border border-white/15 text-white/70 hover:text-white hover:border-brand hover:bg-brand/20 transition-colors"
-                  >
-                    <SocialIcon iconKey={s.key} size={17} />
+                  <a key={s.key} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.name} className="w-8 h-8 flex items-center justify-center rounded-full text-[--brand-text-secondary] hover:text-[--brand-text] hover:bg-[--brand-accent-soft] transition-colors">
+                    <SocialIcon iconKey={s.key} size={15} />
                   </a>
                 ))}
               </div>
             )}
           </div>
-
-          <div className="grid grid-cols-2 gap-x-10 gap-y-8 md:justify-items-end text-sm">
-            <div className="flex flex-col gap-3 md:items-end">
-              <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/40 mb-1">Sections</span>
-              <Link href="/ai" className="text-white/70 hover:text-brand transition-colors">AI</Link>
-              <Link href="/business" className="text-white/70 hover:text-brand transition-colors">Business</Link>
-              <Link href="/career" className="text-white/70 hover:text-brand transition-colors">Career</Link>
+          <div className="flex gap-10 text-sm">
+            <div className="flex flex-col gap-2">
+              <span className="text-[11px] font-semibold uppercase tracking-wider text-[--brand-text-secondary]">Sections</span>
+              <Link href="/ai" className="text-[--brand-text] hover:text-[--brand-accent] transition-colors">AI</Link>
+              <Link href="/business" className="text-[--brand-text] hover:text-[--brand-accent] transition-colors">Business</Link>
+              <Link href="/career" className="text-[--brand-text] hover:text-[--brand-accent] transition-colors">Career</Link>
+              <Link href="/latest" className="text-[--brand-text] hover:text-[--brand-accent] transition-colors">Latest</Link>
             </div>
-            <div className="flex flex-col gap-3 md:items-end">
-              <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/40 mb-1">More</span>
-              <Link href="/newsletter" className="text-white/70 hover:text-brand transition-colors">Newsletter</Link>
-              <Link href="/about#connect" className="text-white/70 hover:text-brand transition-colors">Contact</Link>
-              <Link href="/privacy" className="text-white/70 hover:text-brand transition-colors">Privacy Policy</Link>
+            <div className="flex flex-col gap-2">
+              <span className="text-[11px] font-semibold uppercase tracking-wider text-[--brand-text-secondary]">More</span>
+              <Link href="/newsletter" className="text-[--brand-text] hover:text-[--brand-accent] transition-colors">Newsletter</Link>
+              <Link href="/about" className="text-[--brand-text] hover:text-[--brand-accent] transition-colors">About</Link>
+              <Link href="/privacy" className="text-[--brand-text] hover:text-[--brand-accent] transition-colors">Privacy</Link>
             </div>
           </div>
         </div>
-
-        <div className="mt-8 flex flex-col md:flex-row justify-between text-[11px] font-mono uppercase tracking-[0.18em] text-white/40 gap-2">
+        <div className="mt-6 flex flex-col md:flex-row justify-between text-xs text-[--brand-text-secondary] gap-1">
           <span>&copy; {new Date().getFullYear()} INSIGHTS. All rights reserved.</span>
           <span>Ideas. Intelligence. Impact.</span>
         </div>

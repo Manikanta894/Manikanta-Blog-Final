@@ -1,72 +1,53 @@
 'use client';
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Loader2, Lock } from 'lucide-react';
 
-// Must never be cached — this page's outcome (redirect vs. form) depends
-// on the session cookie, evaluated fresh by middleware on every request.
-export const dynamic = 'force-dynamic';
-
-export default function AdminLoginPage() {
+export default function AdminLogin() {
   const [password, setPassword] = useState('');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
+  const router = useRouter();
 
-  const submit = async (e) => {
+  const login = async (e) => {
     e.preventDefault();
-    setBusy(true);
-    setError('');
-    try {
-      const res = await fetch('/api/admin/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ password }),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        setError(data.error || 'Something went wrong');
-        setBusy(false);
-        return;
-      }
-      // A hard redirect (not router.push) guarantees the browser has fully
-      // applied the just-set session cookie before the next request for
-      // /admin goes out. router.push here can occasionally race the cookie,
-      // which made middleware bounce back to /login and left this button
-      // stuck mid-spin since the login page never actually unmounts.
-      window.location.href = '/admin';
-    } catch {
-      setError('Could not reach the server');
-      setBusy(false);
-    }
+    if (!password) return;
+    setBusy(true); setError('');
+    const r = await fetch('/api/admin/login', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ password }) });
+    setBusy(false);
+    if (r.ok) router.push('/admin');
+    else setError('Wrong password');
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center px-6">
-      <form onSubmit={submit} className="w-full max-w-sm bg-[var(--brand-card)] border border-[var(--brand-border)] rounded-sm p-8">
-        <div className="flex items-center gap-2 text-[10px] font-mono uppercase tracking-[0.28em] text-[var(--brand-text-secondary)]">
-          <Lock size={12} /> Private · Studio
+    <div className="min-h-screen bg-[--brand-bg] flex items-center justify-center px-5">
+      <form onSubmit={login} className="w-full max-w-sm">
+        <div className="text-center mb-8">
+          <div className="w-14 h-14 rounded-2xl bg-[--brand-accent-soft] flex items-center justify-center mx-auto mb-4">
+            <Lock size={22} className="text-[--brand-accent]" />
+          </div>
+          <h1 className="font-display italic text-3xl text-gradient">INSIGHTS</h1>
+          <p className="text-sm text-[--brand-text-secondary] mt-2">Admin &middot; Sign in</p>
         </div>
-        <h1 className="font-display text-4xl tracking-tight mt-3 mb-1">Admin sign in</h1>
-        <p className="text-sm text-[var(--brand-text-secondary)] mb-6">Enter the studio password to continue.</p>
-
-        <input
-          type="password"
-          autoFocus
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          placeholder="Password"
-          className="w-full border border-[var(--brand-border)] rounded-sm px-4 py-3 text-sm outline-none focus:border-[var(--brand-accent)] transition-colors"
-        />
-
-        {error && <p className="text-sm text-red-600 mt-3">{error}</p>}
-
-        <button
-          type="submit"
-          disabled={busy || !password}
-          className="w-full mt-5 bg-brand text-white rounded-sm px-4 py-3 text-xs font-mono uppercase tracking-[0.2em] flex items-center justify-center gap-2 disabled:opacity-50"
-        >
-          {busy ? <Loader2 size={14} className="animate-spin" /> : null}
-          Sign in
-        </button>
+        <div className="bg-[--brand-card] border border-[--brand-border] rounded-2xl p-6 shadow-elevated">
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder="Password"
+            autoFocus
+            className="w-full border border-[--brand-border] rounded-xl px-4 py-3 text-sm bg-[--brand-bg] text-[--brand-text] outline-none focus:border-[--brand-accent] focus:ring-1 focus:ring-[--brand-accent]/20 transition-all"
+          />
+          {error && <p className="text-sm text-red-500 mt-3 font-medium">{error}</p>}
+          <button
+            type="submit"
+            disabled={busy || !password}
+            className="w-full mt-4 bg-[--brand-accent] text-white rounded-xl px-4 py-3 text-sm font-bold flex items-center justify-center gap-2 hover:opacity-90 transition-all disabled:opacity-50 hover:shadow-md hover:shadow-green-500/20"
+          >
+            {busy ? <Loader2 size={16} className="animate-spin" /> : null}
+            Sign in
+          </button>
+        </div>
       </form>
     </div>
   );

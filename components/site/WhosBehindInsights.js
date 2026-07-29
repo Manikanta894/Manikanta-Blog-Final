@@ -1,204 +1,76 @@
 'use client';
+import Link from 'next/link';
+import { MapPin, Quote, Sparkles, ArrowUpRight } from 'lucide-react';
+import SocialIcon from './SocialIcon';
+import { activeSocialLinks } from '@/lib/social';
 
-import { useState, useRef } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+const SOCIAL = activeSocialLinks();
 
-const NOTES = [
-  { num: '01', line: "I didn't start with a roadmap. I started with questions.", body: ['Every paper I wrote, every project I built, and every late night began the same way.', '"Why does it work this way?"'], tag: 'origin' },
-  { num: '02', line: 'Curiosity became my greatest advantage.', body: ["I wasn't always the most experienced person in the room.", 'But I was usually the one still learning after everyone else had stopped.'], tag: 'mindset' },
-  { num: '03', line: 'There were seasons when silence taught me more than conversations.', body: ["Some of my biggest lessons didn't come from classrooms.", 'They came from long nights, difficult choices, and learning to keep moving forward.'], tag: 'growth' },
-  { num: '04', line: 'People often assume confidence came first.', body: ["It didn't.", 'Confidence arrived quietly after hundreds of small promises I kept to myself.'], tag: 'confidence' },
-  { num: '05', line: "I almost stopped more times than I'll ever admit.", body: ['Not because the dream changed.', 'Because the road became heavier than I expected.', 'Curiosity kept me walking.'], tag: 'resilience' },
-  { num: '06', line: 'I refuse to chase attention over substance.', body: ['If something appears here, it should teach, challenge, or genuinely help someone.', "Otherwise, it doesn't belong."], tag: 'values' },
-  { num: '07', line: 'AI is part of what I build. People are why I build it.', body: ['Technology changes every year.', 'Human curiosity never goes out of date.'], tag: 'craft' },
-  { num: '08', line: "I don't measure success by numbers alone.", body: ['If one article changes how someone thinks,', "that's already worth writing."], tag: 'purpose' },
-  { num: '09', line: "INSIGHTS isn't the destination.", body: ["It's simply the notebook I'm willing to share while I'm still learning.", "The best chapters haven't been written yet."], tag: 'horizon' },
-];
-
-const ACCENT_SHAPES = [
-  { size: 280, x: '-8%', y: '10%', blur: 80, opacity: 0.06, color: '#D46A2E' },
-  { size: 200, x: '85%', y: '60%', blur: 100, opacity: 0.04, color: '#D46A2E' },
-  { size: 140, x: '50%', y: '-5%', blur: 60, opacity: 0.03, color: '#B85A2A' },
-];
-
-const SIGN_OFF_LINES = ['Still Learning.', 'Still Building.'];
-
-function Reveal({ children, delay = 0, className = '', as = 'div' }) {
+export default function WhosBehindInsights() {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-40px' }}
-      transition={{ duration: 0.7, delay, ease: [0.22, 1, 0.36, 1] }}
-      className={className}
-      as={as}
-    >
-      {children}
-    </motion.div>
-  );
-}
-
-function GlowDot({ className = '' }) {
-  return (
-    <motion.span
-      className={`inline-block w-1.5 h-1.5 rounded-full bg-[#D46A2E] ${className}`}
-      animate={{ scale: [1, 1.4, 1], opacity: [0.6, 1, 0.6] }}
-      transition={{ duration: 2.4, repeat: Infinity, ease: 'easeInOut' }}
-    />
-  );
-}
-
-function NoteCard({ note, index }) {
-  const [hovered, setHovered] = useState(false);
-  const isWide = index === 0 || index === 4 || index === 8;
-
-  return (
-    <Reveal delay={Math.min(index, 8) * 0.04}>
-      <motion.article
-        className={`wbi-card ${isWide ? 'wbi-card--wide' : ''}`}
-        onMouseEnter={() => setHovered(true)}
-        onMouseLeave={() => setHovered(false)}
-        whileHover={{ y: -4 }}
-        transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-      >
-        <div className="wbi-card__inner">
-          <div className="wbi-card__header">
-            <span className="wbi-card__num">{note.num}</span>
-            <span className="wbi-card__tag">{note.tag}</span>
-          </div>
-          <h3 className="wbi-card__line">{note.line}</h3>
-          <div className="wbi-card__body">
-            {note.body.map((b, j) => (
-              <p key={j} className="wbi-card__sub">{b}</p>
-            ))}
-          </div>
-          <motion.div
-            className="wbi-card__accent-line"
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: hovered ? 1 : 0 }}
-            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-          />
+    <section className="max-w-[900px] mx-auto px-5 py-20 md:py-28">
+      <div className="mb-14">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[--brand-accent-soft] text-sm font-medium text-[--brand-accent] mb-5">
+          <Sparkles size={14} /> About
         </div>
-      </motion.article>
-    </Reveal>
-  );
-}
+        <h1 className="cool-hero text-[--brand-text] mb-4">
+          About <span className="font-display italic text-gradient">INSIGHTS</span>
+        </h1>
+        <p className="text-lg md:text-xl text-[--brand-text-secondary] leading-relaxed max-w-xl">
+          Ideas. Intelligence. Impact. A digital publication on AI, business, and the future of work.
+        </p>
+      </div>
 
-export function WhosBehindInsights() {
-  const containerRef = useRef(null);
-  const { scrollYProgress } = useScroll({ target: containerRef, offset: ['start end', 'end start'] });
-  const parallaxY = useTransform(scrollYProgress, [0, 1], [40, -40]);
-  const opacity = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], [0.3, 1, 1, 0.3]);
-
-  return (
-    <section ref={containerRef} className="wbi-section grain" aria-labelledby="wbi-title">
-      {/* Floating accent blobs */}
-      {ACCENT_SHAPES.map((s, i) => (
-        <motion.div
-          key={i}
-          className="wbi-blob"
-          style={{
-            width: s.size,
-            height: s.size,
-            left: s.x,
-            top: s.y,
-            filter: `blur(${s.blur}px)`,
-            opacity: s.opacity,
-            background: s.color,
-          }}
-          animate={{
-            x: [0, 15 * (i % 2 === 0 ? 1 : -1), 0],
-            y: [0, 10 * (i % 2 === 0 ? -1 : 1), 0],
-          }}
-          transition={{ duration: 8 + i * 2, repeat: Infinity, ease: 'easeInOut' }}
-        />
-      ))}
-
-      <div className="relative wbi-container">
-        {/* ── Hero ── */}
-        <div className="wbi-hero">
-          <Reveal>
-            <div className="wbi-hero__eyebrow">
-              <GlowDot />
-              <span>01 — Beyond The Byline</span>
-              <span className="wbi-hero__line" />
-            </div>
-          </Reveal>
-
-          <motion.h2 id="wbi-title" className="wbi-hero__title" style={{ y: parallaxY, opacity }}>
-            The Mind Behind
-            <br />
-            <span className="wbi-hero__title-accent">INSIGHTS.</span>
-          </motion.h2>
-
-          <Reveal delay={0.15}>
-            <p className="wbi-hero__subtitle">
-              Not an expert with all the answers—just someone who never stopped asking better questions.
-            </p>
-          </Reveal>
-        </div>
-
-        {/* ── Identity strip ── */}
-        <Reveal delay={0.1}>
-          <div className="wbi-identity">
-            <div className="wbi-identity__left">
-              <div className="wbi-identity__stamp" aria-hidden>
-                <svg viewBox="0 0 120 120" className="wbi-identity__stamp-svg">
-                  <path id="wbiStampCircle" fill="none" d="M 60,60 m -46,0 a 46,46 0 1,1 92,0 a 46,46 0 1,1 -92,0" />
-                  <text className="wbi-identity__stamp-text">
-                    <textPath href="#wbiStampCircle" startOffset="2%">STILL LEARNING · STILL BUILDING · </textPath>
-                  </text>
-                  <line x1="46" y1="70" x2="74" y2="50" strokeWidth="1.4" stroke="currentColor" />
-                </svg>
-              </div>
-              <div className="wbi-identity__sig">
-                <span>UNKNOWN</span>
-                <svg viewBox="0 0 220 20" className="wbi-identity__sig-line" aria-hidden>
-                  <path d="M2 12c30-10 50-10 60-2 8 6 14 6 22-2 10-10 20-10 30 0 8 8 16 8 26 0 8-7 18-9 30-4 10 4 20 4 28-2" />
-                </svg>
-              </div>
-            </div>
-            <div className="wbi-identity__meta">
-              <div className="wbi-identity__loc">
-                <span className="wbi-identity__loc-dot" />
-                Bangalore · India
-              </div>
-              <div className="wbi-identity__tagline">Still curious. Still building.</div>
-              <div className="wbi-identity__date">Last updated: July 2026</div>
-            </div>
-          </div>
-        </Reveal>
-
-        {/* ── Notes grid ── */}
-        <div className="wbi-grid">
-          {NOTES.map((note, i) => (
-            <NoteCard key={note.num} note={note} index={i} />
-          ))}
-        </div>
-
-        {/* ── Closing quote ── */}
-        <Reveal>
-          <div className="wbi-closing">
-            <div className="wbi-closing__rule" />
-            <div className="wbi-closing__content">
-              <blockquote className="wbi-closing__quote">
-                <span className="wbi-closing__quote-mark">&ldquo;</span>
-                I don't write because I've figured everything out. I write so I never stop learning.
-              </blockquote>
-              <div className="wbi-closing__signoff">
-                {SIGN_OFF_LINES.map((l, i) => (
-                  <span key={i}>{l}</span>
+      <div className="flex flex-col sm:flex-row gap-6 items-start pb-10 border-b border-[--brand-border] mb-10">
+        <div className="avatar w-20 h-20 text-3xl shrink-0 shadow-lg shadow-green-500/20"><span>M</span></div>
+        <div>
+          <h2 className="text-2xl font-bold text-[--brand-text]">Manikanta</h2>
+          <p className="mt-2 text-[--brand-text-secondary] leading-relaxed max-w-lg">
+            Writer, builder, and the mind behind INSIGHTS. I write about AI, business, strategy, career, and the future of work — always with a focus on substance over noise.
+          </p>
+          <div className="flex flex-wrap items-center gap-3 mt-4">
+            <span className="flex items-center gap-1.5 text-sm text-[--brand-text-secondary]">
+              <MapPin size={14} /> Bangalore, India
+            </span>
+            {SOCIAL.length > 0 && (
+              <span className="flex items-center gap-2 ml-2 pl-3 border-l border-[--brand-border]">
+                {SOCIAL.map((s) => (
+                  <a key={s.key} href={s.href} target="_blank" rel="noopener noreferrer" className="w-8 h-8 flex items-center justify-center rounded-lg text-[--brand-text-secondary] hover:text-[--brand-accent] hover:bg-[--brand-accent-soft] transition-all">
+                    <SocialIcon iconKey={s.key} size={16} />
+                  </a>
                 ))}
-              </div>
-            </div>
-            <p className="wbi-closing__note">
-              Thanks for actually reading this far. It means the words are doing their job.
-            </p>
+              </span>
+            )}
           </div>
-        </Reveal>
+        </div>
+      </div>
+
+      <div className="grid sm:grid-cols-2 gap-6">
+        <div className="p-6 rounded-2xl bg-gradient-to-br from-[--brand-accent-soft] to-transparent border border-[--brand-accent]/10">
+          <Quote size={24} className="text-[--brand-accent] mb-4" />
+          <h3 className="text-lg font-bold text-[--brand-text] mb-2">Why this publication exists</h3>
+          <p className="text-sm text-[--brand-text-secondary] leading-relaxed">The web is full of noise. INSIGHTS exists to cut through it — delivering signal, not fluff. Every piece is crafted with the reader&#39;s time and intelligence in mind.</p>
+        </div>
+        <div className="p-6 rounded-2xl border border-[--brand-border] bg-[--brand-card]">
+          <h3 className="text-lg font-bold text-[--brand-text] mb-3">What to expect</h3>
+          <ul className="space-y-2.5 text-sm text-[--brand-text-secondary]">
+            <li className="flex items-start gap-3"><span className="w-5 h-5 rounded-full bg-[--brand-accent-soft] flex items-center justify-center text-[10px] text-[--brand-accent] shrink-0 mt-0.5 font-bold">&#10003;</span> Deep dives on AI and emerging tech</li>
+            <li className="flex items-start gap-3"><span className="w-5 h-5 rounded-full bg-[--brand-accent-soft] flex items-center justify-center text-[10px] text-[--brand-accent] shrink-0 mt-0.5 font-bold">&#10003;</span> Practical business and career insights</li>
+            <li className="flex items-start gap-3"><span className="w-5 h-5 rounded-full bg-[--brand-accent-soft] flex items-center justify-center text-[10px] text-[--brand-accent] shrink-0 mt-0.5 font-bold">&#10003;</span> Curated signals from across the web</li>
+            <li className="flex items-start gap-3"><span className="w-5 h-5 rounded-full bg-[--brand-accent-soft] flex items-center justify-center text-[10px] text-[--brand-accent] shrink-0 mt-0.5 font-bold">&#10003;</span> A weekly newsletter with zero filler</li>
+          </ul>
+        </div>
+      </div>
+
+      <div className="mt-12 text-center">
+        <Link
+          href="/newsletter"
+          className="inline-flex items-center gap-2 rounded-xl bg-[--brand-accent] text-white px-8 py-3.5 text-sm font-bold hover:opacity-90 transition-all hover:shadow-lg hover:shadow-green-500/20"
+        >
+          <Sparkles size={16} />
+          Subscribe to the newsletter <ArrowUpRight size={14} />
+        </Link>
       </div>
     </section>
   );
 }
-
-export default WhosBehindInsights;

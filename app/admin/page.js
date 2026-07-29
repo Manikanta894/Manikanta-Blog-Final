@@ -306,6 +306,8 @@ function Editor() {
   const [uploadingCover, setUploadingCover] = useState(false);
   const [uploadingInline, setUploadingInline] = useState(false);
   const [genCover, setGenCover] = useState(false);
+  const [hashnodeBusy, setHashnodeBusy] = useState(false);
+  const [hashnodeResult, setHashnodeResult] = useState(null);
   const contentRef = useRef(null);
   const coverFileRef = useRef(null);
   const inlineFileRef = useRef(null);
@@ -371,6 +373,21 @@ function Editor() {
       insertAtCursor(`![${file.name.replace(/\.[a-z0-9]+$/i, '')}](${url})`);
       toast.success('Image inserted into post');
     } catch (err) { toast.error(err.message); } finally { setUploadingInline(false); if (inlineFileRef.current) inlineFileRef.current.value = ''; }
+  };
+
+  const publishToHashnode = async () => {
+    if (!form.title || !form.content) { toast.error('Title and content are required'); return; }
+    setHashnodeBusy(true); setHashnodeResult(null);
+    try {
+      const r = await fetch('/api/hashnode/publish', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ title: form.title, content: form.content, excerpt: form.excerpt, coverImage: form.coverImage, hashtags: form.hashtagsText.split(',').map((h) => h.trim()).filter(Boolean) }),
+      });
+      const d = await r.json();
+      if (!r.ok) throw new Error(d.error || 'Hashnode publish failed');
+      setHashnodeResult(d);
+      toast.success('Published to Hashnode!');
+    } catch (e) { toast.error(e.message); } finally { setHashnodeBusy(false); }
   };
 
   const generateCover = async () => {
@@ -489,6 +506,8 @@ function Editor() {
           <div className="border-t border-neutral-200 pt-4 flex flex-col gap-2">
             <button onClick={() => save('draft')} disabled={saving} className="text-xs font-mono uppercase tracking-[0.2em] border border-neutral-200 px-3 py-2.5 hover:bg-neutral-50 disabled:opacity-50">{saving ? 'Saving…' : 'Save Draft'}</button>
             <button onClick={() => save('published')} disabled={saving} className="text-xs font-mono uppercase tracking-[0.2em] bg-neutral-900 text-white px-3 py-2.5 hover:bg-neutral-800 disabled:opacity-50">{saving ? '…' : form.id ? 'Save & Publish' : 'Publish'}</button>
+            <button onClick={publishToHashnode} disabled={hashnodeBusy} className="text-xs font-mono uppercase tracking-[0.2em] border border-emerald-300 text-emerald-700 px-3 py-2.5 hover:bg-emerald-50 disabled:opacity-50">{hashnodeBusy ? '…' : 'Publish to Hashnode'}</button>
+            {hashnodeResult && <a href={hashnodeResult.url} target="_blank" rel="noopener noreferrer" className="text-xs text-emerald-600 underline text-center">View on Hashnode →</a>}
           </div>
         </div>
       </div>
@@ -891,6 +910,13 @@ function Settings() {
           <div className="grid md:grid-cols-2 gap-4">
             <F label="Groq API Key" k="groqKey" type="password" placeholder="gsk_…" hint="Get one free at console.groq.com/keys" />
             <F label="OpenRouter API Key" k="openrouterKey" type="password" placeholder="sk-or-…" />
+          </div>
+        </section>
+        <section>
+          <h3 className="font-display text-xl mb-3">Hashnode</h3>
+          <div className="grid md:grid-cols-2 gap-4">
+            <F label="Hashnode PAT" k="hashnodeToken" type="password" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" hint="Personal Access Token from hashnode.com/settings/developer — give write access." />
+            <F label="Hashnode Publication ID" k="hashnodePublicationId" placeholder="clxyz1234567890abcdef" hint="Find in your Hashnode dashboard → Publication settings." />
           </div>
         </section>
         <section>

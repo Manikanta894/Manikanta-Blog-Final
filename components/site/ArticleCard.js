@@ -1,130 +1,80 @@
 'use client';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
 import { SECTIONS } from '@/lib/sections';
 import { coverImageFor } from '@/packages/utils';
 import ShimmerImage from './ShimmerImage';
+import { ArrowUpRight } from 'lucide-react';
 
 function readingMinutes(article) {
   const words = (article.content || '').split(/\s+/).length;
   return Math.max(1, Math.round(words / 220));
 }
 
+const AUTHOR = { name: 'Manikanta', initial: 'M' };
+
 function CategoryLabel({ section }) {
   const cfg = SECTIONS.find((s) => s.slug === section);
-  return (
-    <span className="text-eyebrow text-brand">
-      {cfg?.name || section}
-    </span>
-  );
+  return <span className="text-xs font-semibold text-[--brand-accent] uppercase tracking-wider">{cfg?.name || section}</span>;
 }
 
 export default function ArticleCard({ article, variant = 'default', index = 0 }) {
   const href = `/article/${article.slug}`;
   const date = article.publishedAt ? new Date(article.publishedAt) : new Date(article.createdAt || Date.now());
-  const dateStr = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+  const dateStr = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
   const readMin = readingMinutes(article);
   const cover = article.coverImage || coverImageFor(article.title, article.section);
 
-  // Full-width featured card — used on category pages.
-  if (variant === 'hero') {
-    return (
-      <motion.article
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-        className="group"
-      >
-        <Link href={href} className="block">
-          <div className="relative overflow-hidden rounded-md bg-[--shimmer-base] aspect-[16/9] grain">
-            <ShimmerImage
-              src={cover}
-              alt={article.title}
-              className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-              style={{ filter: 'grayscale(15%) contrast(1.02)' }}
-              wrapperClass="absolute inset-0"
-            />
-          </div>
-          <div className="mt-6">
-            <CategoryLabel section={article.section} />
-            <h1 className="text-h2 italic mt-2 text-[#181818] group-hover:text-brand transition-colors">
-              {article.title}
-            </h1>
-            <p className="mt-3 text-lead text-[#555555] max-w-2xl">{article.excerpt}</p>
-            <div className="mt-4 flex items-center gap-3 text-eyebrow text-[#555555]">
-              <span>{readMin} min read</span>
-              <span className="w-1 h-1 rounded-full bg-[#D8D3CB]" />
-              <span>{dateStr}</span>
-            </div>
-          </div>
-        </Link>
-      </motion.article>
-    );
-  }
-
-  // List row — used for Editor's Picks.
   if (variant === 'compact') {
     return (
-      <motion.article
-        initial={{ opacity: 0, y: 10 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-        transition={{ duration: 0.5, delay: index * 0.04 }}
-        className="group"
-      >
-        <Link href={href} className="grid grid-cols-[100px_1fr] sm:grid-cols-[120px_1fr] gap-5 items-start py-5 border-b border-[#D8D3CB] last:border-0 transition-[padding] duration-200 group-hover:pl-1.5">
-          <div className="relative overflow-hidden rounded aspect-square bg-[--shimmer-base]">
-            <ShimmerImage src={cover} alt="" className="absolute inset-0 w-full h-full object-cover" style={{ filter: 'grayscale(15%) contrast(1.02)' }} wrapperClass="absolute inset-0" />
-          </div>
-          <div className="min-w-0">
+      <article className="group -mx-3 px-3 rounded-xl transition-all hover:bg-[--brand-accent-soft]">
+        <Link href={href} className="flex gap-5 py-5 border-b border-[--brand-border] items-start">
+          <div className="flex-1 min-w-0">
             <CategoryLabel section={article.section} />
-            <h3 className="text-h4 italic mt-1.5 mb-2 text-[#181818] group-hover:text-brand transition-colors">
-              {article.title}
-            </h3>
-            <div className="flex items-center gap-3 text-eyebrow text-[#555555]">
-              <span>{readMin} min read</span>
-              <span className="w-1 h-1 rounded-full bg-[#D8D3CB]" />
+            <h3 className="cool-h3 mt-1 mb-1.5 text-[--brand-text] group-hover:text-[--brand-accent] transition-colors">{article.title}</h3>
+            <p className="text-sm text-[--brand-text-secondary] line-clamp-2 leading-relaxed">{article.excerpt}</p>
+            <div className="flex items-center gap-2 mt-3 text-sm text-[--brand-text-secondary]">
+              <div className="avatar avatar-sm"><span>{AUTHOR.initial}</span></div>
+              <span className="font-semibold text-[--brand-text]">{AUTHOR.name}</span>
+              <span className="text-[--brand-border]">/</span>
               <span>{dateStr}</span>
+              <span className="w-1 h-1 rounded-full bg-[--brand-border]" />
+              <span>{readMin} min read</span>
             </div>
           </div>
+          {cover && (
+            <div className="w-24 h-24 sm:w-28 sm:h-28 shrink-0 rounded-xl overflow-hidden bg-[--shimmer-base] shadow-sm">
+              <ShimmerImage src={cover} alt="" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" wrapperClass="w-full h-full" />
+            </div>
+          )}
         </Link>
-      </motion.article>
+      </article>
     );
   }
 
-  // Default — image-first grid card.
   return (
-    <motion.article
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-40px' }}
-      transition={{ duration: 0.6, delay: index * 0.05, ease: [0.22, 1, 0.36, 1] }}
-      className="group rounded-md border border-[#D8D3CB] bg-white overflow-hidden transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_30px_-18px_rgba(24,24,24,0.25)]"
-    >
-      <Link href={href} className="block">
-        <div className="relative overflow-hidden aspect-[4/3] bg-[--shimmer-base]">
-          <ShimmerImage
-            src={cover}
-            alt={article.title}
-            className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.05]"
-            style={{ filter: 'grayscale(15%) contrast(1.02)' }}
-            wrapperClass="absolute inset-0"
-          />
-        </div>
-        <div className="p-5">
-          <CategoryLabel section={article.section} />
-          <h3 className="text-h4 italic mt-2 mb-2 text-[#181818] group-hover:text-brand transition-colors">
-            {article.title}
-          </h3>
-          {article.excerpt && (
-            <p className="text-meta text-[#555555] line-clamp-2 mb-4">{article.excerpt}</p>
-          )}
-          <div className="flex items-center gap-3 pt-3 border-t border-[#D8D3CB] text-eyebrow text-[#555555]">
-            <span>{readMin} min read</span>
-            <span>{dateStr}</span>
+    <article className="group">
+      <Link href={href}>
+        {cover && (
+          <div className="relative overflow-hidden rounded-xl aspect-[16/9] bg-[--shimmer-base] mb-4 shadow-sm card-hover">
+            <ShimmerImage src={cover} alt="" className="absolute inset-0 w-full h-full object-cover transition-all duration-500 group-hover:scale-105" wrapperClass="absolute inset-0" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/10 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
           </div>
+        )}
+        <div className="flex items-center justify-between mb-2">
+          <CategoryLabel section={article.section} />
+          <ArrowUpRight size={14} className="text-[--brand-text-secondary] opacity-0 group-hover:opacity-100 transition-all -translate-y-1 group-hover:translate-y-0 text-[--brand-accent]" />
+        </div>
+        <h3 className="cool-h3 text-[--brand-text] group-hover:text-[--brand-accent] transition-colors mb-1.5">{article.title}</h3>
+        {article.excerpt && <p className="text-sm text-[--brand-text-secondary] line-clamp-2 leading-relaxed mb-4">{article.excerpt}</p>}
+        <div className="flex items-center gap-2 text-sm text-[--brand-text-secondary]">
+          <div className="avatar avatar-sm"><span>{AUTHOR.initial}</span></div>
+          <span className="font-semibold text-[--brand-text]">{AUTHOR.name}</span>
+          <span className="text-[--brand-border]">/</span>
+          <span>{dateStr}</span>
+          <span className="w-1 h-1 rounded-full bg-[--brand-border]" />
+          <span>{readMin} min read</span>
         </div>
       </Link>
-    </motion.article>
+    </article>
   );
 }

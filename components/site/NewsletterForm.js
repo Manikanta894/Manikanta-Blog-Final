@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Check, Loader2 } from 'lucide-react';
+import { Check, Loader2, Send } from 'lucide-react';
 
 export default function NewsletterForm({ variant = 'default' }) {
   const [email, setEmail] = useState('');
@@ -35,21 +35,23 @@ export default function NewsletterForm({ variant = 'default' }) {
 
   if (variant === 'inline') {
     return (
-      <form onSubmit={handleSubmit} className="flex gap-2">
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          placeholder="you@example.com"
-          className="flex-1 border border-[--brand-border] rounded-sm px-3 py-2.5 text-sm bg-[--brand-card] text-[--brand-text] outline-none focus:border-[--brand-accent]"
-          required
-        />
+      <form onSubmit={handleSubmit} className="flex gap-2 max-w-md mx-auto">
+        <div className="relative flex-1">
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder="Enter your email"
+            className="w-full border border-white/20 rounded-xl px-4 py-3.5 bg-white/10 text-white text-sm outline-none focus:border-white/40 focus:bg-white/15 transition-all placeholder:text-white/50"
+            required
+          />
+        </div>
         <button
           type="submit"
           disabled={status === 'loading'}
-          className="inline-flex items-center gap-1.5 bg-[--brand-accent] text-white rounded-sm px-4 py-2.5 text-xs font-mono uppercase tracking-[0.12em] hover:opacity-90 transition-opacity disabled:opacity-50"
+          className="inline-flex items-center gap-2 bg-white text-[--brand-accent] rounded-xl px-5 py-3.5 text-sm font-bold hover:bg-white/90 transition-all disabled:opacity-50 shadow-lg"
         >
-          {status === 'loading' ? <Loader2 size={14} className="animate-spin" /> : status === 'success' ? <Check size={14} /> : 'Join'}
+          {status === 'loading' ? <Loader2 size={16} className="animate-spin" /> : status === 'success' ? <Check size={16} /> : <><Send size={14} /> Subscribe</>}
         </button>
       </form>
     );
@@ -63,15 +65,15 @@ export default function NewsletterForm({ variant = 'default' }) {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Enter your email"
-          className="flex-1 border border-white/20 rounded-sm px-4 py-3 bg-transparent text-white text-sm outline-none focus:border-[--brand-accent] placeholder:text-white/40"
+          className="flex-1 border border-white/20 rounded-xl px-4 py-3.5 bg-transparent text-white text-sm outline-none focus:border-[--brand-accent] transition-all placeholder:text-white/40"
           required
         />
         <button
           type="submit"
           disabled={status === 'loading'}
-          className="inline-flex items-center gap-2 bg-[--brand-accent] hover:opacity-90 text-white rounded-full px-6 py-3 text-xs font-mono uppercase tracking-[0.16em] transition-opacity disabled:opacity-50"
+          className="inline-flex items-center gap-2 bg-[--brand-accent] hover:opacity-90 text-white rounded-xl px-6 py-3.5 text-sm font-bold transition-all disabled:opacity-50 shadow-lg shadow-green-500/20"
         >
-          {status === 'loading' ? <Loader2 size={14} className="animate-spin" /> : status === 'success' ? <Check size={14} /> : 'Subscribe'}
+          {status === 'loading' ? <Loader2 size={16} className="animate-spin" /> : status === 'success' ? <Check size={16} /> : 'Subscribe'}
         </button>
       </div>
       <AnimatePresence>

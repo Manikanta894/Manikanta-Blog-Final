@@ -2,7 +2,6 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import Nav from '@/components/site/Nav';
 import Footer from '@/components/site/Footer';
-import Kicker from '@/components/site/Kicker';
 import ArticleCard from '@/components/site/ArticleCard';
 import ArticleActions from '@/components/site/ArticleActions';
 import ReadingProgress from '@/components/site/ReadingProgress';
@@ -10,8 +9,9 @@ import ArticleTOC from '@/components/site/ArticleTOC';
 import Comments from '@/components/site/Comments';
 import { db } from '@/packages/db';
 import { renderMd, mdToText, ensureEditorialStructure, extractHeadings, coverImageFor } from '@/packages/utils';
+import { ArrowLeft } from 'lucide-react';
 
-export const revalidate = 3600; // ISR: re-check every hour so Google sees fresh content fast
+export const revalidate = 3600;
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://insights.manikantar.in';
 const SITE_NAME = 'INSIGHTS';
@@ -49,12 +49,7 @@ export async function generateMetadata({ params }) {
       images: image,
       siteName: SITE_NAME,
     },
-    twitter: {
-      card: 'summary_large_image',
-      title: article.title,
-      description,
-      images: [coverImage],
-    },
+    twitter: { card: 'summary_large_image', title: article.title, description, images: [coverImage] },
     robots: { index: article.status === 'published', follow: true },
   };
 }
@@ -78,14 +73,7 @@ export default async function ArticlePage({ params }) {
   const dateStr = date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
   const readMin = Math.max(2, Math.round((article.content || '').split(/\s+/).length / 220));
   const url = `${SITE_URL}/article/${article.slug}`;
-
-  // Cover image is mandatory: fall back to a deterministic auto-generated
-  // one when the article (old or new) doesn't have one saved.
   const coverImage = article.coverImage || coverImageFor(article.title, article.section);
-
-  // Guarantee visual structure on every article, old and new: at least one
-  // pull-quote and one Key Takeaways callout, auto-extracted from the
-  // article's own text when the source markdown doesn't already have them.
   const content = ensureEditorialStructure(article.content);
   const headings = extractHeadings(content);
 
@@ -98,11 +86,7 @@ export default async function ArticlePage({ params }) {
     datePublished: article.publishedAt || article.createdAt,
     dateModified: article.updatedAt || article.publishedAt || article.createdAt,
     author: { '@type': 'Person', name: 'Manikanta R', url: `${SITE_URL}/about` },
-    publisher: {
-      '@type': 'Organization',
-      name: SITE_NAME,
-      logo: { '@type': 'ImageObject', url: `${SITE_URL}/icon.png` },
-    },
+    publisher: { '@type': 'Organization', name: SITE_NAME, logo: { '@type': 'ImageObject', url: `${SITE_URL}/icon.png` } },
     mainEntityOfPage: { '@type': 'WebPage', '@id': url },
     keywords: (article.seo?.keywords || article.hashtags || []).join(', '),
     articleSection: article.section,
@@ -110,68 +94,90 @@ export default async function ArticlePage({ params }) {
 
   return (
     <div className="min-h-screen">
-      {/* eslint-disable-next-line react/no-danger */}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <ReadingProgress targetId="article-body" />
       <Nav />
-      <article className="pt-10 pb-24">
-        <div className="container max-w-3xl text-center">
-          <Kicker>{article.section} · {dateStr} · {readMin} min read</Kicker>
-          <h1 className="text-hero italic mt-5 text-[--brand-text] animate-fade-up">{article.title}</h1>
-          <p className="mt-6 text-lead text-[--brand-text-secondary] max-w-2xl mx-auto">{article.excerpt}</p>
-          <div className="flex items-center justify-center gap-6 mt-8 text-eyebrow text-[--brand-text-secondary]">
-            <Link href="/author" className="hover:text-brand transition-colors">By Manikanta</Link>
-            <span className="h-3 w-px bg-[--brand-border]" />
-            <ArticleActions title={article.title} url={url} />
+      <article className="pt-8 pb-24">
+        {/* Back link */}
+        <div className="max-w-[680px] mx-auto px-5 mb-6">
+          <Link href="/" className="inline-flex items-center gap-1.5 text-sm text-[--brand-text-secondary] hover:text-[--brand-accent] transition-colors">
+            <ArrowLeft size={14} /> Back to home
+          </Link>
+        </div>
+
+        {/* Header */}
+        <div className="max-w-[900px] mx-auto px-5 mb-10">
+          <div className="max-w-[680px] mx-auto mb-2">
+            <span className="text-sm font-semibold text-[--brand-accent] uppercase tracking-wider">{article.section}</span>
+          </div>
+          <h1 className="cool-hero text-[--brand-text] max-w-[800px] mb-4">{article.title}</h1>
+          <p className="text-lg md:text-xl text-[--brand-text-secondary] leading-relaxed max-w-[680px] mb-6">{article.excerpt}</p>
+
+          <div className="flex items-center gap-4 pb-6 border-b border-[--brand-border]">
+            <div className="avatar"><span>M</span></div>
+            <div className="flex-1">
+              <div className="text-sm font-bold text-[--brand-text]">Manikanta</div>
+              <div className="text-sm text-[--brand-text-secondary]">{dateStr} &middot; {readMin} min read</div>
+            </div>
+            <div className="flex items-center gap-3 text-sm text-[--brand-text-secondary]">
+              <ArticleActions title={article.title} url={url} />
+            </div>
           </div>
         </div>
 
-        <div className="container max-w-6xl mt-14">
-          <div className="w-full aspect-[16/9] rounded-sm overflow-hidden bg-[--shimmer-base]">
-            <img
-              src={coverImage}
-              alt={article.title}
-              width={1600}
-              height={900}
-              className="w-full h-full object-cover"
-              style={{ filter: 'grayscale(15%) contrast(1.02)' }}
-            />
+        {/* Cover image */}
+        <div className="max-w-[1000px] mx-auto px-5 mb-14">
+          <div className="aspect-[16/9] rounded-2xl overflow-hidden bg-[--shimmer-base] shadow-elevated">
+            <img src={coverImage} alt={article.title} width={1600} height={900} className="w-full h-full object-cover" />
           </div>
         </div>
 
-        <div className="container max-w-6xl mt-16">
-          <div className={headings.length >= 3 ? 'grid grid-cols-1 lg:grid-cols-[220px_minmax(0,1fr)] gap-16' : 'flex justify-center'}>
-            {headings.length >= 3 && <ArticleTOC headings={headings} />}
-            <div id="article-body" className="max-w-2xl w-full">
-              <div className="prose-editorial dropcap" dangerouslySetInnerHTML={{ __html: renderMd(content) }} />
+        {/* Body */}
+        <div className="max-w-[1200px] mx-auto px-5">
+          <div className={headings.length >= 3 ? 'grid grid-cols-1 lg:grid-cols-[200px_minmax(0,1fr)] gap-12 justify-center' : 'flex justify-center'}>
+            {headings.length >= 3 && (
+              <div className="hidden lg:block">
+                <ArticleTOC headings={headings} />
+              </div>
+            )}
+            <div id="article-body" className="max-w-[680px] w-full article-body">
+              <div dangerouslySetInnerHTML={{ __html: renderMd(content) }} />
 
               {article.hashtags?.length > 0 && (
-                <div className="mt-16 pt-8 border-t border-[--brand-border] flex flex-wrap gap-2">
+                <div className="mt-14 pt-8 border-t border-[--brand-border] flex flex-wrap gap-2">
                   {article.hashtags.map((h) => (
-                    <span key={h} className="text-eyebrow text-[--brand-text-secondary] border border-[--brand-border] px-2 py-1 rounded-sm">{h}</span>
+                    <span key={h} className="tag">{h}</span>
                   ))}
                 </div>
               )}
+
+              <div className="mt-12 p-6 rounded-xl bg-[--brand-accent-soft] border border-[--brand-accent]/10">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="avatar avatar-sm"><span>M</span></div>
+                  <div>
+                    <div className="text-sm font-bold text-[--brand-text]">Written by Manikanta</div>
+                    <div className="text-xs text-[--brand-text-secondary]">Writer, builder, and the mind behind INSIGHTS</div>
+                  </div>
+                </div>
+                <Link href="/author" className="text-sm font-medium text-[--brand-accent] hover:underline">View profile →</Link>
+              </div>
             </div>
           </div>
         </div>
 
+        {/* Related */}
         {related.length > 0 && (
-          <div className="container max-w-6xl mt-24">
-            <div className="flex items-end justify-between mb-8 pb-4 border-b border-[--brand-text]">
-              <div>
-                <Kicker>More From</Kicker>
-                <h2 className="text-h2 italic mt-1 capitalize text-[--brand-text]">{article.section.replace('-', ' ')}</h2>
-              </div>
-              <Link href={`/${article.section}`} className="text-eyebrow text-[--brand-text-secondary] hover:text-[--brand-text]">See all →</Link>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="max-w-[1200px] mx-auto px-5 mt-24 pt-12 border-t border-[--brand-border]">
+            <h2 className="cool-h2 text-[--brand-text] mb-2">Continue reading</h2>
+            <p className="text-[--brand-text-secondary] mb-8">More articles from INSIGHTS</p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-x-8 gap-y-12">
               {related.map((a, i) => <ArticleCard key={a.id} article={a} index={i} />)}
             </div>
           </div>
         )}
 
-        <div className="container max-w-2xl">
+        {/* Comments */}
+        <div className="max-w-[680px] mx-auto px-5 mt-16">
           <Comments articleSlug={article.slug} articleTitle={article.title} />
         </div>
       </article>
