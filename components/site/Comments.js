@@ -55,10 +55,14 @@ export default function Comments({ articleSlug, articleTitle }) {
 
   useEffect(() => { setComments(getComments(articleSlug)); }, [articleSlug]);
 
+  function sanitize(str) {
+    return String(str || '').replace(/[<>&"']/g, (c) => ({ '<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;',"'":'&#39;'})[c]).trim();
+  }
+
   function handleSubmit(e) {
     e.preventDefault();
     if (!text.trim()) return;
-    const entry = { id: Date.now().toString(36), name: name.trim() || 'Anonymous', text: text.trim(), date: new Date().toISOString() };
+    const entry = { id: Date.now().toString(36), name: sanitize(name) || 'Anonymous', text: sanitize(text), date: new Date().toISOString() };
     const updated = [entry, ...comments.filter((c) => !c.seed)];
     setComments(updated);
     saveComments(articleSlug, updated);
