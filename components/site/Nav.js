@@ -45,7 +45,6 @@ export default function Nav() {
           </button>
 
           <Link href="/" className="flex items-center gap-3 group">
-            <span className="w-2.5 h-2.5 rounded-full bg-[--brand-accent] animate-heartbeat group-hover:scale-125 transition-transform" />
             <span className="font-display italic text-2xl md:text-[28px] tracking-tight text-gradient">
               INSIGHTS
             </span>
@@ -60,14 +59,11 @@ export default function Nav() {
                   href={n.href}
                   className={`relative px-3.5 py-2 text-[13px] font-medium rounded-lg transition-all duration-200 ${
                     active
-                      ? 'text-[--brand-text] bg-[--brand-accent-soft]/80'
+                      ? 'text-[--brand-text] bg-[--brand-accent-soft]'
                       : 'text-[--brand-text-secondary] hover:text-[--brand-text] hover:bg-[--brand-accent-soft]/50'
                   }`}
                 >
                   {n.name}
-                  {active && (
-                    <span className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[--brand-accent]" />
-                  )}
                 </Link>
               );
             })}
@@ -117,7 +113,7 @@ export default function Nav() {
           </Link>
           <Link
             href="/newsletter"
-            className="hidden sm:inline-flex items-center gap-2 rounded-xl bg-[--brand-accent] text-white px-4 py-2 text-[13px] font-semibold hover:opacity-90 transition-all hover:shadow-lg hover:shadow-indigo-500/20 active:scale-95"
+            className="hidden sm:inline-flex items-center gap-2 rounded-xl bg-[--brand-accent] text-white px-4 py-2 text-[13px] font-semibold hover:opacity-90 transition-all hover:shadow-lg hover:shadow-black/5 active:scale-95"
           >
             <Sparkles size={13} />
             Subscribe
@@ -129,7 +125,6 @@ export default function Nav() {
         <div className="fixed inset-0 z-50 bg-[--brand-bg] flex flex-col">
           <div className="max-w-[1200px] mx-auto px-5 flex items-center justify-between h-16 md:h-[68px]">
             <Link href="/" onClick={() => setOpen(false)} className="flex items-center gap-3">
-              <span className="w-2.5 h-2.5 rounded-full bg-[--brand-accent]" />
               <span className="font-display italic text-2xl text-gradient">INSIGHTS</span>
             </Link>
             <button onClick={() => setOpen(false)} aria-label="Close"
@@ -159,7 +154,7 @@ export default function Nav() {
             <Link
               href="/newsletter"
               onClick={() => setOpen(false)}
-              className="flex items-center justify-center gap-2 rounded-xl bg-[--brand-accent] text-white px-6 py-3.5 text-sm font-bold hover:opacity-90 transition-all hover:shadow-lg hover:shadow-indigo-500/25"
+              className="flex items-center justify-center gap-2 rounded-xl bg-[--brand-accent] text-white px-6 py-3.5 text-sm font-bold hover:opacity-90 transition-all hover:shadow-lg hover:shadow-black/5"
             >
               <Sparkles size={16} />
               Subscribe to Newsletter

@@ -42,7 +42,7 @@ export default function AdminLogin() {
           <button
             type="submit"
             disabled={busy || !password}
-            className="w-full mt-4 bg-[--brand-accent] text-white rounded-xl px-4 py-3 text-sm font-bold flex items-center justify-center gap-2 hover:opacity-90 transition-all disabled:opacity-50 hover:shadow-md hover:shadow-indigo-500/20"
+            className="w-full mt-4 bg-[--brand-accent] text-white rounded-xl px-4 py-3 text-sm font-bold flex items-center justify-center gap-2 hover:opacity-90 transition-all disabled:opacity-50 hover:shadow-md hover:shadow-black/5"
           >
             {busy ? <Loader2 size={16} className="animate-spin" /> : null}
             Sign in

@@ -22,7 +22,7 @@ function BackToTop() {
   }, []);
   return (
     <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-      className={`fixed bottom-8 right-8 z-50 w-12 h-12 rounded-2xl bg-[--brand-accent] text-white flex items-center justify-center shadow-lg shadow-indigo-500/25 hover:shadow-xl hover:shadow-indigo-500/35 hover:-translate-y-1 transition-all duration-300 group ${visible ? 'opacity-100 scale-100' : 'opacity-0 scale-75 pointer-events-none'}`}
+      className={`fixed bottom-8 right-8 z-50 w-12 h-12 rounded-2xl bg-[--brand-accent] text-white flex items-center justify-center shadow-lg shadow-black/5 hover:shadow-xl hover:shadow-black/5 hover:-translate-y-1 transition-all duration-300 group ${visible ? 'opacity-100 scale-100' : 'opacity-0 scale-75 pointer-events-none'}`}
       aria-label="Back to top"
     >
       <ArrowUp size={18} className="group-hover:-translate-y-0.5 transition-transform" />
@@ -56,7 +56,7 @@ export default function Footer() {
             </p>
             <div className="mt-6 flex items-center gap-3">
               <Link href="/newsletter"
-                className="inline-flex items-center gap-2 bg-[--brand-accent] text-white rounded-xl px-6 py-3 text-sm font-bold hover:opacity-90 transition-all hover:shadow-lg hover:shadow-indigo-500/25"
+                className="inline-flex items-center gap-2 bg-[--brand-accent] text-white rounded-xl px-6 py-3 text-sm font-bold hover:opacity-90 transition-all hover:shadow-lg hover:shadow-black/5"
               >
                 <Sparkles size={14} />
                 Join the newsletter

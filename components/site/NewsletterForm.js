@@ -71,7 +71,7 @@ export default function NewsletterForm({ variant = 'default' }) {
         <button
           type="submit"
           disabled={status === 'loading'}
-          className="inline-flex items-center gap-2 bg-[--brand-accent] hover:opacity-90 text-white rounded-xl px-6 py-3.5 text-sm font-bold transition-all disabled:opacity-50 shadow-lg shadow-indigo-500/20"
+          className="inline-flex items-center gap-2 bg-[--brand-accent] hover:opacity-90 text-white rounded-xl px-6 py-3.5 text-sm font-bold transition-all disabled:opacity-50 shadow-lg shadow-black/5"
         >
           {status === 'loading' ? <Loader2 size={16} className="animate-spin" /> : status === 'success' ? <Check size={16} /> : 'Subscribe'}
         </button>

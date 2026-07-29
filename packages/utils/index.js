@@ -59,7 +59,7 @@ export function coverImageFor(title, section) {
 
 export const SECTIONS = [
   { slug: 'ai', name: 'AI', kicker: 'The AI Desk', desc: 'Frontier models & agents.', accent: '#7C3AED' },
-  { slug: 'business', name: 'Business', kicker: 'Business & Strategy', desc: 'Markets, moats, and operators.', accent: '#4F46E5' },
+  { slug: 'business', name: 'Business', kicker: 'Business & Strategy', desc: 'Markets, moats, and operators.', accent: '#0A0A0A' },
   { slug: 'career', name: 'Career', kicker: 'The Career Desk', desc: 'Playbooks for operators.', accent: '#EA580C' },
   { slug: 'productivity', name: 'Productivity', kicker: 'Systems & Craft', desc: 'Deep work rituals.', accent: '#0284C7' },
   { slug: 'essays', name: 'Essays', kicker: 'Long Reads', desc: 'Slow ideas, written to last.', accent: '#0A0A0A' },

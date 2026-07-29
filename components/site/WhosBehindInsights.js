@@ -22,7 +22,7 @@ export default function WhosBehindInsights() {
       </div>
 
       <div className="flex flex-col sm:flex-row gap-6 items-start pb-10 border-b border-[--brand-border] mb-10">
-        <div className="avatar w-20 h-20 text-3xl shrink-0 shadow-lg shadow-indigo-500/20"><span>M</span></div>
+        <div className="avatar w-20 h-20 text-3xl shrink-0 shadow-lg shadow-black/5"><span>M</span></div>
         <div>
           <h2 className="text-2xl font-bold text-[--brand-text]">Manikanta</h2>
           <p className="mt-2 text-[--brand-text-secondary] leading-relaxed max-w-lg">
@@ -65,7 +65,7 @@ export default function WhosBehindInsights() {
       <div className="mt-12 text-center">
         <Link
           href="/newsletter"
-          className="inline-flex items-center gap-2 rounded-xl bg-[--brand-accent] text-white px-8 py-3.5 text-sm font-bold hover:opacity-90 transition-all hover:shadow-lg hover:shadow-indigo-500/20"
+          className="inline-flex items-center gap-2 rounded-xl bg-[--brand-accent] text-white px-8 py-3.5 text-sm font-bold hover:opacity-90 transition-all hover:shadow-lg hover:shadow-black/5"
         >
           <Sparkles size={16} />
           Subscribe to the newsletter <ArrowUpRight size={14} />
