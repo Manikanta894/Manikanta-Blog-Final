@@ -256,10 +256,18 @@ const rssSources = {
   async delete() { return true; },
 };
 
+const _subs = new Map();
+
 const subscribers = {
-  async list() { return []; },
-  async subscribe() { return true; },
-  async count() { return 42; },
+  async list() { return Array.from(_subs.values()); },
+  async subscribe(email) {
+    const existing = Array.from(_subs.values()).find((s) => s.email === email);
+    if (!existing) {
+      _subs.set(email, { id: uuid(), email, status: 'active', subscribedAt: new Date().toISOString() });
+    }
+    return true;
+  },
+  async count() { return _subs.size; },
 };
 
 const logs = {
@@ -292,7 +300,7 @@ const sessions = {
 
 const stats = {
   async overview() {
-    return { articles: SAMPLE_ARTICLES.length, published: SAMPLE_ARTICLES.length, drafts: 2, journal: 4, subscribers: 42, socialQueue: 0 };
+    return { articles: SAMPLE_ARTICLES.length, published: SAMPLE_ARTICLES.length, drafts: 2, journal: 4, subscribers: _subs.size, socialQueue: 0 };
   },
 };
 
