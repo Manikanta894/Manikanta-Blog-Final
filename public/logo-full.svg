@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 300" width="1240" height="300">
+  <g transform="translate(-49.04,-4.22) scale(0.60241)">
+    <circle cx="256" cy="165" r="75" fill="#0A0A0A"/>
+    <rect x="181" y="266" width="150" height="156" rx="75" fill="#0A0A0A"/>
+  </g>
+  <text x="200" y="219" font-family="Inter, 'SF Pro Display', 'Helvetica Neue', Arial, sans-serif"
+        font-size="190" font-weight="800" letter-spacing="-5" fill="#0A0A0A">INSIGHTS</text>
+</svg>

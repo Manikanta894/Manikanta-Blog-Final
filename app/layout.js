@@ -33,6 +33,10 @@ export const metadata = {
   description:
     'A premium digital publication on artificial intelligence, business, analytics, career, technology, and leadership.',
   alternates: { canonical: '/' },
+  icons: {
+    icon: '/favicon.svg',
+    apple: '/icon.svg',
+  },
   openGraph: {
     title: 'INSIGHTS',
     description: 'Ideas. Intelligence. Impact.',

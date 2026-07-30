@@ -41,8 +41,11 @@ export default function Nav() {
           <button onClick={() => setOpen(true)} className="lg:hidden -ml-1 w-9 h-9 flex items-center justify-center text-[--brand-text-secondary]" aria-label="Open menu">
             <Menu size={18} />
           </button>
-          <Link href="/" className="text-[17px] font-semibold tracking-tight text-[--brand-text]">
-            INSIGHTS
+          <Link href="/" className="flex items-center gap-3 group">
+            <img src="/logo-mark.svg" alt="INSIGHTS" className="h-7 w-auto" />
+            <span className="hidden sm:inline font-semibold text-[17px] tracking-tight text-[--brand-text]">
+              INSIGHTS
+            </span>
           </Link>
           <nav className="hidden lg:flex items-center gap-0.5">
             {primaryNav.map((n) => {
@@ -118,7 +121,10 @@ export default function Nav() {
       {open && (
         <div className="fixed inset-0 z-50 bg-[--brand-bg] flex flex-col">
           <div className="flex items-center justify-between h-[56px] px-5 border-b border-[--brand-border]">
-            <Link href="/" onClick={() => setOpen(false)} className="text-[17px] font-semibold tracking-tight text-[--brand-text]">INSIGHTS</Link>
+            <Link href="/" onClick={() => setOpen(false)} className="flex items-center gap-3">
+              <img src="/logo-mark.svg" alt="INSIGHTS" className="h-6 w-auto" />
+              <span className="font-semibold text-[17px] tracking-tight text-[--brand-text]">INSIGHTS</span>
+            </Link>
             <button onClick={() => setOpen(false)} aria-label="Close" className="w-8 h-8 flex items-center justify-center rounded-md hover:bg-[--brand-accent-soft]"><X size={18} /></button>
           </div>
           <div className="px-5 py-6 flex flex-col gap-1 overflow-y-auto">

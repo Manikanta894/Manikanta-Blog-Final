@@ -33,7 +33,10 @@ export default function Footer() {
         <div className="max-w-[1200px] mx-auto px-5 py-10">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             <div className="col-span-2 md:col-span-1">
-              <Link href="/" className="text-[17px] font-semibold tracking-tight text-[--brand-text]">INSIGHTS</Link>
+              <Link href="/" className="flex items-center gap-3 group">
+              <img src="/logo-mark.svg" alt="INSIGHTS" className="h-6 w-auto" />
+              <span className="font-semibold text-[17px] tracking-tight text-[--brand-text]">INSIGHTS</span>
+            </Link>
               <p className="mt-3 text-sm text-[--brand-text-secondary] leading-relaxed max-w-[220px]">
                 Premium writing on AI, business, and the future of work.
               </p>

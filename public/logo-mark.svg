@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- INSIGHTS mark — the "I", reduced to two forms: the point (circle)
+       and the line (capsule), separated by a gap that reads as a beam
+       of light breaking through. Two shapes, one idea. -->
+  <circle cx="256" cy="165" r="75" fill="#0A0A0A"/>
+  <rect x="181" y="266" width="150" height="156" rx="75" fill="#0A0A0A"/>
+</svg>
