@@ -1,9 +1,12 @@
+import Link from 'next/link';
 import Nav from '@/components/site/Nav';
 import Footer from '@/components/site/Footer';
 import ArticleCard from '@/components/site/ArticleCard';
+import ShimmerImage from '@/components/site/ShimmerImage';
 import { findSection } from '@/lib/sections';
 import { db } from '@/packages/db';
-import { TrendingUp } from 'lucide-react';
+import { coverImageFor } from '@/packages/utils';
+import { ArrowLeft } from 'lucide-react';
 
 export const revalidate = 900;
 
@@ -14,10 +17,9 @@ export async function generateMetadata({ params }) {
   const cfg = findSection(section);
   if (!cfg) return { title: 'Not found — INSIGHTS' };
   return {
-    title: cfg.name,
+    title: `${cfg.name} — INSIGHTS`,
     description: cfg.desc,
     alternates: { canonical: `${SITE_URL}/${cfg.slug}` },
-    openGraph: { title: `${cfg.name} — INSIGHTS`, description: cfg.desc, url: `${SITE_URL}/${cfg.slug}` },
   };
 }
 
@@ -30,7 +32,7 @@ export default async function SectionPage({ params }) {
       <div className="min-h-screen">
         <Nav />
         <div className="max-w-[1200px] mx-auto px-5 py-32 text-center">
-          <h1 className="cool-h1 text-[--brand-text]">Nothing here yet.</h1>
+          <h1 className="cool-h1 text-[--brand-text]">Section not found</h1>
         </div>
         <Footer />
       </div>
@@ -44,30 +46,55 @@ export default async function SectionPage({ params }) {
   return (
     <div className="min-h-screen">
       <Nav />
-      <main className="max-w-[1200px] mx-auto px-5 pt-14 pb-16">
-        <div className="mb-12">
-          <div className="flex items-center gap-3 mb-3">
-            <div className="w-10 h-10 rounded-xl bg-[--brand-accent-soft] flex items-center justify-center">
-              <TrendingUp size={20} className="text-[--brand-accent]" />
-            </div>
+      <main>
+        <div className="max-w-[1200px] mx-auto px-5 pt-8 pb-4">
+          <Link href="/" className="inline-flex items-center gap-1.5 text-sm text-[--brand-text-secondary] hover:text-[--brand-text] transition-colors mb-8">
+            <ArrowLeft size={14} /> Home
+          </Link>
+        </div>
+
+        <div className="max-w-[1200px] mx-auto px-5 mb-16">
+          <div className="border-b border-[--brand-border] pb-10">
             <h1 className="cool-hero text-[--brand-text]">{cfg.name}</h1>
+            <p className="mt-3 text-lg text-[--brand-text-secondary] max-w-xl">{cfg.desc}</p>
+            <p className="mt-2 text-sm text-[--brand-text-secondary]">{articles.length} article{articles.length !== 1 ? 's' : ''}</p>
           </div>
-          <p className="text-lg text-[--brand-text-secondary] max-w-xl">{cfg.desc}</p>
         </div>
 
         {articles.length === 0 ? (
-          <div className="text-center py-24 text-[--brand-text-secondary]">No articles published in this section yet.</div>
+          <div className="max-w-[1200px] mx-auto px-5 py-24 text-center text-[--brand-text-secondary]">
+            <p className="text-lg">No articles yet in {cfg.name}.</p>
+            <Link href="/" className="mt-4 inline-flex items-center gap-1 text-sm font-medium hover:text-[--brand-text] transition-colors">Browse all articles &rarr;</Link>
+          </div>
         ) : (
-          <>
+          <div className="max-w-[1200px] mx-auto px-5 pb-20">
             {hero && (
-              <div className="mb-10 bg-[--brand-accent-soft] rounded-2xl p-6 -mx-3">
-                <ArticleCard article={hero} variant="compact" />
-              </div>
+              <Link href={`/article/${hero.slug}`} className="group block mb-16">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+                  <div className="relative overflow-hidden rounded-2xl aspect-[2/1] bg-[--shimmer-base] shadow-sm order-2 lg:order-1">
+                    <ShimmerImage
+                      src={hero.coverImage || coverImageFor(hero.title, hero.section)}
+                      alt=""
+                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+                      wrapperClass="absolute inset-0"
+                    />
+                  </div>
+                  <div className="order-1 lg:order-2">
+                    <span className="text-xs font-semibold text-[--brand-text-secondary] uppercase tracking-[0.1em]">Featured</span>
+                    <h2 className="cool-h1 mt-3 text-[--brand-text] group-hover:opacity-80 transition-opacity">{hero.title}</h2>
+                    <p className="mt-3 text-base text-[--brand-text-secondary] leading-relaxed">{hero.excerpt}</p>
+                    <div className="flex items-center gap-2 mt-4 text-sm text-[--brand-text-secondary]">
+                      <span>{Math.max(2, Math.round((hero.content || '').split(/\s+/).length / 220))} min read</span>
+                    </div>
+                  </div>
+                </div>
+              </Link>
             )}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-10 gap-y-14">
               {rest.map((a, i) => <ArticleCard key={a.id} article={a} index={i} />)}
             </div>
-          </>
+          </div>
         )}
       </main>
       <Footer />
