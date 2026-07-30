@@ -172,7 +172,7 @@
   /* ─── Article body — serif reading ─────────────────────────────────── */
   .article-body {
     font-family: Georgia, 'Times New Roman', serif;
-    font-size: clamp(18px, 1.05rem + 0.3vw, 21px);
+    font-size: clamp(19px, 1.15rem + 0.35vw, 22px);
     line-height: 1.8;
     color: var(--brand-text);
   }

@@ -99,7 +99,7 @@ export default async function ArticlePage({ params }) {
       <Nav />
       <article className="pt-8 pb-24">
         {/* Back link */}
-        <div className="max-w-[680px] mx-auto px-5 mb-6">
+        <div className="max-w-[760px] mx-auto px-5 mb-6">
           <Link href="/" className="inline-flex items-center gap-1.5 text-sm text-[--brand-text-secondary] hover:text-[--brand-accent] transition-colors">
             <ArrowLeft size={14} /> Back to home
           </Link>
@@ -107,11 +107,11 @@ export default async function ArticlePage({ params }) {
 
         {/* Header */}
         <div className="max-w-[900px] mx-auto px-5 mb-10">
-          <div className="max-w-[680px] mx-auto mb-2">
+          <div className="max-w-[760px] mx-auto mb-2">
             <span className="text-sm font-semibold text-[--brand-accent] uppercase tracking-wider">{article.section}</span>
           </div>
           <h1 className="cool-hero text-[--brand-text] max-w-[800px] mb-4">{article.title}</h1>
-          <p className="text-lg md:text-xl text-[--brand-text-secondary] leading-relaxed max-w-[680px] mb-6">{article.excerpt}</p>
+          <p className="text-lg md:text-xl text-[--brand-text-secondary] leading-relaxed max-w-[760px] mb-6">{article.excerpt}</p>
 
           <div className="flex items-center gap-4 pb-6 border-b border-[--brand-border]">
             <div className="avatar"><span>M</span></div>
@@ -140,7 +140,7 @@ export default async function ArticlePage({ params }) {
                 <ArticleTOC headings={headings} />
               </div>
             )}
-            <div id="article-body" className="max-w-[680px] w-full article-body">
+            <div id="article-body" className="max-w-[760px] w-full article-body">
               <div dangerouslySetInnerHTML={{ __html: renderMd(content) }} />
 
               {article.hashtags?.length > 0 && (
@@ -177,7 +177,7 @@ export default async function ArticlePage({ params }) {
         )}
 
         {/* Comments */}
-        <div className="max-w-[680px] mx-auto px-5 mt-16">
+        <div className="max-w-[760px] mx-auto px-5 mt-16">
           <Comments articleSlug={article.slug} articleTitle={article.title} />
         </div>
       </article>
