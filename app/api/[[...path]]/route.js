@@ -8,9 +8,11 @@ import { generateSocial, enqueueSocial, dispatchQueue, postToLinkedIn, postToIns
 import { ingestRss, pipelinePublish, runScheduler, sendNewsletter, processInboxItem } from '@/packages/automation';
 import { slugify, SECTIONS, pollinationsUrl } from '@/packages/utils';
 import { ADMIN_SESSION_COOKIE, isValidSession } from '@/lib/auth';
+import { rateLimit } from '@/lib/rate-limit';
 
 const j = (data, init = {}) => NextResponse.json(data, init);
 const err = (msg, code = 400) => j({ error: msg }, { status: code });
+const getIp = (request) => request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown';
 
 async function handler(request, ctx) {
   const method = request.method;
@@ -81,6 +83,8 @@ async function handler(request, ctx) {
 
     // ===== AI =====
     if (p0 === 'ai' && p1 === 'generate' && method === 'POST') {
+      const rl = rateLimit(getIp(request), 3);
+      if (!rl.ok) return j({ error: 'Too many requests' }, { status: 429, headers: { 'Retry-After': String(rl.retryAfter) } });
       const body = await request.json();
       const job = await db.aiQueue.create({ task: 'article', section: body.section, status: 'running' });
       try {
@@ -122,6 +126,8 @@ async function handler(request, ctx) {
     // ===== NEWSLETTER / SUBSCRIBERS =====
     if (p0 === 'newsletter') {
       if (method === 'POST') {
+        const rl = rateLimit(getIp(request), 5);
+        if (!rl.ok) return j({ error: 'Too many requests' }, { status: 429, headers: { 'Retry-After': String(rl.retryAfter) } });
         const { email } = await request.json();
         if (!email || !email.includes('@')) return err('invalid email');
         await db.subscribers.subscribe(email);

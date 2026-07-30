@@ -13,6 +13,9 @@ function isPublicApi(pathname, method) {
   if (pathname === '/api/inbox/webhook' && method === 'POST') return true;
   if (pathname === '/api/admin/login' || pathname === '/api/admin/logout') return true;
   if (pathname === '/api/health') return true;
+  if (pathname === '/api/og' && method === 'GET') return true;
+  if (pathname === '/api/subscribers' && method === 'POST') return true;
+  if (pathname === '/api/newsletter' && method === 'POST') return true;
   return false;
 }
 
