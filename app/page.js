@@ -4,6 +4,7 @@ import Footer from '@/components/site/Footer';
 import ArticleCard from '@/components/site/ArticleCard';
 import HeroSplit from '@/components/site/HeroSplit';
 import NewsletterForm from '@/components/site/NewsletterForm';
+import QuoteOfTheDay from '@/components/site/QuoteOfTheDay';
 import Reveal from '@/components/site/Reveal';
 import { HOMEPAGE_CATEGORIES } from '@/lib/sections';
 import { db } from '@/packages/db';
@@ -25,6 +26,10 @@ export default async function Home() {
       <Nav />
       <main>
         <HeroSplit hero={hero} trending={trending} />
+
+        <Reveal>
+          <QuoteOfTheDay />
+        </Reveal>
 
         {latestStories.length > 0 && (
           <Reveal>
