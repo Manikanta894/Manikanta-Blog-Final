@@ -280,6 +280,29 @@ const settings = {
   },
 };
 
+const sessions = {
+  async create(token, meta = {}) {
+    const row = toRow({ token, ...meta });
+    const { error } = await sb().from('sessions').insert(row);
+    if (error) throw error;
+    return true;
+  },
+  async validate(token) {
+    const { data, error } = await sb().from('sessions').select('*').eq('token', token).maybeSingle();
+    if (error || !data) return false;
+    const age = Date.now() - new Date(data.created_at).getTime();
+    if (age > 86400000) { await sb().from('sessions').delete().eq('token', token); return false; }
+    return true;
+  },
+  async delete(token) { await sb().from('sessions').delete().eq('token', token); return true; },
+  async deleteAll() { await sb().from('sessions').delete().neq('token', ''); return true; },
+  async list() {
+    const { data, error } = await sb().from('sessions').select('*').order('created_at', { ascending: false });
+    if (error) throw error;
+    return toObjs(data);
+  },
+};
+
 const stats = {
   async overview() {
     const [a, p, dr, j, s, sq] = await Promise.all([
@@ -304,6 +327,7 @@ export const db = {
   subscribers,
   logs,
   settings,
+  sessions,
   stats,
 };
 

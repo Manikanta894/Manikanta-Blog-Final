@@ -249,6 +249,10 @@ async function handler(request, ctx) {
       if (p1 === 'newsletter-send') return j({ ok: true, result: await sendNewsletter(await request.json()) });
     }
 
+    // ===== SESSIONS =====
+    if (p0 === 'sessions' && method === 'GET') return j({ sessions: await db.sessions.list() });
+    if (p0 === 'sessions' && method === 'DELETE') { await db.sessions.deleteAll(); return j({ ok: true }); }
+
     return err('not found', 404);
   } catch (e) {
     console.error('API error', e);

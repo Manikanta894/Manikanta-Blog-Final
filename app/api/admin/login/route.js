@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
-import { ADMIN_SESSION_COOKIE, getExpectedSessionToken } from '@/lib/auth';
-import { rateLimit } from '@/lib/rate-limit';
+import { ADMIN_SESSION_COOKIE, getExpectedSessionToken, recordSession } from '@/lib/auth';
 
 function timingSafeEqual(a, b) {
   const sa = String(a); const sb = String(b);
@@ -24,10 +23,7 @@ export async function POST(request) {
   const { password } = await request.json().catch(() => ({}));
 
   if (!process.env.ADMIN_PASSWORD || !process.env.ADMIN_SESSION_SECRET) {
-    return NextResponse.json(
-      { error: 'Admin login is not configured.' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Admin login is not configured.' }, { status: 500 });
   }
 
   if (!password || !timingSafeEqual(password, process.env.ADMIN_PASSWORD)) {
@@ -38,13 +34,15 @@ export async function POST(request) {
   loginAttempts.delete(ip);
 
   const token = await getExpectedSessionToken();
+  try { await recordSession(ip); } catch {}
+
   const res = NextResponse.json({ ok: true });
   res.cookies.set(ADMIN_SESSION_COOKIE, token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',
     path: '/',
-    maxAge: 60 * 60 * 24,
+    maxAge: 86400,
   });
   return res;
 }

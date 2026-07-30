@@ -142,6 +142,26 @@ const settings = {
   },
 };
 
+// ============ SESSIONS ============
+const sessions = {
+  async create(token, meta = {}) {
+    const d = await _db();
+    await d.collection('sessions').insertOne({ token, created: new Date(), ...meta });
+    return true;
+  },
+  async validate(token) {
+    const d = await _db();
+    const s = await d.collection('sessions').findOne({ token });
+    if (!s) return false;
+    const age = Date.now() - new Date(s.created).getTime();
+    if (age > 86400000) { await d.collection('sessions').deleteOne({ token }); return false; }
+    return true;
+  },
+  async delete(token) { const d = await _db(); await d.collection('sessions').deleteOne({ token }); return true; },
+  async deleteAll() { const d = await _db(); await d.collection('sessions').deleteMany({}); return true; },
+  async list() { const d = await _db(); return stripAll(await d.collection('sessions').find({}).sort({ created: -1 }).toArray()); },
+};
+
 // ============ CONTENT INBOX ============
 const inbox = {
   async list(limit = 200) { const d = await _db(); return stripAll(await d.collection('content_inbox').find({}).sort({ createdAt: -1 }).limit(limit).toArray()); },
@@ -176,7 +196,7 @@ const stats = {
   },
 };
 
-export const db = { articles, journal, media, aiQueue, socialQueue, rssSources, subscribers, logs, settings, inbox, stats };
+export const db = { articles, journal, media, aiQueue, socialQueue, rssSources, subscribers, logs, settings, sessions, inbox, stats };
 
 export async function initDb() {
   const d = await _db();

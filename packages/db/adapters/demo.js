@@ -272,6 +272,24 @@ const settings = {
   async patch(input) { return { id: 'global', ...input }; },
 };
 
+const _sessions = new Map();
+const sessions = {
+  async create(token, meta = {}) {
+    _sessions.set(token, { token, created: new Date().toISOString(), ...meta });
+    return true;
+  },
+  async validate(token) {
+    const s = _sessions.get(token);
+    if (!s) return false;
+    const age = Date.now() - new Date(s.created).getTime();
+    if (age > 86400000) { _sessions.delete(token); return false; }
+    return true;
+  },
+  async delete(token) { return _sessions.delete(token); },
+  async deleteAll() { _sessions.clear(); return true; },
+  async list() { return Array.from(_sessions.values()); },
+};
+
 const stats = {
   async overview() {
     return { articles: SAMPLE_ARTICLES.length, published: SAMPLE_ARTICLES.length, drafts: 2, journal: 4, subscribers: 42, socialQueue: 0 };
@@ -279,7 +297,7 @@ const stats = {
 };
 
 export const db = {
-  articles, journal, media, aiQueue, socialQueue, rssSources, subscribers, logs, settings, stats,
+  articles, journal, media, aiQueue, socialQueue, rssSources, subscribers, logs, settings, sessions, stats,
 };
 
 export async function initDb() {
