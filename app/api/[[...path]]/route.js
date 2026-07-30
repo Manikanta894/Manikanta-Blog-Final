@@ -2,6 +2,7 @@
 // All business logic lives in /packages/{db,ai,social,automation}.
 
 import { NextResponse } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { db, driverName } from '@/packages/db';
 import { generateArticle, coverImageFor } from '@/packages/ai';
 import { generateSocial, enqueueSocial, dispatchQueue, postToLinkedIn, postToInstagram } from '@/packages/social';
@@ -56,7 +57,11 @@ async function handler(request, ctx) {
           }
         }
         const body = await request.json();
-        return j({ article: await db.articles.create({ ...body, slug: body.slug || slugify(body.title || 'untitled') + '-' + Math.random().toString(36).slice(2, 6) }) });
+        const article = await db.articles.create({ ...body, slug: body.slug || slugify(body.title || 'untitled') + '-' + Math.random().toString(36).slice(2, 6) });
+        revalidatePath('/', 'layout');
+        revalidatePath('/latest', 'layout');
+        revalidatePath('/[section]', 'layout');
+        return j({ article });
       }
       // Per-section create endpoint for n8n: POST /api/articles/section/<slug>
       // Section comes from the URL itself, not the request body — each n8n
@@ -75,18 +80,35 @@ async function handler(request, ctx) {
           return err(`invalid section "${p2}". Valid sections: ${validSlugs.join(', ')}`, 400);
         }
         const body = await request.json();
-        return j({
-          article: await db.articles.create({
-            ...body,
-            section: p2,
-            slug: body.slug || slugify(body.title || 'untitled') + '-' + Math.random().toString(36).slice(2, 6),
-          }),
+        const article = await db.articles.create({
+          ...body,
+          section: p2,
+          slug: body.slug || slugify(body.title || 'untitled') + '-' + Math.random().toString(36).slice(2, 6),
         });
+        revalidatePath('/', 'layout');
+        revalidatePath('/latest', 'layout');
+        revalidatePath('/[section]', 'layout');
+        return j({ article });
       }
       if (p1 === 'slug' && p2 && method === 'GET') return j({ article: await db.articles.getBySlug(p2) });
       if (p1 && method === 'GET') return j({ article: await db.articles.getById(p1) });
-      if (p1 && (method === 'PATCH' || method === 'PUT')) return j({ article: await db.articles.update(p1, await request.json()) });
-      if (p1 && method === 'DELETE') { await db.articles.delete(p1); return j({ ok: true }); }
+      if (p1 && (method === 'PATCH' || method === 'PUT')) {
+        const article = await db.articles.update(p1, await request.json());
+        revalidatePath('/');
+        revalidatePath('/latest');
+        revalidatePath('/[section]');
+        if (article?.slug) revalidatePath(`/article/${article.slug}`);
+        return j({ article });
+      }
+      if (p1 && method === 'DELETE') {
+        const article = await db.articles.getById(p1);
+        await db.articles.delete(p1);
+        revalidatePath('/', 'layout');
+        revalidatePath('/latest', 'layout');
+        revalidatePath('/[section]', 'layout');
+        if (article?.slug) revalidatePath(`/article/${article.slug}`);
+        return j({ ok: true });
+      }
     }
 
     // ===== AI =====
