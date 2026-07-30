@@ -100,7 +100,7 @@ export default async function ArticlePage({ params }) {
       <article className="pt-8 pb-24">
         {/* Back link */}
         <div className="max-w-[760px] mx-auto px-5 mb-6">
-          <Link href="/" className="inline-flex items-center gap-1.5 text-sm text-[--brand-text-secondary] hover:text-[--brand-accent] transition-colors">
+          <Link href="/" className="inline-flex items-center gap-1.5 text-sm text-[--brand-text-secondary] hover:text-[--brand-text] transition-colors">
             <ArrowLeft size={14} /> Back to home
           </Link>
         </div>
@@ -108,7 +108,7 @@ export default async function ArticlePage({ params }) {
         {/* Header */}
         <div className="max-w-[900px] mx-auto px-5 mb-10">
           <div className="max-w-[760px] mx-auto mb-2">
-            <span className="text-sm font-semibold text-[--brand-accent] uppercase tracking-wider">{article.section}</span>
+            <span className="text-sm font-semibold text-[--brand-text-secondary] uppercase tracking-wider">{article.section}</span>
           </div>
           <h1 className="cool-hero text-[--brand-text] max-w-[800px] mb-4">{article.title}</h1>
           <p className="text-lg md:text-xl text-[--brand-text-secondary] leading-relaxed max-w-[760px] mb-6">{article.excerpt}</p>
@@ -128,7 +128,7 @@ export default async function ArticlePage({ params }) {
         {/* Cover image */}
         <div className="max-w-[900px] mx-auto px-5 mb-12">
           <div className="aspect-[2/1] rounded-2xl overflow-hidden bg-[--shimmer-base] shadow-sm">
-            <img src={coverImage} alt={article.title} width={1600} height={900} className="w-full h-full object-cover" />
+            <img src={coverImage} alt={article.title} className="w-full h-full object-cover" />
           </div>
         </div>
 
