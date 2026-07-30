@@ -2,7 +2,6 @@ import Link from 'next/link';
 import Nav from '@/components/site/Nav';
 import Footer from '@/components/site/Footer';
 import ArticleCard from '@/components/site/ArticleCard';
-import ShimmerImage from '@/components/site/ShimmerImage';
 import { findSection } from '@/lib/sections';
 import { db } from '@/packages/db';
 import { coverImageFor } from '@/packages/utils';
@@ -71,15 +70,14 @@ export default async function SectionPage({ params }) {
             {hero && (
               <Link href={`/article/${hero.slug}`} className="group block mb-16">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-                  <div className="relative overflow-hidden rounded-2xl aspect-[2/1] bg-[--shimmer-base] shadow-sm order-2 lg:order-1">
-                    <ShimmerImage
+                  <div className="relative overflow-hidden rounded-2xl aspect-[2/1] bg-[--shimmer-base] shadow-sm lg:order-1">
+                    <img
                       src={hero.coverImage || coverImageFor(hero.title, hero.section)}
-                      alt=""
+                      alt={hero.title}
                       className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
-                      wrapperClass="absolute inset-0"
                     />
                   </div>
-                  <div className="order-1 lg:order-2">
+                  <div className="lg:order-2">
                     <span className="text-xs font-semibold text-[--brand-text-secondary] uppercase tracking-[0.1em]">Featured</span>
                     <h2 className="cool-h1 mt-3 text-[--brand-text] group-hover:opacity-80 transition-opacity">{hero.title}</h2>
                     <p className="mt-3 text-base text-[--brand-text-secondary] leading-relaxed">{hero.excerpt}</p>
