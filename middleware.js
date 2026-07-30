@@ -16,6 +16,7 @@ function isPublicApi(pathname, method) {
   if (pathname === '/api/og' && method === 'GET') return true;
   if (pathname === '/api/subscribers' && method === 'POST') return true;
   if (pathname === '/api/newsletter' && method === 'POST') return true;
+  if (pathname === '/api/newsletter/send') return true;
   return false;
 }
 

@@ -80,9 +80,15 @@ export async function runScheduler() {
 }
 
 export async function sendNewsletter({ subject, html }) {
-  const subs = await db.subscribers.list();
-  await db.logs.create({ action: 'newsletter.send', status: 'ok', meta: { subject, recipients: subs.length, note: 'STUB — wire ESP in packages/automation/index.js' } });
-  return { queued: subs.length };
+  try {
+    const { sendNewsletter: send } = await import('@/lib/email');
+    const result = await send({ subject, html });
+    await db.logs.create({ action: 'newsletter.send', status: result.ok ? 'ok' : 'failed', meta: { subject, sent: result.sent || 0, total: result.total || 0, error: result.error } });
+    return result;
+  } catch (e) {
+    await db.logs.create({ action: 'newsletter.send', status: 'failed', meta: { subject, error: e.message } });
+    return { ok: false, error: e.message };
+  }
 }
 
 // Process a Content Inbox item into a full published draft.
