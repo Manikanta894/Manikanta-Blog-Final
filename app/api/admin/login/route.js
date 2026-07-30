@@ -2,12 +2,19 @@ import { NextResponse } from 'next/server';
 import { ADMIN_SESSION_COOKIE, getExpectedSessionToken } from '@/lib/auth';
 import { rateLimit } from '@/lib/rate-limit';
 
+function timingSafeEqual(a, b) {
+  const sa = String(a); const sb = String(b);
+  if (sa.length !== sb.length) return false;
+  let result = 0;
+  for (let i = 0; i < sa.length; i++) result |= sa.charCodeAt(i) ^ sb.charCodeAt(i);
+  return result === 0;
+}
+
 const loginAttempts = new Map();
 
 export async function POST(request) {
   const ip = request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown';
 
-  // Brute-force protection: 5 attempts per 15 min per IP
   const attempts = loginAttempts.get(ip) || [];
   const recent = attempts.filter((t) => Date.now() - t < 900000);
   if (recent.length >= 5) {
@@ -18,17 +25,16 @@ export async function POST(request) {
 
   if (!process.env.ADMIN_PASSWORD || !process.env.ADMIN_SESSION_SECRET) {
     return NextResponse.json(
-      { error: 'Admin login is not configured. Set ADMIN_PASSWORD and ADMIN_SESSION_SECRET in your environment.' },
+      { error: 'Admin login is not configured.' },
       { status: 500 }
     );
   }
 
-  if (!password || password !== process.env.ADMIN_PASSWORD) {
+  if (!password || !timingSafeEqual(password, process.env.ADMIN_PASSWORD)) {
     loginAttempts.set(ip, [...recent, Date.now()]);
     return NextResponse.json({ error: 'Incorrect password' }, { status: 401 });
   }
 
-  // Clear attempts on successful login
   loginAttempts.delete(ip);
 
   const token = await getExpectedSessionToken();
@@ -38,7 +44,7 @@ export async function POST(request) {
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',
     path: '/',
-    maxAge: 60 * 60 * 24, // 24 hours
+    maxAge: 60 * 60 * 24,
   });
   return res;
 }

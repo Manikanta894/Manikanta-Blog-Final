@@ -14,6 +14,14 @@ const j = (data, init = {}) => NextResponse.json(data, init);
 const err = (msg, code = 400) => j({ error: msg }, { status: code });
 const getIp = (request) => request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown';
 
+function timingSafeEqual(a, b) {
+  const sa = String(a); const sb = String(b);
+  if (sa.length !== sb.length) return false;
+  let result = 0;
+  for (let i = 0; i < sa.length; i++) result |= sa.charCodeAt(i) ^ sb.charCodeAt(i);
+  return result === 0;
+}
+
 async function handler(request, ctx) {
   const method = request.method;
   const resolved = await ctx.params;
@@ -90,7 +98,7 @@ async function handler(request, ctx) {
       try {
         const article = await pipelinePublish({ section: body.section || 'ai', angle: body.angle, publish: !!body.publish });
         await db.aiQueue.update(job.id, { status: 'done', articleId: article.id, provider: article.provider });
-        await db.logs.create({ action: 'ai.generate', status: 'ok', meta: { section: body.section, provider: article.provider } });
+        await db.logs.create({ action: 'ai.generate', status: 'ok', meta: { section: body.section, provider: article.provider, isMock: article.provider === 'mock' } });
         return j({ article });
       } catch (e) {
         await db.aiQueue.update(job.id, { status: 'failed', error: e.message });
@@ -220,7 +228,7 @@ async function handler(request, ctx) {
       if (p1 === 'webhook' && method === 'POST') {
         const s = await db.settings.get();
         const secret = url.searchParams.get('secret') || request.headers.get('x-secret');
-        if (!s.inboxWebhookSecret || s.inboxWebhookSecret !== secret) return err('unauthorized', 401);
+        if (!s.inboxWebhookSecret || !timingSafeEqual(s.inboxWebhookSecret, secret)) return err('unauthorized', 401);
         const body = await request.json();
         const rows = Array.isArray(body?.rows) ? body.rows : [body];
         const created = [];
