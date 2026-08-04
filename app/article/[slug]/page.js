@@ -4,6 +4,7 @@ import Nav from '@/components/site/Nav';
 import Footer from '@/components/site/Footer';
 import ArticleCard from '@/components/site/ArticleCard';
 import ArticleActions from '@/components/site/ArticleActions';
+import ArticleToolbar from '@/components/site/ArticleToolbar';
 import ReadingProgress from '@/components/site/ReadingProgress';
 import ArticleTOC from '@/components/site/ArticleTOC';
 import Comments from '@/components/site/Comments';
@@ -106,6 +107,7 @@ export default async function ArticlePage({ params }) {
     <div className="min-h-screen">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <ReadingProgress targetId="article-body" />
+      <ArticleToolbar url={url} title={article.title} articleSlug={article.slug} />
       <Nav />
       <article>
         {/* ═══ HERO IMAGE — full width, subtle parallax ═══ */}
@@ -221,7 +223,7 @@ export default async function ArticlePage({ params }) {
         </div>
 
         {/* ═══ NOTES ═══ */}
-        <div className="max-w-[760px] mx-auto px-5 mt-20 mb-16">
+        <div id="article-notes" className="max-w-[760px] mx-auto px-5 mt-20 mb-16">
           <Comments articleSlug={article.slug} articleTitle={article.title} />
         </div>
       </article>
