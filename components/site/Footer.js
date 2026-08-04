@@ -84,7 +84,7 @@ export default function Footer() {
           backgroundSize: '60px 60px',
         }} />
 
-        <div className="relative max-w-[1280px] mx-auto px-5 pt-20 pb-16">
+        <div className="relative max-w-[1280px] mx-auto px-5 pt-14 md:pt-20 pb-10 md:pb-16">
           {/* ═══ TOP: BRAND + NEWSLETTER ═══ */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 pb-16 border-b border-white/[0.06]">
             <div className="max-w-md">
@@ -163,7 +163,7 @@ export default function Footer() {
           </div>
 
           {/* ═══ STATS BAR ═══ */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 py-12 border-b border-white/[0.06]">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 py-8 md:py-12 border-b border-white/[0.06]">
             <StatCounter value={12} label="Articles Published" />
             <StatCounter value={5} label="Sections" />
             <StatCounter value={5000} label="Monthly Readers" />

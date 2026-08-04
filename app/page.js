@@ -54,6 +54,7 @@ export default async function Home() {
                       src={hCover}
                       alt={hero.title}
                       className="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-[1.03]"
+                      loading="eager"
                     />
                   </div>
                   <div>
@@ -107,8 +108,8 @@ export default async function Home() {
                       <img
                         src={a.coverImage || coverImageFor(a.title, a.section)}
                         alt={a.title}
-                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      />
+className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        loading="lazy"
                     </div>
                     <span className="text-[11px] font-semibold text-[--brand-text-secondary] uppercase tracking-[0.1em]">
                       {findSection(a.section)?.name || a.section}
@@ -178,7 +179,7 @@ export default async function Home() {
                   View all <ArrowUpRight size={14} />
                 </Link>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-14">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-6 md:gap-x-8 gap-y-10 md:gap-y-14">
                 {latest.map((a, i) => <ArticleCard key={a.id} article={a} index={i} />)}
               </div>
             </section>

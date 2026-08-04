@@ -38,8 +38,8 @@ export default function Nav() {
     <header className={`sticky top-0 z-40 transition-all duration-500 ${scrolled ? 'bg-[--brand-bg]/80 backdrop-blur-xl border-b border-[--brand-border]' : ''}`}>
       <div className="max-w-[1200px] mx-auto px-5 flex items-center justify-between h-[52px] md:h-[56px]">
         <div className="flex items-center gap-6">
-          <button onClick={() => setOpen(true)} className="lg:hidden -ml-1 w-9 h-9 flex items-center justify-center text-[--brand-text-secondary]" aria-label="Open menu">
-            <Menu size={18} />
+          <button onClick={() => setOpen(true)} className="lg:hidden -ml-2 w-11 h-11 flex items-center justify-center text-[--brand-text-secondary]" aria-label="Open menu">
+            <Menu size={20} />
           </button>
           <Link href="/" className="flex items-center gap-3 group">
             <img src="/logo-mark.svg" alt="INSIGHTS" className="h-7 w-auto" />
