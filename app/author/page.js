@@ -16,6 +16,8 @@ export const metadata = {
   openGraph: { title: 'Manikanta — INSIGHTS', description: AUTHOR.mission, type: 'profile' },
 };
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://insights.manikantar.in';
+
 export default async function AuthorPage() {
   let articles = [];
   try { articles = await db.articles.list({ status: 'published', limit: 30 }); } catch { articles = []; }
@@ -32,6 +34,17 @@ export default async function AuthorPage() {
 
   return (
     <div className="min-h-screen">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'Person',
+        name: AUTHOR.name,
+        description: AUTHOR.mission,
+        url: `${SITE_URL}/author`,
+        jobTitle: AUTHOR.headline,
+        homeLocation: AUTHOR.location,
+        knowsAbout: AUTHOR.expertise,
+        sameAs: Object.values(AUTHOR.social).filter(Boolean),
+      }) }} />
       <Nav />
       <main>
         {/* ═══ HERO ═══ */}

@@ -89,18 +89,33 @@ export default async function ArticlePage({ params }) {
 
   const jsonLd = {
     '@context': 'https://schema.org',
-    '@type': 'Article',
-    headline: article.title,
-    description: article.excerpt || mdToText(article.content, 160),
-    image: [coverImage],
-    datePublished: article.publishedAt || article.createdAt,
-    dateModified: article.updatedAt || article.publishedAt || article.createdAt,
-    author: { '@type': 'Person', name: 'Manikanta R', url: `${SITE_URL}/about` },
-    publisher: { '@type': 'Organization', name: SITE_NAME, logo: { '@type': 'ImageObject', url: `${SITE_URL}/icon.svg` } },
-    mainEntityOfPage: { '@type': 'WebPage', '@id': url },
-    keywords: (Array.isArray(article.seo?.keywords) ? article.seo.keywords : typeof article.seo?.keywords === 'string' ? article.seo.keywords.split(',').map(s => s.trim()) : article.hashtags || []).join(', '),
-    articleSection: article.section,
-    wordCount: (article.content || '').split(/\s+/).length,
+    '@graph': [
+      {
+        '@type': 'Article',
+        '@id': `${url}/#article`,
+        headline: article.title,
+        description: article.excerpt || mdToText(article.content, 160),
+        image: [coverImage],
+        datePublished: article.publishedAt || article.createdAt,
+        dateModified: article.updatedAt || article.publishedAt || article.createdAt,
+        author: { '@type': 'Person', name: 'Manikanta R', url: `${SITE_URL}/author` },
+        publisher: { '@id': `${SITE_URL}/#organization` },
+        mainEntityOfPage: { '@type': 'WebPage', '@id': url },
+        keywords: (Array.isArray(article.seo?.keywords) ? article.seo.keywords : typeof article.seo?.keywords === 'string' ? article.seo.keywords.split(',').map(s => s.trim()) : article.hashtags || []).join(', '),
+        articleSection: article.section,
+        wordCount: (article.content || '').split(/\s+/).length,
+        isAccessibleForFree: true,
+        inLanguage: 'en',
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: SITE_URL },
+          { '@type': 'ListItem', position: 2, name: sectionName, item: `${SITE_URL}/${article.section}` },
+          { '@type': 'ListItem', position: 3, name: article.title },
+        ],
+      },
+    ],
   };
 
   return (

@@ -13,12 +13,14 @@ export default async function sitemap() {
 
   const staticPages = [
     { url: `${SITE_URL}/`, changeFrequency: 'daily', priority: 1 },
-    { url: `${SITE_URL}/latest`, changeFrequency: 'daily', priority: 0.8 },
+    { url: `${SITE_URL}/latest`, changeFrequency: 'daily', priority: 0.9 },
+    { url: `${SITE_URL}/explore`, changeFrequency: 'daily', priority: 0.8 },
+    { url: `${SITE_URL}/author`, changeFrequency: 'monthly', priority: 0.7 },
     { url: `${SITE_URL}/about`, changeFrequency: 'monthly', priority: 0.5 },
-    { url: `${SITE_URL}/search`, changeFrequency: 'monthly', priority: 0.3 },
     { url: `${SITE_URL}/newsletter`, changeFrequency: 'monthly', priority: 0.4 },
+    { url: `${SITE_URL}/search`, changeFrequency: 'monthly', priority: 0.3 },
     { url: `${SITE_URL}/privacy`, changeFrequency: 'yearly', priority: 0.2 },
-    ...SECTIONS.map((s) => ({ url: `${SITE_URL}/${s.slug}`, changeFrequency: 'daily', priority: 0.7 })),
+    ...SECTIONS.map((s) => ({ url: `${SITE_URL}/${s.slug}`, changeFrequency: 'daily', priority: 0.8 })),
   ];
 
   const articlePages = articles.map((a) => ({
