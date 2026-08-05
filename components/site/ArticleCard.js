@@ -2,7 +2,6 @@
 import Link from 'next/link';
 import { SECTIONS } from '@/lib/sections';
 import { coverImageFor } from '@/packages/utils';
-import ShimmerImage from './ShimmerImage';
 import Reveal from './Reveal';
 
 function readingMinutes(article) {
@@ -36,7 +35,7 @@ export default function ArticleCard({ article, variant = 'default', index = 0 })
             </div>
             {cover && (
               <div className="w-16 h-16 sm:w-20 sm:h-20 shrink-0 rounded-lg overflow-hidden bg-[--shimmer-base]">
-                <ShimmerImage src={cover} alt="" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" wrapperClass="w-full h-full" />
+                <img src={cover} alt={article.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" loading="lazy" />
               </div>
             )}
           </Link>
@@ -51,7 +50,7 @@ export default function ArticleCard({ article, variant = 'default', index = 0 })
         <Link href={href}>
           {cover && (
             <div className="relative overflow-hidden rounded-xl aspect-[2/1] bg-[--shimmer-base] mb-4 shadow-sm transition-shadow duration-300 group-hover:shadow-md">
-              <ShimmerImage src={cover} alt="" className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" wrapperClass="absolute inset-0" />
+              <img src={cover} alt={article.title} className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
             </div>
           )}
           <span className="text-[11px] font-semibold text-[--brand-text-secondary] uppercase tracking-wider">{sectionName}</span>
