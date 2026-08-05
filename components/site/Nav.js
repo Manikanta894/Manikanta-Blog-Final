@@ -43,7 +43,7 @@ export default function Nav() {
           </button>
           <Link href="/" className="flex items-center gap-3 group">
             <img src="/logo-mark.svg" alt="INSIGHTS" className="h-7 w-auto" />
-            <span className="hidden sm:inline font-semibold text-[17px] tracking-tight text-[--brand-text]">
+            <span className="hidden sm:inline font-semibold text-[19px] tracking-tight text-[--brand-text]">
               INSIGHTS
             </span>
           </Link>

@@ -90,9 +90,9 @@ export default function Footer() {
             <div className="max-w-md">
               <div className="flex items-center gap-3 mb-4">
                 <img src="/logo-mark.svg" alt="INSIGHTS" className="h-8 w-auto brightness-0 invert" />
-                <span className="text-xl font-semibold tracking-tight">INSIGHTS</span>
+                <span className="text-[22px] font-semibold tracking-tight">INSIGHTS</span>
               </div>
-              <p className="text-sm text-white/50 leading-relaxed">
+              <p className="text-[15px] text-white/50 leading-relaxed">
                 A premium digital publication exploring artificial intelligence, business strategy, and the future of work. We publish deep dives, frameworks, and essays that help you think better and build smarter.
               </p>
               <div className="mt-5 flex items-center gap-2 text-xs text-white/40">
@@ -112,39 +112,39 @@ export default function Footer() {
           {/* ═══ MIDDLE: NAV + CATEGORIES + ARTICLES ═══ */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-10 py-14 border-b border-white/[0.06]">
             <div>
-              <span className="text-[11px] font-semibold text-white/30 uppercase tracking-[0.15em] mb-5 block">Navigate</span>
+              <span className="text-xs font-semibold text-white/30 uppercase tracking-[0.15em] mb-5 block">Navigate</span>
               <div className="flex flex-col gap-2.5">
                 {PAGES.map((p) => (
-                  <Link key={p.href} href={p.href} className="text-sm text-white/50 hover:text-white transition-colors">{p.label}</Link>
+                  <Link key={p.href} href={p.href} className="text-[15px] text-white/50 hover:text-white transition-colors">{p.label}</Link>
                 ))}
               </div>
             </div>
 
             <div>
-              <span className="text-[11px] font-semibold text-white/30 uppercase tracking-[0.15em] mb-5 block">Categories</span>
+              <span className="text-xs font-semibold text-white/30 uppercase tracking-[0.15em] mb-5 block">Categories</span>
               <div className="flex flex-col gap-2.5">
                 {SECTIONS.map((s) => (
-                  <Link key={s} href={`/${s}`} className="text-sm text-white/50 hover:text-white transition-colors capitalize">{s}</Link>
+                  <Link key={s} href={`/${s}`} className="text-[15px] text-white/50 hover:text-white transition-colors capitalize">{s}</Link>
                 ))}
               </div>
             </div>
 
             <div>
-              <span className="text-[11px] font-semibold text-white/30 uppercase tracking-[0.15em] mb-5 block">Company</span>
+              <span className="text-xs font-semibold text-white/30 uppercase tracking-[0.15em] mb-5 block">Company</span>
               <div className="flex flex-col gap-2.5">
-                <Link href="/about" className="text-sm text-white/50 hover:text-white transition-colors">About</Link>
-                <Link href="/privacy" className="text-sm text-white/50 hover:text-white transition-colors">Privacy</Link>
-                <a href="/rss.xml" className="text-sm text-white/50 hover:text-white transition-colors flex items-center gap-1.5">
+                <Link href="/about" className="text-[15px] text-white/50 hover:text-white transition-colors">About</Link>
+                <Link href="/privacy" className="text-[15px] text-white/50 hover:text-white transition-colors">Privacy</Link>
+                <a href="/rss.xml" className="text-[15px] text-white/50 hover:text-white transition-colors flex items-center gap-1.5">
                   <Rss size={12} /> RSS Feed
                 </a>
-                <Link href="/newsletter" className="text-sm text-white/50 hover:text-white transition-colors">Newsletter</Link>
+                <Link href="/newsletter" className="text-[15px] text-white/50 hover:text-white transition-colors">Newsletter</Link>
               </div>
             </div>
 
             <div>
-              <span className="text-[11px] font-semibold text-white/30 uppercase tracking-[0.15em] mb-5 block">Connect</span>
+              <span className="text-xs font-semibold text-white/30 uppercase tracking-[0.15em] mb-5 block">Connect</span>
               <a href="mailto:contact@manikantar.in"
-                className="flex items-center gap-1.5 text-sm text-white/50 hover:text-white transition-colors mb-4"
+                className="flex items-center gap-1.5 text-[15px] text-white/50 hover:text-white transition-colors mb-4"
               >
                 <Mail size={13} /> contact@manikantar.in
               </a>
