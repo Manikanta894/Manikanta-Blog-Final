@@ -9,9 +9,13 @@ import ReadingProgress from '@/components/site/ReadingProgress';
 import ArticleTOC from '@/components/site/ArticleTOC';
 import Comments from '@/components/site/Comments';
 import NewsletterForm from '@/components/site/NewsletterForm';
+import Breadcrumb from '@/components/site/Breadcrumb';
+import AuthorByline from '@/components/site/AuthorByline';
+import Tag from '@/components/site/Tag';
+import SectionRule from '@/components/site/SectionRule';
 import { db } from '@/packages/db';
 import { renderMd, mdToText, ensureEditorialStructure, extractHeadings, coverImageFor } from '@/packages/utils';
-import { ArrowLeft, Sparkles } from 'lucide-react';
+import { Sparkles } from 'lucide-react';
 import { findSection } from '@/lib/sections';
 
 export const revalidate = 3600;
@@ -55,10 +59,6 @@ export async function generateMetadata({ params }) {
   };
 }
 
-function readingMin(content) {
-  return Math.max(2, Math.round((content || '').split(/\s+/).length / 220));
-}
-
 function formatDate(d) {
   return new Date(d).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 }
@@ -78,9 +78,7 @@ export default async function ArticlePage({ params }) {
   scored.sort((a, b) => b.score - a.score);
   const related = scored.slice(0, 3).map((s) => s.article);
 
-  const dateStr = formatDate(article.publishedAt || article.createdAt);
   const updatedStr = article.updatedAt && article.updatedAt !== article.publishedAt ? formatDate(article.updatedAt) : null;
-  const readMin = readingMin(article.content);
   const url = `${SITE_URL}/article/${article.slug}`;
   const coverImage = article.coverImage || coverImageFor(article.title, article.section);
   const content = ensureEditorialStructure(article.content);
@@ -139,34 +137,21 @@ export default async function ArticlePage({ params }) {
 
         {/* ═══ HEADER ═══ */}
         <div className="max-w-[900px] mx-auto px-5 mb-12">
-          <div className="flex items-center gap-3 mb-6">
-            <Link href="/" className="inline-flex items-center gap-1.5 text-sm text-[--brand-text-secondary] hover:text-[--brand-text] transition-colors">
-              <ArrowLeft size={14} /> Home
-            </Link>
-            <span className="text-[--brand-border]">/</span>
-            <Link href={`/${article.section}`} className="text-sm text-[--brand-text-secondary] hover:text-[--brand-text] transition-colors">
-              {sectionName}
-            </Link>
-          </div>
+          <Breadcrumb items={[
+            { label: 'Home', href: '/' },
+            { label: sectionName, href: `/${article.section}` },
+            { label: article.title },
+          ]} className="mb-6" />
 
           <div className="max-w-[760px]">
-            <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-[--brand-text-secondary] uppercase tracking-[0.12em] mb-4">
-              <span className="w-1.5 h-1.5 rounded-full bg-[--brand-text]" />
-              {sectionName}
-            </span>
+            <Tag label={sectionName} className="mb-4 block" />
             <h1 className="cool-hero text-[--brand-text]">{article.title}</h1>
             <p className="mt-4 text-lg md:text-xl text-[--brand-text-secondary] leading-relaxed">{article.excerpt}</p>
 
-            <div className="flex flex-wrap items-center gap-4 mt-8 pb-8 border-b border-[--brand-border]">
+            <div className="flex flex-wrap items-center justify-between gap-4 mt-8 pb-8 border-b border-[--brand-border]">
               <div className="flex items-center gap-3">
-                <div className="avatar"><span>M</span></div>
-                <div>
-                  <div className="text-sm font-bold text-[--brand-text]">Manikanta</div>
-                  <div className="text-xs text-[--brand-text-secondary]">
-                    {dateStr} &middot; {readMin} min read
-                    {updatedStr && <span> &middot; Updated {updatedStr}</span>}
-                  </div>
-                </div>
+                <AuthorByline article={article} dateFormat="long" />
+                {updatedStr && <span className="ml-2 text-xs text-[--brand-text-secondary]">&middot; Updated {updatedStr}</span>}
               </div>
               <div className="flex items-center gap-2 ml-auto">
                 <ArticleActions title={article.title} url={url} />
@@ -192,7 +177,7 @@ export default async function ArticlePage({ params }) {
               {article.hashtags?.length > 0 && (
                 <div className="mt-16 pt-8 border-t border-[--brand-border] flex flex-wrap gap-2">
                   {article.hashtags.map((h) => (
-                    <span key={h} className="tag">{h}</span>
+                    <Tag key={h} label={h} />
                   ))}
                 </div>
               )}

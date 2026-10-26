@@ -3,19 +3,10 @@ import Link from 'next/link';
 import { SECTIONS } from '@/lib/sections';
 import { coverImageFor } from '@/packages/utils';
 import Reveal from './Reveal';
-
-function readingMinutes(article) {
-  const words = (article.content || '').split(/\s+/).length;
-  return Math.max(1, Math.round(words / 220));
-}
-
-const AUTHOR = { name: 'Manikanta', initial: 'M' };
+import AuthorByline from './AuthorByline';
 
 export default function ArticleCard({ article, variant = 'default', index = 0 }) {
   const href = `/article/${article.slug}`;
-  const date = article.publishedAt ? new Date(article.publishedAt) : new Date(article.createdAt || Date.now());
-  const dateStr = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-  const readMin = readingMinutes(article);
   const cover = article.coverImage || coverImageFor(article.title, article.section);
   const sectionName = SECTIONS.find((s) => s.slug === article.section)?.name || article.section;
 
@@ -27,11 +18,7 @@ export default function ArticleCard({ article, variant = 'default', index = 0 })
             <div className="flex-1 min-w-0">
               <span className="text-[11px] font-semibold text-[--brand-text-secondary] uppercase tracking-wider">{sectionName}</span>
               <h3 className="mt-1 text-[15px] font-semibold text-[--brand-text] leading-snug group-hover:opacity-70 transition-opacity line-clamp-2">{article.title}</h3>
-              <div className="flex items-center gap-1.5 mt-2 text-xs text-[--brand-text-secondary]">
-                <span>{dateStr}</span>
-                <span>&middot;</span>
-                <span>{readMin} min read</span>
-              </div>
+              <AuthorByline article={article} className="mt-2" showAvatar={false} />
             </div>
             {cover && (
               <div className="w-16 h-16 sm:w-20 sm:h-20 shrink-0 rounded-lg overflow-hidden bg-[--shimmer-base]">
@@ -56,14 +43,7 @@ export default function ArticleCard({ article, variant = 'default', index = 0 })
           <span className="text-[11px] font-semibold text-[--brand-text-secondary] uppercase tracking-wider">{sectionName}</span>
           <h3 className="mt-1.5 text-[17px] font-semibold text-[--brand-text] leading-snug group-hover:opacity-70 transition-opacity line-clamp-2">{article.title}</h3>
           {article.excerpt && <p className="mt-1.5 text-sm text-[--brand-text-secondary] leading-relaxed line-clamp-2">{article.excerpt}</p>}
-          <div className="flex items-center gap-1.5 mt-3 text-xs text-[--brand-text-secondary]">
-            <div className="avatar avatar-xs"><span>{AUTHOR.initial}</span></div>
-            <span>{AUTHOR.name}</span>
-            <span>&middot;</span>
-            <span>{dateStr}</span>
-            <span>&middot;</span>
-            <span>{readMin} min read</span>
-          </div>
+          <AuthorByline article={article} className="mt-3" />
         </Link>
       </article>
     </Reveal>

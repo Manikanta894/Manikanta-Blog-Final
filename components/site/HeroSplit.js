@@ -3,13 +3,11 @@ import Link from 'next/link';
 import { SECTIONS } from '@/lib/sections';
 import { coverImageFor } from '@/packages/utils';
 import { TrendingUp } from 'lucide-react';
+import AuthorByline from './AuthorByline';
+import SectionRule from './SectionRule';
 
 export default function HeroSplit({ hero, trending = [] }) {
   if (!hero) return null;
-  const heroDate = new Date(hero.publishedAt || hero.createdAt);
-  const heroDateStr = heroDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
-  const words = (hero.content || '').split(/\s+/).length;
-  const readMin = Math.max(2, Math.round(words / 220));
   const sectionName = SECTIONS.find((s) => s.slug === hero.section)?.name || hero.section;
   const heroCover = hero.coverImage || coverImageFor(hero.title, hero.section);
 
@@ -29,14 +27,7 @@ export default function HeroSplit({ hero, trending = [] }) {
               <span className="text-xs font-semibold text-[--brand-text-secondary] uppercase tracking-[0.1em]">{sectionName}</span>
               <h1 className="cool-hero mt-3 text-[--brand-text] group-hover:opacity-80 transition-opacity">{hero.title}</h1>
               <p className="mt-3 text-base text-[--brand-text-secondary] leading-relaxed max-w-2xl">{hero.excerpt}</p>
-              <div className="flex items-center gap-2 mt-5 text-sm text-[--brand-text-secondary]">
-                <div className="avatar avatar-sm"><span>M</span></div>
-                <span className="font-semibold text-[--brand-text]">Manikanta</span>
-                <span>&middot;</span>
-                <span>{heroDateStr}</span>
-                <span>&middot;</span>
-                <span>{readMin} min read</span>
-              </div>
+              <AuthorByline article={hero} className="mt-5 text-sm" dateFormat="long" />
             </div>
           </Link>
         </div>
@@ -72,7 +63,7 @@ export default function HeroSplit({ hero, trending = [] }) {
           </aside>
         )}
       </div>
-      <div className="hairline mt-8" />
+      <SectionRule className="mt-8" />
     </section>
   );
 }
