@@ -1,0 +1,1105 @@
+
+> nextjs-mongo-template@0.1.0 dev
+> next dev --hostname 0.0.0.0 --port 3000
+
+ ⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+ We detected multiple lockfiles and selected the directory of c:\Users\Manikanta\package-lock.json as the root directory.
+ To silence this warning, set `outputFileTracingRoot` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+   See https://nextjs.org/docs/app/api-reference/config/next-config-js/output#caveats for more information.
+ Detected additional lockfiles: 
+   * c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\package-lock.json
+
+   ▲ Next.js 15.5.16
+   - Local:        http://localhost:3000
+   - Network:      http://0.0.0.0:3000
+   - Experiments (use with caution):
+     · serverActions
+
+ ✓ Starting...
+ ✓ Ready in 2.2s
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ○ Compiling /middleware ...
+ ⚠ ./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'kerberos' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve '@mongodb-js/zstd' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve '@aws-sdk/credential-providers' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'gcp-metadata' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'snappy' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'socks' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'aws4' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'mongodb-client-encryption' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+ ⚠ ./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'kerberos' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve '@mongodb-js/zstd' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve '@aws-sdk/credential-providers' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'gcp-metadata' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'snappy' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'socks' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'aws4' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'mongodb-client-encryption' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+ ⨯ ./app/page.js
+Error:   [31mx[0m Expected '</', got 'numeric literal (0.5, .5)'
+    ,-[[36;1;4mc:\Users\Manikanta\Desktop\Manikanta-Blog-Final\app\page.js[0m:82:1]
+ [2m79[0m |                       <span>{hMin} min read</span>
+ [2m80[0m |                     </div>
+ [2m81[0m |                     <div className="mt-6">
+ [2m82[0m |                       <span className="inline-flex items-center gap-1.5 bg-[--brand-text] text-[--brand-bg] rounded-full px-5 py-2.5 text-sm font-medium hover:opacity-80 transition-all active:scale-[0.97]" group-hover:gap-2.5">
+    : [35;1m                                                                                                                                                                                                                               ^^[0m
+ [2m83[0m |                         Read Article <ArrowUpRight size={14} />
+ [2m84[0m |                       </span>
+ [2m84[0m |                     </div>
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./app/page.js
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ⨯ ./app/page.js
+Error:   [31mx[0m Expected '</', got 'numeric literal (0.5, .5)'
+    ,-[[36;1;4mc:\Users\Manikanta\Desktop\Manikanta-Blog-Final\app\page.js[0m:82:1]
+ [2m79[0m |                       <span>{hMin} min read</span>
+ [2m80[0m |                     </div>
+ [2m81[0m |                     <div className="mt-6">
+ [2m82[0m |                       <span className="inline-flex items-center gap-1.5 bg-[--brand-text] text-[--brand-bg] rounded-full px-5 py-2.5 text-sm font-medium hover:opacity-80 transition-all active:scale-[0.97]" group-hover:gap-2.5">
+    : [35;1m                                                                                                                                                                                                                               ^^[0m
+ [2m83[0m |                         Read Article <ArrowUpRight size={14} />
+ [2m84[0m |                       </span>
+ [2m84[0m |                     </div>
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./app/page.js
+<w> [webpack.cache.PackFileCacheStrategy] Restoring pack failed from c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\.next\cache\webpack\client-development-fallback.pack.gz: Error: invalid literal/lengths set
+<w> [webpack.cache.PackFileCacheStrategy] Restoring pack failed from c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\.next\cache\webpack\client-development-fallback.pack.gz: Error: invalid literal/lengths set
+<w> [webpack.cache.PackFileCacheStrategy] Restoring pack failed from c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\.next\cache\webpack\client-development-fallback.pack.gz: Error: invalid literal/lengths set
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+<w> [webpack.cache.PackFileCacheStrategy] Restoring pack failed from c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\.next\cache\webpack\client-development-fallback.pack.gz: Error: invalid literal/lengths set
+<w> [webpack.cache.PackFileCacheStrategy] Restoring pack failed from c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\.next\cache\webpack\client-development-fallback.pack.gz: Error: invalid literal/lengths set
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ ⨯ ./app/page.js
+Error:   [31mx[0m Expected '</', got 'numeric literal (0.5, .5)'
+    ,-[[36;1;4mc:\Users\Manikanta\Desktop\Manikanta-Blog-Final\app\page.js[0m:82:1]
+ [2m79[0m |                       <span>{hMin} min read</span>
+ [2m80[0m |                     </div>
+ [2m81[0m |                     <div className="mt-6">
+ [2m82[0m |                       <span className="inline-flex items-center gap-1.5 bg-[--brand-text] text-[--brand-bg] rounded-full px-5 py-2.5 text-sm font-medium hover:opacity-80 transition-all active:scale-[0.97]" group-hover:gap-2.5">
+    : [35;1m                                                                                                                                                                                                                               ^^[0m
+ [2m83[0m |                         Read Article <ArrowUpRight size={14} />
+ [2m84[0m |                       </span>
+ [2m84[0m |                     </div>
+    `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./app/page.js
+ ⚠ Fast Refresh had to perform a full reload due to a runtime error.
+ GET / 500 in 42ms
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\.next\cache\webpack\client-development-fallback\0.pack.gz_' -> 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\.next\cache\webpack\client-development-fallback\0.pack.gz'
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\.next\cache\webpack\client-development-fallback\0.pack.gz_' -> 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\.next\cache\webpack\client-development-fallback\0.pack.gz'
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\.next\cache\webpack\client-development-fallback\0.pack.gz_' -> 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\.next\cache\webpack\client-development-fallback\0.pack.gz'
+<w> [webpack.cache.PackFileCacheStrategy] Caching failed for pack: Error: ENOENT: no such file or directory, rename 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\.next\cache\webpack\client-development-fallback\0.pack.gz_' -> 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\.next\cache\webpack\client-development-fallback\0.pack.gz'
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ⚠ ./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'kerberos' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve '@mongodb-js/zstd' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve '@aws-sdk/credential-providers' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'gcp-metadata' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'snappy' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'socks' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'aws4' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'mongodb-client-encryption' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ⚠ ./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'kerberos' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve '@mongodb-js/zstd' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve '@aws-sdk/credential-providers' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'gcp-metadata' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'snappy' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'socks' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'aws4' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'mongodb-client-encryption' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+ ⨯ ./app/page.js
+Error:   [31mx[0m Expression expected
+     ,-[[36;1;4mc:\Users\Manikanta\Desktop\Manikanta-Blog-Final\app\page.js[0m:113:1]
+ [2m110[0m |                         alt={a.title}
+ [2m111[0m | className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+ [2m112[0m |                         loading="lazy"
+ [2m113[0m |                     </div>
+     : [35;1m                    ^[0m
+ [2m114[0m |                     <span className="text-[11px] font-semibold text-[--brand-text-secondary] uppercase tracking-[0.1em]">
+ [2m115[0m |                       {findSection(a.section)?.name || a.section}
+ [2m115[0m |                     </span>
+     `----
+  [31mx[0m Unterminated regexp literal
+     ,-[[36;1;4mc:\Users\Manikanta\Desktop\Manikanta-Blog-Final\app\page.js[0m:113:1]
+ [2m110[0m |                         alt={a.title}
+ [2m111[0m | className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+ [2m112[0m |                         loading="lazy"
+ [2m113[0m |                     </div>
+     : [35;1m                     ^^^^^[0m
+ [2m114[0m |                     <span className="text-[11px] font-semibold text-[--brand-text-secondary] uppercase tracking-[0.1em]">
+ [2m115[0m |                       {findSection(a.section)?.name || a.section}
+ [2m115[0m |                     </span>
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./app/page.js
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ⨯ ./app/page.js
+Error:   [31mx[0m Expression expected
+     ,-[[36;1;4mc:\Users\Manikanta\Desktop\Manikanta-Blog-Final\app\page.js[0m:113:1]
+ [2m110[0m |                         alt={a.title}
+ [2m111[0m | className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+ [2m112[0m |                         loading="lazy"
+ [2m113[0m |                     </div>
+     : [35;1m                    ^[0m
+ [2m114[0m |                     <span className="text-[11px] font-semibold text-[--brand-text-secondary] uppercase tracking-[0.1em]">
+ [2m115[0m |                       {findSection(a.section)?.name || a.section}
+ [2m115[0m |                     </span>
+     `----
+  [31mx[0m Unterminated regexp literal
+     ,-[[36;1;4mc:\Users\Manikanta\Desktop\Manikanta-Blog-Final\app\page.js[0m:113:1]
+ [2m110[0m |                         alt={a.title}
+ [2m111[0m | className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+ [2m112[0m |                         loading="lazy"
+ [2m113[0m |                     </div>
+     : [35;1m                     ^^^^^[0m
+ [2m114[0m |                     <span className="text-[11px] font-semibold text-[--brand-text-secondary] uppercase tracking-[0.1em]">
+ [2m115[0m |                       {findSection(a.section)?.name || a.section}
+ [2m115[0m |                     </span>
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./app/page.js
+ ⨯ ./app/page.js
+Error:   [31mx[0m Expression expected
+     ,-[[36;1;4mc:\Users\Manikanta\Desktop\Manikanta-Blog-Final\app\page.js[0m:113:1]
+ [2m110[0m |                         alt={a.title}
+ [2m111[0m | className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+ [2m112[0m |                         loading="lazy"
+ [2m113[0m |                     </div>
+     : [35;1m                    ^[0m
+ [2m114[0m |                     <span className="text-[11px] font-semibold text-[--brand-text-secondary] uppercase tracking-[0.1em]">
+ [2m115[0m |                       {findSection(a.section)?.name || a.section}
+ [2m115[0m |                     </span>
+     `----
+  [31mx[0m Unterminated regexp literal
+     ,-[[36;1;4mc:\Users\Manikanta\Desktop\Manikanta-Blog-Final\app\page.js[0m:113:1]
+ [2m110[0m |                         alt={a.title}
+ [2m111[0m | className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+ [2m112[0m |                         loading="lazy"
+ [2m113[0m |                     </div>
+     : [35;1m                     ^^^^^[0m
+ [2m114[0m |                     <span className="text-[11px] font-semibold text-[--brand-text-secondary] uppercase tracking-[0.1em]">
+ [2m115[0m |                       {findSection(a.section)?.name || a.section}
+ [2m115[0m |                     </span>
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./app/page.js
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ⨯ ./app/page.js
+Error:   [31mx[0m Expression expected
+     ,-[[36;1;4mc:\Users\Manikanta\Desktop\Manikanta-Blog-Final\app\page.js[0m:113:1]
+ [2m110[0m |                         alt={a.title}
+ [2m111[0m | className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+ [2m112[0m |                         loading="lazy"
+ [2m113[0m |                     </div>
+     : [35;1m                    ^[0m
+ [2m114[0m |                     <span className="text-[11px] font-semibold text-[--brand-text-secondary] uppercase tracking-[0.1em]">
+ [2m115[0m |                       {findSection(a.section)?.name || a.section}
+ [2m115[0m |                     </span>
+     `----
+  [31mx[0m Unterminated regexp literal
+     ,-[[36;1;4mc:\Users\Manikanta\Desktop\Manikanta-Blog-Final\app\page.js[0m:113:1]
+ [2m110[0m |                         alt={a.title}
+ [2m111[0m | className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+ [2m112[0m |                         loading="lazy"
+ [2m113[0m |                     </div>
+     : [35;1m                     ^^^^^[0m
+ [2m114[0m |                     <span className="text-[11px] font-semibold text-[--brand-text-secondary] uppercase tracking-[0.1em]">
+ [2m115[0m |                       {findSection(a.section)?.name || a.section}
+ [2m115[0m |                     </span>
+     `----
+
+Caused by:
+    Syntax Error
+
+Import trace for requested module:
+./app/page.js
+ GET / 500 in 221ms
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ⚠ ./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'kerberos' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve '@mongodb-js/zstd' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve '@aws-sdk/credential-providers' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'gcp-metadata' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'snappy' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'socks' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'aws4' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'mongodb-client-encryption' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+ ⚠ ./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'kerberos' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve '@mongodb-js/zstd' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve '@aws-sdk/credential-providers' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'gcp-metadata' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'snappy' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'socks' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'aws4' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'mongodb-client-encryption' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ GET / 200 in 9380ms
+[mongo] MongoDB unavailable: connect ECONNREFUSED ::1:27017, connect ECONNREFUSED 127.0.0.1:27017
+ GET / 200 in 2441ms
+ GET / 200 in 393ms
+ ⚠ ./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'kerberos' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve '@mongodb-js/zstd' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve '@aws-sdk/credential-providers' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'gcp-metadata' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'snappy' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'socks' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'aws4' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'mongodb-client-encryption' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+ ⚠ ./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'kerberos' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve '@mongodb-js/zstd' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve '@aws-sdk/credential-providers' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'gcp-metadata' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'snappy' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'socks' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'aws4' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'mongodb-client-encryption' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+ GET /latest 200 in 1735ms
+ ⚠ ./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'kerberos' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve '@mongodb-js/zstd' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve '@aws-sdk/credential-providers' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'gcp-metadata' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'snappy' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'socks' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'aws4' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'mongodb-client-encryption' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+ ⚠ ./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'kerberos' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve '@mongodb-js/zstd' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve '@aws-sdk/credential-providers' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'gcp-metadata' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'snappy' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'socks' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'aws4' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+
+./node_modules/mongodb/lib/deps.js
+Module not found: Can't resolve 'mongodb-client-encryption' in 'c:\Users\Manikanta\Desktop\Manikanta-Blog-Final\node_modules\mongodb\lib'
+
+Import trace for requested module:
+./node_modules/mongodb/lib/deps.js
+./node_modules/mongodb/lib/client-side-encryption/client_encryption.js
+./node_modules/mongodb/lib/index.js
+./packages/db/adapters/mongo.js
+./packages/db/index.js
+./lib/auth.js
+API error TypeError: Cannot read properties of null (reading 'db')
+    at _db (packages\db\adapters\mongo.js:27:12)
+    at async Object.list (packages\db\adapters\mongo.js:35:15)
+    at async handler (app\api\[[...path]]\route.js:38:57)
+  25 | async function _db() {
+  26 |   const c = await clientPromise;
+> 27 |   return c.db(dbName);
+     |            ^
+  28 | }
+  29 |
+  30 | const strip = (o) => { if (!o) return o; const { _id, ...rest } = o; return rest; };
+ GET /api/articles?limit=12 500 in 3479ms
+ GET / 200 in 232ms

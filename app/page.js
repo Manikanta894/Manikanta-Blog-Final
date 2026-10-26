@@ -79,7 +79,7 @@ export default async function Home() {
                       <span>{hMin} min read</span>
                     </div>
                     <div className="mt-6">
-                      <span className="inline-flex items-center gap-1.5 bg-[--brand-text] text-[--brand-bg] rounded-full px-5 py-2.5 text-sm font-medium hover:opacity-80 transition-all active:scale-[0.97]" group-hover:gap-2.5">
+                      <span className="inline-flex items-center gap-1.5 bg-[--brand-text] text-[--brand-bg] rounded-full px-5 py-2.5 text-sm font-medium hover:opacity-80 transition-all active:scale-[0.97] group-hover:gap-2.5">
                         Read Article <ArrowUpRight size={14} />
                       </span>
                     </div>
@@ -109,7 +109,7 @@ export default async function Home() {
                         src={a.coverImage || coverImageFor(a.title, a.section)}
                         alt={a.title}
 className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                        loading="lazy"
+                        loading="lazy" />
                     </div>
                     <span className="text-[11px] font-semibold text-[--brand-text-secondary] uppercase tracking-[0.1em]">
                       {findSection(a.section)?.name || a.section}
