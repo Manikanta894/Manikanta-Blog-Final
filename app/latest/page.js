@@ -58,9 +58,9 @@ export default function LatestPage() {
             ))}
           </div>
         ) : articles.length === 0 ? (
-          <div className="text-center py-24">
-            <div className="text-6xl mb-4 opacity-20">&#128221;</div>
-            <p className="text-lg text-[--brand-text-secondary]">Nothing published yet. Check back soon.</p>
+          <div className="rounded-2xl border border-dashed border-[--brand-border] bg-[--brand-accent-soft]/20 p-10 md:p-14 text-center">
+            <h3 className="font-display italic text-2xl md:text-3xl text-[--brand-text]">Nothing published yet.</h3>
+            <p className="mt-3 text-sm md:text-base text-[--brand-text-secondary] leading-relaxed">Check back soon — the first pieces are on their way.</p>
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">

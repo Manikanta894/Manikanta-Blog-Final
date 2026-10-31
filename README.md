@@ -12,7 +12,7 @@ local Docker, Vercel, Railway, Render, or your own VPS. Zero lock-in.
 | -------------- | ----------------------------------------------- |
 | Frontend       | Next.js 15, React 19, TailwindCSS, Framer Motion|
 | Backend        | Next.js API routes (thin) + `/packages`         |
-| Database       | Postgres (Supabase) **or** MongoDB (dev/legacy) |
+| Database       | Postgres (Supabase) |
 | Storage        | Supabase Storage (or S3-compatible)             |
 | Search         | Typesense                                       |
 | Automation     | n8n (self-hosted) + Vercel Cron                 |
@@ -29,12 +29,11 @@ local Docker, Vercel, Railway, Render, or your own VPS. Zero lock-in.
 │  ├─ admin/                — studio dashboard
 │  └─ api/[[...path]]/      — thin route handlers, all logic in /packages
 ├─ packages/
-│  ├─ db/                   — repository interface + mongo & supabase adapters
-│  │  ├─ adapters/mongo.js
+│  ├─ db/                   — repository interface + supabase adapter
 │  │  ├─ adapters/supabase.js
 │  │  ├─ schema.sql          — full Postgres DDL + RLS
 │  │  ├─ seed.sql
-│  │  └─ migrate.js          — Mongo → Supabase migration
+│  │  └─ migrate.js          — Mongo → Supabase migration (legacy)
 │  ├─ ai/                   — Groq / OpenRouter / Pollinations
 │  ├─ social/               — LinkedIn / Instagram generators + posters
 │  ├─ automation/           — RSS ingest, scheduler, newsletter
@@ -61,17 +60,16 @@ local Docker, Vercel, Railway, Render, or your own VPS. Zero lock-in.
 git clone <this-repo> maniis-journal && cd maniis-journal
 cp .env.example .env.local
 yarn install
-# Uses MongoDB by default. Start a local mongo (or set MONGO_URL to a cloud one):
-docker run -d --name mongo -p 27017:27017 mongo:7
+# Configure Supabase credentials in .env.local (or use DB_DRIVER=demo for mock data):
 yarn dev
-# Open http://localhost:3000 — demo articles are seeded on first load.
+# Open http://localhost:3000
 ```
 
 ## Production (Supabase + full stack)
 
 ```bash
 cp .env.example .env
-# Edit .env: set DB_DRIVER=supabase and fill SUPABASE_URL / *_KEY
+# Edit .env: fill SUPABASE_URL / *_KEY (DB_DRIVER defaults to supabase)
 
 # 1. Provision schema on your Supabase project:
 psql "$SUPABASE_DB_URL" -f packages/db/schema.sql -f packages/db/seed.sql
@@ -80,7 +78,7 @@ psql "$SUPABASE_DB_URL" -f packages/db/schema.sql -f packages/db/seed.sql
 # 2. Bring up the ancillary services (Typesense, n8n, Umami, web):
 docker compose -f docker/docker-compose.yml --env-file .env up -d
 
-# 3. Migrate any existing MongoDB data (optional):
+# 3. Migrate any existing MongoDB data (optional, requires legacy mongodb package):
 node packages/db/migrate.js
 ```
 

@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'standalone',
-  serverExternalPackages: ['mongodb', 'pg', '@supabase/supabase-js', 'nodemailer'],
+  serverExternalPackages: ['pg', '@supabase/supabase-js', 'nodemailer'],
   images: {
     unoptimized: true,
     remotePatterns: [

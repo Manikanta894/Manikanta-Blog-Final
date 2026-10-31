@@ -30,19 +30,19 @@ Return JSON:
 
   const fallback = {
     linkedin: {
-      caption: `${article.excerpt}\n\nThe full read is up on INSIGHTS.`,
+      caption: `${article.excerpt}\n\nThe full read is up on NEXT DRAFT.`,
       cta: 'Read the full essay →',
       hashtags: ['#Leadership', '#Strategy', '#AI', '#Business', '#DeepWork'],
     },
     instagram: {
-      caption: `${article.excerpt} — new on INSIGHTS.`,
-      hashtags: ['#Insights', '#Ideas', '#Business', '#AI', '#Career', '#DeepWork'],
+      caption: `${article.excerpt} — new on NEXT DRAFT.`,
+      hashtags: ['#NextDraft', '#Ideas', '#Business', '#AI', '#Career', '#DeepWork'],
       slides: [
         { title: article.title, body: 'The one idea worth sitting with this week.' },
         { title: 'The Setup', body: 'Every operator learns to distrust the headline.' },
         { title: 'The Argument', body: 'Three things are happening at once. Most people see one.' },
         { title: 'The Framework', body: 'Cut, reinvest, compound. Repeat quietly for years.' },
-        { title: 'Read the essay', body: "On INSIGHTS — link in bio." },
+        { title: 'Read the essay', body: "On NEXT DRAFT — link in bio." },
       ],
     },
     provider: 'mock',

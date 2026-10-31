@@ -10,7 +10,7 @@ const jsonLd = {
     {
       '@type': 'Organization',
       '@id': `${SITE_URL}/#organization`,
-      name: 'INSIGHTS',
+      name: 'NEXT DRAFT',
       url: SITE_URL,
       description: 'A premium digital publication on artificial intelligence, business, and the future of work.',
       logo: { '@type': 'ImageObject', url: `${SITE_URL}/icon.svg`, width: 512, height: 512 },
@@ -21,7 +21,7 @@ const jsonLd = {
       '@type': 'WebSite',
       '@id': `${SITE_URL}/#website`,
       url: SITE_URL,
-      name: 'INSIGHTS',
+      name: 'NEXT DRAFT',
       publisher: { '@id': `${SITE_URL}/#organization` },
       potentialAction: {
         '@type': 'SearchAction',
@@ -34,7 +34,7 @@ const jsonLd = {
 
 export const metadata = {
   metadataBase: new URL(SITE_URL),
-  title: { default: 'INSIGHTS — Ideas. Intelligence. Impact.', template: '%s — INSIGHTS' },
+  title: { default: 'NEXT DRAFT — Ideas. Intelligence. Impact.', template: '%s — NEXT DRAFT' },
   description:
     'A premium digital publication on artificial intelligence, business, analytics, career, technology, and leadership.',
   alternates: { canonical: '/' },
@@ -43,13 +43,13 @@ export const metadata = {
     apple: '/icon.svg',
   },
   openGraph: {
-    title: 'INSIGHTS',
+    title: 'NEXT DRAFT',
     description: 'Ideas. Intelligence. Impact.',
     type: 'website',
     url: SITE_URL,
-    siteName: 'INSIGHTS',
+    siteName: 'NEXT DRAFT',
   },
-  twitter: { card: 'summary_large_image', title: 'INSIGHTS', description: 'Ideas. Intelligence. Impact.' },
+  twitter: { card: 'summary_large_image', title: 'NEXT DRAFT', description: 'Ideas. Intelligence. Impact.' },
   robots: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1, 'max-video-preview': -1 } },
 };
 

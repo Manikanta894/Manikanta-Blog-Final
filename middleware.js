@@ -1,19 +1,29 @@
 import { NextResponse } from 'next/server';
 import { ADMIN_SESSION_COOKIE, isValidSession } from '@/lib/auth';
 
+function timingSafeEqual(a, b) {
+  const sa = String(a); const sb = String(b);
+  if (sa.length !== sb.length) return false;
+  let result = 0;
+  for (let i = 0; i < sa.length; i++) result |= sa.charCodeAt(i) ^ sb.charCodeAt(i);
+  return result === 0;
+}
+
 const SELF = "'self'";
 
 function isPublicApi(pathname, method) {
   if (pathname.startsWith('/api/articles')) {
     if (method === 'GET') return true;
-    if (method === 'POST' && pathname === '/api/articles') return true;
+    if (method === 'POST') return true;
     return false;
   }
   if (pathname === '/api/search' && method === 'GET') return true;
   if (pathname === '/api/inbox/webhook' && method === 'POST') return true;
-  if (pathname === '/api/admin/login' || pathname === '/api/admin/logout') return true;
+  if (pathname === '/api/admin/login' || pathname === '/api/admin/login/totp' || pathname === '/api/admin/recovery' || pathname === '/api/admin/totp/setup' || pathname === '/api/admin/totp/verify') return true;
+  if (pathname === '/api/admin/logout') return true;
   if (pathname === '/api/health') return true;
   if (pathname === '/api/og' && method === 'GET') return true;
+  if (pathname === '/api/media/file' && method === 'GET') return true;
   if (pathname === '/api/subscribers' && method === 'POST') return true;
   if (pathname === '/api/newsletter' && method === 'POST') return true;
   if (pathname === '/api/newsletter/send') return true;
@@ -61,10 +71,23 @@ export async function middleware(request) {
   // Gate the API surface
   if (pathname.startsWith('/api/')) {
     if (isPublicApi(pathname, method)) return addHSTS(addSecurityHeaders(NextResponse.next()));
-    if (!(await isValidSession(cookieValue))) {
-      return addSecurityHeaders(noStore(NextResponse.json({ error: 'unauthorized' }, { status: 401 })));
+    const validSession = await isValidSession(cookieValue);
+    if (validSession) return addHSTS(addSecurityHeaders(noStore(NextResponse.next())));
+    // Allow cron/automation callers presenting a valid bearer secret
+    const authHeader = request.headers.get('authorization') || '';
+    const bearer = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : '';
+    const secrets = [process.env.ARTICLES_API_SECRET, process.env.CRON_SECRET].filter(Boolean);
+    let bearerOk = false;
+    for (const s of secrets) {
+      if (timingSafeEqual(bearer, s)) { bearerOk = true; break; }
     }
-    return addHSTS(addSecurityHeaders(noStore(NextResponse.next())));
+    if (bearer && bearerOk) {
+      // Only automation + newsletter-send endpoints accept bearer (cron) access
+      if (pathname.startsWith('/api/automation/') || pathname === '/api/newsletter/send') {
+        return addHSTS(addSecurityHeaders(noStore(NextResponse.next())));
+      }
+    }
+    return addSecurityHeaders(noStore(NextResponse.json({ error: 'unauthorized' }, { status: 401 })));
   }
 
   // Security headers on all responses

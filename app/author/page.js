@@ -13,7 +13,7 @@ export const revalidate = 900;
 export const metadata = {
   title: 'Manikanta — Author',
   description: AUTHOR.mission,
-  openGraph: { title: 'Manikanta — INSIGHTS', description: AUTHOR.mission, type: 'profile' },
+  openGraph: { title: 'Manikanta — NEXT DRAFT', description: AUTHOR.mission, type: 'profile' },
 };
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://insights.manikantar.in';

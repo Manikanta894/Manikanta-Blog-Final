@@ -11,9 +11,9 @@ export default function PrivacyPage() {
           <h1 className="cool-hero text-[--brand-text] mt-2">Privacy Policy</h1>
         </div>
         <div className="article-body">
-          <p>INSIGHTS respects your privacy. This page explains, in plain language, what we collect and how it's used.</p>
+          <p>NEXT DRAFT respects your privacy. This page explains, in plain language, what we collect and how it's used.</p>
           <h2>What we collect</h2>
-          <p>If you subscribe to the newsletter, we store your email address solely to send you INSIGHTS updates. We don't sell or share your data with third parties.</p>
+          <p>If you subscribe to the newsletter, we store your email address solely to send you NEXT DRAFT updates. We don't sell or share your data with third parties.</p>
           <h2>Cookies & analytics</h2>
           <p>We may use basic, privacy-respecting analytics to understand which stories resonate — nothing that personally identifies you.</p>
           <h2>Your choices</h2>

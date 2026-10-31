@@ -112,7 +112,8 @@ const articles = {
   async countByStatus(status) {
     let q = sb().from('articles').select('id', { count: 'exact', head: true });
     if (status) q = q.eq('status', status);
-    const { count } = await q;
+    const { count, error } = await q;
+    if (error) throw error;
     return count || 0;
   },
 };
@@ -133,16 +134,27 @@ const journal = {
       entryDate: new Date(),
       ...input,
     });
-    // journal entry mapping: 'date' -> entry_date already handled by toRow
+    // journal entry mapping: 'date' -> entry_date; remove stray 'date' column
+    delete row.date;
     if (input.date) row.entry_date = new Date(input.date).toISOString();
+    if (input.entryDate) row.entry_date = new Date(input.entryDate).toISOString();
     const { data, error } = await sb().from('journal_entries').insert(row).select().single();
     if (error) throw error;
     return toObj(data);
   },
-  async update(id, patch) {
-    const { error } = await sb().from('journal_entries').update(toRow(patch)).eq('id', id);
+  async getById(id) {
+    const { data, error } = await sb().from('journal_entries').select('*').eq('id', id).maybeSingle();
     if (error) throw error;
-    return true;
+    return toObj(data);
+  },
+  async update(id, patch) {
+    const p = toRow(patch);
+    delete p.date;
+    if (patch.date) p.entry_date = new Date(patch.date).toISOString();
+    if (patch.entryDate) p.entry_date = new Date(patch.entryDate).toISOString();
+    const { data, error } = await sb().from('journal_entries').update(p).eq('id', id).select().single();
+    if (error) throw error;
+    return toObj(data);
   },
   async delete(id) {
     const { error } = await sb().from('journal_entries').delete().eq('id', id);
@@ -163,6 +175,21 @@ const media = {
     const { data, error } = await sb().from('media').insert(row).select().single();
     if (error) throw error;
     return toObj(data);
+  },
+  async getById(id) {
+    const { data, error } = await sb().from('media').select('*').eq('id', id).maybeSingle();
+    if (error) throw error;
+    return toObj(data);
+  },
+  async getByKey(key) {
+    const { data, error } = await sb().from('media').select('*').eq('key', key).maybeSingle();
+    if (error) throw error;
+    return toObj(data);
+  },
+  async delete(id) {
+    const { error } = await sb().from('media').delete().eq('id', id);
+    if (error) throw error;
+    return true;
   },
 };
 
@@ -188,10 +215,19 @@ const aiQueue = {
 
 // ============ SOCIAL QUEUE ============
 const socialQueue = {
-  async list(limit = 100) {
-    const { data, error } = await sb().from('social_queue').select('*').order('created_at', { ascending: false }).limit(limit);
+  async list(arg = 100) {
+    const opts = typeof arg === 'number' ? { limit: arg } : (arg || {});
+    const limit = opts.limit || 100;
+    let q = sb().from('social_queue').select('*').order('created_at', { ascending: false }).limit(limit);
+    if (opts.status) q = q.eq('status', opts.status);
+    const { data, error } = await q;
     if (error) throw error;
     return toObjs(data);
+  },
+  async getById(id) {
+    const { data, error } = await sb().from('social_queue').select('*').eq('id', id).maybeSingle();
+    if (error) throw error;
+    return toObj(data);
   },
   async create(input) {
     const row = toRow({ id: uuid(), status: 'pending', ...input });
@@ -200,7 +236,12 @@ const socialQueue = {
     return toObj(data);
   },
   async update(id, patch) {
-    const { error } = await sb().from('social_queue').update(toRow(patch)).eq('id', id);
+    const { data, error } = await sb().from('social_queue').update(toRow(patch)).eq('id', id).select().single();
+    if (error) throw error;
+    return toObj(data);
+  },
+  async delete(id) {
+    const { error } = await sb().from('social_queue').delete().eq('id', id);
     if (error) throw error;
     return true;
   },
@@ -240,7 +281,8 @@ const subscribers = {
     return true;
   },
   async count() {
-    const { count } = await sb().from('subscribers').select('id', { count: 'exact', head: true });
+    const { count, error } = await sb().from('subscribers').select('id', { count: 'exact', head: true });
+    if (error) throw error;
     return count || 0;
   },
 };
@@ -282,7 +324,7 @@ const settings = {
 
 const sessions = {
   async create(token, meta = {}) {
-    const row = toRow({ token, ...meta });
+    const row = { token, created_at: new Date().toISOString() };
     const { error } = await sb().from('sessions').insert(row);
     if (error) throw error;
     return true;
@@ -317,6 +359,136 @@ const stats = {
   },
 };
 
+// ============ CATEGORIES (supabase) ============
+const categories = {
+  async list() {
+    const { data, error } = await sb().from('categories').select('*').order('sort_order', { ascending: true }).order('name', { ascending: true });
+    if (error) throw error;
+    return toObjs(data);
+  },
+  async getById(id) {
+    const { data, error } = await sb().from('categories').select('*').eq('id', id).maybeSingle();
+    if (error) throw error;
+    return toObj(data);
+  },
+  async getBySlug(slug) {
+    const { data, error } = await sb().from('categories').select('*').eq('slug', slug).maybeSingle();
+    if (error) throw error;
+    return toObj(data);
+  },
+  async create(input) {
+    const row = toRow({ id: uuid(), sort_order: 0, ...input, created_at: new Date().toISOString() });
+    const { data, error } = await sb().from('categories').insert(row).select().single();
+    if (error) throw error;
+    return toObj(data);
+  },
+  async update(id, patch) {
+    const p = { ...toRow(patch), updated_at: new Date().toISOString() };
+    const { data, error } = await sb().from('categories').update(p).eq('id', id).select().single();
+    if (error) throw error;
+    return toObj(data);
+  },
+  async delete(id) {
+    const { error } = await sb().from('categories').delete().eq('id', id);
+    if (error) throw error;
+    return true;
+  },
+};
+
+// ============ TAGS (supabase) ============
+const tags = {
+  async list() {
+    const { data, error } = await sb().from('tags').select('*').order('name', { ascending: true });
+    if (error) throw error;
+    return toObjs(data);
+  },
+  async getById(id) {
+    const { data, error } = await sb().from('tags').select('*').eq('id', id).maybeSingle();
+    if (error) throw error;
+    return toObj(data);
+  },
+  async getBySlug(slug) {
+    const { data, error } = await sb().from('tags').select('*').eq('slug', slug).maybeSingle();
+    if (error) throw error;
+    return toObj(data);
+  },
+  async create(input) {
+    const row = toRow({ id: uuid(), ...input, created_at: new Date().toISOString() });
+    const { data, error } = await sb().from('tags').insert(row).select().single();
+    if (error) throw error;
+    return toObj(data);
+  },
+  async update(id, patch) {
+    const p = { ...toRow(patch), updated_at: new Date().toISOString() };
+    const { data, error } = await sb().from('tags').update(p).eq('id', id).select().single();
+    if (error) throw error;
+    return toObj(data);
+  },
+  async delete(id) {
+    const { error } = await sb().from('tags').delete().eq('id', id);
+    if (error) throw error;
+    return true;
+  },
+};
+// ============ INBOX (supabase) ============
+const inbox = {
+  async list() {
+    const { data, error } = await sb().from('inbox').select('*').order('created_at', { ascending: false });
+    if (error) throw error;
+    return toObjs(data);
+  },
+  async getById(id) {
+    const { data, error } = await sb().from('inbox').select('*').eq('id', id).maybeSingle();
+    if (error) throw error;
+    return toObj(data);
+  },
+  async create(input) {
+    const row = toRow({ id: uuid(), status: 'pending', ...input, createdAt: new Date().toISOString() });
+    const { data, error } = await sb().from('inbox').insert(row).select().single();
+    if (error) throw error;
+    return toObj(data);
+  },
+  async update(id, patch) {
+    const p = { ...toRow(patch), updated_at: new Date().toISOString() };
+    const { data, error } = await sb().from('inbox').update(p).eq('id', id).select().single();
+    if (error) throw error;
+    return toObj(data);
+  },
+  async delete(id) {
+    const { error } = await sb().from('inbox').delete().eq('id', id);
+    if (error) throw error;
+    return true;
+  },
+};
+
+
+
+// ============ ADMIN USERS (supabase) ============
+const adminUsers = {
+  async getByUsername(username) {
+    const { data, error } = await sb().from('admin_users').select('*').eq('username', username).maybeSingle();
+    if (error) throw error;
+    return toObj(data);
+  },
+  async create(input) {
+    const row = toRow({ id: uuid(), totpEnabled: false, totpSecretEncrypted: null, recoveryCodeHashes: [], ...input, created_at: new Date().toISOString() });
+    const { data, error } = await sb().from('admin_users').insert(row).select().single();
+    if (error) throw error;
+    return toObj(data);
+  },
+  async update(username, patch) {
+    const p = { ...toRow(patch), updated_at: new Date().toISOString() };
+    const { data, error } = await sb().from('admin_users').update(p).eq('username', username).select().single();
+    if (error) throw error;
+    return toObj(data);
+  },
+  async list() {
+    const { data, error } = await sb().from('admin_users').select('*');
+    if (error) throw error;
+    return toObjs(data);
+  },
+};
+
 export const db = {
   articles,
   journal,
@@ -329,6 +501,10 @@ export const db = {
   settings,
   sessions,
   stats,
+  categories,
+  tags,
+  inbox,
+  adminUsers,
 };
 
 export async function initDb() {

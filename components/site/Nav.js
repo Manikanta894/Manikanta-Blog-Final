@@ -36,15 +36,15 @@ export default function Nav() {
 
   return (
     <header className={`sticky top-0 z-40 transition-all duration-500 ${scrolled ? 'bg-[--brand-bg]/80 backdrop-blur-xl border-b border-[--brand-border]' : ''}`}>
-      <div className="max-w-[1200px] mx-auto px-5 flex items-center justify-between h-[52px] md:h-[56px]">
+      <div className="max-w-[1200px] mx-auto px-5 flex items-center justify-between h-[60px] md:h-[64px]">
         <div className="flex items-center gap-6">
           <button onClick={() => setOpen(true)} className="lg:hidden -ml-2 w-11 h-11 flex items-center justify-center text-[--brand-text-secondary]" aria-label="Open menu">
             <Menu size={20} />
           </button>
-          <Link href="/" className="flex items-center gap-3 group">
-            <img src="/logo-mark.svg" alt="INSIGHTS" className="h-7 w-auto" />
-            <span className="hidden sm:inline font-semibold text-[19px] tracking-tight text-[--brand-text]">
-              INSIGHTS
+          <Link href="/" className="flex items-center gap-2.5 group shrink-0">
+            <img src="/logo-mark.svg" alt="" className="h-7 w-auto" />
+            <span className="font-display text-[20px] md:text-[22px] leading-none tracking-tight text-[--brand-text] whitespace-nowrap">
+              NEXT DRAFT
             </span>
           </Link>
           <nav className="hidden lg:flex items-center gap-0.5">
@@ -122,8 +122,8 @@ export default function Nav() {
         <div className="fixed inset-0 z-50 bg-[--brand-bg] flex flex-col">
           <div className="flex items-center justify-between h-[56px] px-5 border-b border-[--brand-border]">
             <Link href="/" onClick={() => setOpen(false)} className="flex items-center gap-3">
-              <img src="/logo-mark.svg" alt="INSIGHTS" className="h-6 w-auto" />
-              <span className="font-semibold text-[17px] tracking-tight text-[--brand-text]">INSIGHTS</span>
+              <img src="/logo-mark.svg" alt="NEXT DRAFT" className="h-6 w-auto" />
+              <span className="font-semibold text-[17px] tracking-tight text-[--brand-text]">NEXT DRAFT</span>
             </Link>
             <button onClick={() => setOpen(false)} aria-label="Close" className="w-8 h-8 flex items-center justify-center rounded-md hover:bg-[--brand-accent-soft]"><X size={18} /></button>
           </div>

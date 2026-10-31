@@ -14,9 +14,9 @@ const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://insights.manikanta
 export async function generateMetadata({ params }) {
   const { section } = await params;
   const cfg = findSection(section);
-  if (!cfg) return { title: 'Not found — INSIGHTS' };
+  if (!cfg) return { title: 'Not found — NEXT DRAFT' };
   return {
-    title: `${cfg.name} — INSIGHTS`,
+    title: `${cfg.name} — NEXT DRAFT`,
     description: cfg.desc,
     alternates: { canonical: `${SITE_URL}/${cfg.slug}` },
   };

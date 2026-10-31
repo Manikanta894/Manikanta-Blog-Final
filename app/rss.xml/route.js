@@ -25,7 +25,7 @@ export async function GET() {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
   <channel>
-    <title>INSIGHTS</title>
+    <title>NEXT DRAFT</title>
     <link>${SITE_URL}</link>
     <description>Ideas. Intelligence. Impact. — A premium digital publication on AI, business, and the future of work.</description>
     <language>en</language>
@@ -33,7 +33,7 @@ export async function GET() {
     <atom:link href="${SITE_URL}/rss.xml" rel="self" type="application/rss+xml"/>
     <image>
       <url>${SITE_URL}/icon.svg</url>
-      <title>INSIGHTS</title>
+      <title>NEXT DRAFT</title>
       <link>${SITE_URL}</link>
     </image>
     ${items}

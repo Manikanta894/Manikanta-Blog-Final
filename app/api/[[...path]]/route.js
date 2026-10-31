@@ -1,4 +1,4 @@
-// INSIGHTS API — thin route handlers.
+// NEXT DRAFT API — thin route handlers.
 // All business logic lives in /packages/{db,ai,social,automation}.
 
 import { NextResponse } from 'next/server';
@@ -14,6 +14,19 @@ import { rateLimit } from '@/lib/rate-limit';
 const j = (data, init = {}) => NextResponse.json(data, init);
 const err = (msg, code = 400) => j({ error: msg }, { status: code });
 const getIp = (request) => request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown';
+
+// Admin gate for category/tag writes: valid admin session, or x-api-secret when
+// ARTICLES_API_SECRET is set (same model as the articles endpoint).
+async function isAdmin(request) {
+  const cookieValue = request.cookies.get(ADMIN_SESSION_COOKIE)?.value;
+  if (await isValidSession(cookieValue)) return true;
+  const requiredSecret = process.env.ARTICLES_API_SECRET;
+  if (requiredSecret) {
+    const provided = request.headers.get('x-api-secret');
+    if (timingSafeEqual(provided || '', requiredSecret)) return true;
+  }
+  return false;
+}
 
 function timingSafeEqual(a, b) {
   const sa = String(a); const sb = String(b);
@@ -31,7 +44,7 @@ async function handler(request, ctx) {
   const [p0, p1, p2] = parts;
 
   try {
-    if (parts.length === 0) return j({ ok: true, name: 'INSIGHTS API', driver: driverName, version: '2.1' });
+    if (parts.length === 0) return j({ ok: true, name: 'NEXT DRAFT API', driver: driverName, version: '2.1' });
 
     // ===== ARTICLES =====
     if (p0 === 'articles') {
@@ -51,10 +64,9 @@ async function handler(request, ctx) {
         const hasAdminSession = await isValidSession(cookieValue);
         if (!hasAdminSession) {
           const requiredSecret = process.env.ARTICLES_API_SECRET;
-          if (requiredSecret) {
-            const provided = request.headers.get('x-api-secret');
-            if (provided !== requiredSecret) return err('unauthorized', 401);
-          }
+          if (!requiredSecret) return err('unauthorized', 401);
+          const provided = request.headers.get('x-api-secret');
+          if (!timingSafeEqual(provided || '', requiredSecret)) return err('unauthorized', 401);
         }
         const body = await request.json();
         const article = await db.articles.create({ ...body, slug: body.slug || slugify(body.title || 'untitled') + '-' + Math.random().toString(36).slice(2, 6) });
@@ -71,10 +83,9 @@ async function handler(request, ctx) {
       // signals.
       if (p1 === 'section' && p2 && method === 'POST') {
         const requiredSecret = process.env.ARTICLES_API_SECRET;
-        if (requiredSecret) {
-          const provided = request.headers.get('x-api-secret');
-          if (provided !== requiredSecret) return err('unauthorized', 401);
-        }
+        if (!requiredSecret) return err('unauthorized', 401);
+        const provided = request.headers.get('x-api-secret');
+        if (!timingSafeEqual(provided || '', requiredSecret)) return err('unauthorized', 401);
         const validSlugs = SECTIONS.map((s) => s.slug);
         if (!validSlugs.includes(p2)) {
           return err(`invalid section "${p2}". Valid sections: ${validSlugs.join(', ')}`, 400);
@@ -93,6 +104,7 @@ async function handler(request, ctx) {
       if (p1 === 'slug' && p2 && method === 'GET') return j({ article: await db.articles.getBySlug(p2) });
       if (p1 && method === 'GET') return j({ article: await db.articles.getById(p1) });
       if (p1 && (method === 'PATCH' || method === 'PUT')) {
+        if (!(await isAdmin(request))) return err('unauthorized', 401);
         const article = await db.articles.update(p1, await request.json());
         revalidatePath('/');
         revalidatePath('/latest');
@@ -101,6 +113,7 @@ async function handler(request, ctx) {
         return j({ article });
       }
       if (p1 && method === 'DELETE') {
+        if (!(await isAdmin(request))) return err('unauthorized', 401);
         const article = await db.articles.getById(p1);
         await db.articles.delete(p1);
         revalidatePath('/', 'layout');
@@ -113,6 +126,7 @@ async function handler(request, ctx) {
 
     // ===== AI =====
     if (p0 === 'ai' && p1 === 'generate' && method === 'POST') {
+      if (!(await isAdmin(request))) return err('unauthorized', 401);
       const rl = rateLimit(getIp(request), 3);
       if (!rl.ok) return j({ error: 'Too many requests' }, { status: 429, headers: { 'Retry-After': String(rl.retryAfter) } });
       const body = await request.json();
@@ -128,10 +142,11 @@ async function handler(request, ctx) {
         return err(e.message, 500);
       }
     }
-    if (p0 === 'ai-queue' && method === 'GET') return j({ items: await db.aiQueue.list() });
+    if (p0 === 'ai-queue' && method === 'GET') { if (!(await isAdmin(request))) return err('unauthorized', 401); return j({ items: await db.aiQueue.list() }); }
 
     // ===== JOURNAL =====
     if (p0 === 'journal') {
+      if (!(await isAdmin(request))) return err('unauthorized', 401);
       if (method === 'GET' && !p1) return j({ entries: await db.journal.list() });
       if (method === 'POST' && !p1) return j({ entry: await db.journal.create(await request.json()) });
       if (p1 && method === 'DELETE') { await db.journal.delete(p1); return j({ ok: true }); }
@@ -140,15 +155,35 @@ async function handler(request, ctx) {
 
     // ===== MEDIA =====
     if (p0 === 'media') {
+      if (!(await isAdmin(request))) return err('unauthorized', 401);
       if (method === 'GET') return j({ media: await db.media.list() });
       if (method === 'POST') {
         const { prompt } = await request.json();
         return j({ media: await db.media.create({ url: pollinationsUrl(prompt, 1200, 1200), prompt, provider: 'pollinations' }) });
       }
+      if (p1 && method === 'DELETE') {
+        try {
+          const item = await db.media.getById?.(p1);
+          const key = item?.key || item?.objectKey || null;
+          if (key) {
+            try {
+              const { isR2Configured, sanitizeKey, deleteObject } = await import('@/packages/storage/r2.js');
+              if (isR2Configured()) await deleteObject(sanitizeKey(key));
+            } catch (e) {
+              console.warn('[media] storage delete failed:', e?.message);
+            }
+          }
+        } catch {
+          // ignore lookup errors
+        }
+        await db.media.delete(p1);
+        return j({ ok: true });
+      }
     }
 
     // ===== SETTINGS =====
     if (p0 === 'settings') {
+      if (!(await isAdmin(request))) return err('unauthorized', 401);
       if (method === 'GET') return j({ settings: await db.settings.get() });
       if (method === 'PATCH') return j({ settings: await db.settings.patch(await request.json()) });
     }
@@ -163,11 +198,12 @@ async function handler(request, ctx) {
         await db.subscribers.subscribe(email);
         return j({ ok: true });
       }
-      if (method === 'GET') return j({ subscribers: await db.subscribers.list() });
+      if (method === 'GET') { if (!(await isAdmin(request))) return err('unauthorized', 401); return j({ subscribers: await db.subscribers.list() }); }
     }
 
     // ===== RSS SOURCES =====
     if (p0 === 'rss-sources') {
+      if (!(await isAdmin(request))) return err('unauthorized', 401);
       if (method === 'GET') return j({ sources: await db.rssSources.list() });
       if (method === 'POST') return j({ source: await db.rssSources.create(await request.json()) });
       if (p1 && method === 'DELETE') { await db.rssSources.delete(p1); return j({ ok: true }); }
@@ -175,6 +211,7 @@ async function handler(request, ctx) {
 
     // ===== SOCIAL QUEUE =====
     if (p0 === 'social-queue') {
+      if (!(await isAdmin(request))) return err('unauthorized', 401);
       if (method === 'GET' && !p1) return j({
         items: await db.socialQueue.list({
           status: url.searchParams.get('status') || null,
@@ -219,16 +256,19 @@ async function handler(request, ctx) {
     }
 
     // ===== LOGS =====
-    if (p0 === 'logs' && method === 'GET') return j({ logs: await db.logs.list() });
+    if (p0 === 'logs' && method === 'GET') { if (!(await isAdmin(request))) return err('unauthorized', 401); return j({ logs: await db.logs.list() }); }
 
     // ===== STATS =====
-    if (p0 === 'stats' && method === 'GET') return j(await db.stats.overview());
+    if (p0 === 'stats' && method === 'GET') { if (!(await isAdmin(request))) return err('unauthorized', 401); return j(await db.stats.overview()); }
 
     // ===== SEARCH =====
     if (p0 === 'search' && method === 'GET') return j({ results: await db.articles.search(url.searchParams.get('q') || '') });
 
     // ===== CONTENT INBOX =====
     if (p0 === 'inbox') {
+      if (!(p1 === 'webhook' && method === 'POST')) {
+        if (!(await isAdmin(request))) return err('unauthorized', 401);
+      }
       if (method === 'GET' && !p1) return j({ items: await db.inbox.list() });
       if (method === 'POST' && !p1) return j({ item: await db.inbox.create(await request.json()) });
       if (p1 && method === 'DELETE') { await db.inbox.delete(p1); return j({ ok: true }); }
@@ -265,6 +305,16 @@ async function handler(request, ctx) {
 
     // ===== AUTOMATION HOOKS =====
     if (p0 === 'automation' && method === 'POST') {
+      const cookieValue = request.cookies.get(ADMIN_SESSION_COOKIE)?.value;
+      const hasSession = await isValidSession(cookieValue);
+      if (!hasSession) {
+        const authHeader = request.headers.get('authorization') || '';
+        const bearer = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : '';
+        const secrets = [process.env.ARTICLES_API_SECRET, process.env.CRON_SECRET].filter(Boolean);
+        let bearerOk = false;
+        for (const s of secrets) { if (timingSafeEqual(bearer, s)) { bearerOk = true; break; } }
+        if (!bearer || !bearerOk) return err('unauthorized', 401);
+      }
       if (p1 === 'rss-ingest')      return j({ ok: true, results: await ingestRss() });
       if (p1 === 'scheduler-run')   return j({ ok: true, published: await runScheduler() });
       if (p1 === 'social-dispatch') return j({ ok: true, results: await dispatchQueue() });
@@ -272,8 +322,59 @@ async function handler(request, ctx) {
     }
 
     // ===== SESSIONS =====
-    if (p0 === 'sessions' && method === 'GET') return j({ sessions: await db.sessions.list() });
-    if (p0 === 'sessions' && method === 'DELETE') { await db.sessions.deleteAll(); return j({ ok: true }); }
+    if (p0 === 'sessions' && method === 'GET') { if (!(await isAdmin(request))) return err('unauthorized', 401); return j({ sessions: await db.sessions.list() }); }
+    if (p0 === 'sessions' && method === 'DELETE') { if (!(await isAdmin(request))) return err('unauthorized', 401); await db.sessions.deleteAll(); return j({ ok: true }); }
+
+    // ===== CATEGORIES ====
+    if (p0 === 'categories' && method === 'GET' && !p1) return j({ categories: await db.categories.list() });
+    if (p0 === 'categories' && method === 'POST' && !p1) {
+      if (!(await isAdmin(request))) return err('unauthorized', 401);
+      const body = await request.json();
+      const cat = await db.categories.create({ ...body, slug: body.slug || slugify(body.name || 'category') });
+      revalidatePath('/', 'layout');
+      revalidatePath('/explore', 'layout');
+      return j({ category: cat });
+    }
+    if (p0 === 'categories' && p1 && method === 'PATCH') {
+      if (!(await isAdmin(request))) return err('unauthorized', 401);
+      const body = await request.json();
+      const cat = await db.categories.update(p1, body);
+      if (!cat) return err('category not found', 404);
+      revalidatePath('/', 'layout');
+      revalidatePath('/explore', 'layout');
+      return j({ category: cat });
+    }
+    if (p0 === 'categories' && p1 && method === 'DELETE') {
+      if (!(await isAdmin(request))) return err('unauthorized', 401);
+      await db.categories.delete(p1);
+      revalidatePath('/', 'layout');
+      revalidatePath('/explore', 'layout');
+      return j({ ok: true });
+    }
+
+    // ===== TAGS ====
+    if (p0 === 'tags' && method === 'GET' && !p1) return j({ tags: await db.tags.list() });
+    if (p0 === 'tags' && method === 'POST' && !p1) {
+      if (!(await isAdmin(request))) return err('unauthorized', 401);
+      const body = await request.json();
+      const tag = await db.tags.create({ ...body, slug: body.slug || slugify(body.name || 'tag') });
+      revalidatePath('/', 'layout');
+      return j({ tag });
+    }
+    if (p0 === 'tags' && p1 && method === 'PATCH') {
+      if (!(await isAdmin(request))) return err('unauthorized', 401);
+      const body = await request.json();
+      const tag = await db.tags.update(p1, body);
+      if (!tag) return err('tag not found', 404);
+      revalidatePath('/', 'layout');
+      return j({ tag });
+    }
+    if (p0 === 'tags' && p1 && method === 'DELETE') {
+      if (!(await isAdmin(request))) return err('unauthorized', 401);
+      await db.tags.delete(p1);
+      revalidatePath('/', 'layout');
+      return j({ ok: true });
+    }
 
     return err('not found', 404);
   } catch (e) {

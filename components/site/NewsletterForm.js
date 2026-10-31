@@ -20,7 +20,7 @@ export default function NewsletterForm({ variant = 'default' }) {
       });
       if (r.ok) {
         setStatus('success');
-        setMessage('You\'re in. Welcome to INSIGHTS.');
+        setMessage('You\'re in. Welcome to NEXT DRAFT.');
         setEmail('');
       } else {
         const d = await r.json();

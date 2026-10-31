@@ -1,14 +1,18 @@
 // Unified repository interface. Adapter selected via DB_DRIVER env var.
-//   mongo    — MongoDB (default, local development)
-//   supabase — Supabase / Postgres (production)
+//   supabase — Supabase / Postgres (production, default)
 //   demo     — Demo/mock data (no database needed)
+//
+// MongoDB support has been removed; Supabase is the sole database backend.
 
-import * as mongoAdapter from './adapters/mongo.js';
 import * as supabaseAdapter from './adapters/supabase.js';
 import * as demoAdapter from './adapters/demo.js';
 
-const driver = (process.env.DB_DRIVER || 'mongo').toLowerCase();
-const impl = driver === 'supabase' ? supabaseAdapter : driver === 'demo' ? demoAdapter : mongoAdapter;
+const driver = (process.env.DB_DRIVER || 'supabase').toLowerCase();
+const impl = driver === 'demo' ? demoAdapter : supabaseAdapter;
+
+if (driver !== 'supabase' && driver !== 'demo') {
+  throw new Error(`Unknown or removed DB_DRIVER: ${driver}. Use "supabase" or "demo".`);
+}
 
 export const db = impl.db;
 export const initDb = impl.initDb;

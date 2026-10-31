@@ -51,8 +51,8 @@ export default function SearchPage() {
           <div className="max-w-5xl mx-auto">
             {q && results.length === 0 && (
               <div className="text-center py-16">
-                <div className="text-5xl mb-4 opacity-20">&#128269;</div>
-                <p className="text-lg text-[--brand-text-secondary]">No matches for &ldquo;{q}&rdquo;</p>
+                <h3 className="font-display italic text-2xl text-[--brand-text]">No matches for &ldquo;{q}&rdquo;</h3>
+                <p className="mt-2 text-sm text-[--brand-text-secondary]">Try a different keyword or browse all articles.</p>
               </div>
             )}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-12">

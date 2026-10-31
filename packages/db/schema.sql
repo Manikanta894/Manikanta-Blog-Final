@@ -333,3 +333,20 @@ drop policy if exists sq_admin on public.social_queue;
 create policy sq_admin on public.social_queue for all
   using (coalesce((auth.jwt() ->> 'role'), '') in ('admin','editor'))
   with check (coalesce((auth.jwt() ->> 'role'), '') in ('admin','editor'));
+
+
+-- Content inbox (webhook / manual)
+create table if not exists public.inbox (
+  id uuid primary key default gen_random_uuid(),
+  type text,
+  content text,
+  url text,
+  section text,
+  notes text,
+  source text,
+  status text default 'pending',
+  article_id uuid,
+  error text,
+  created_at timestamptz default now(),
+  updated_at timestamptz default now()
+);

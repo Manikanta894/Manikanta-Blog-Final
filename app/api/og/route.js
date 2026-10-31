@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 
 export async function GET(request) {
   const url = new URL(request.url);
-  const title = url.searchParams.get('title') || 'INSIGHTS';
+  const title = url.searchParams.get('title') || 'NEXT DRAFT';
   const section = url.searchParams.get('section') || '';
 
   const fontBase = 'https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@1&family=JetBrains+Mono&display=swap';
@@ -77,7 +77,7 @@ export async function GET(request) {
   ${section ? `<div class="section">${section}</div>` : ''}
   <div class="accent-line"></div>
   <div class="title">${title}</div>
-  <div class="footer">INSIGHTS</div>
+  <div class="footer">NEXT DRAFT</div>
 </body>
 </html>`;
 

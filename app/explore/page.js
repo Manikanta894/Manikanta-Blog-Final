@@ -13,22 +13,25 @@ export const revalidate = 900;
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://insights.manikantar.in';
 
 export const metadata = {
-  title: 'Explore — INSIGHTS',
-  description: 'Discover articles, categories, and trending topics at INSIGHTS.',
+  title: 'Explore — NEXT DRAFT',
+  description: 'Discover articles, categories, and trending topics at NEXT DRAFT.',
 };
-
-const CATEGORIES = [
-  { slug: 'ai', title: 'Artificial Intelligence', desc: 'Frontier models, agents, and the race to AGI', icon: 'AI' },
-  { slug: 'business', title: 'Business & Strategy', desc: 'Markets, moats, and modern operators', icon: 'BS' },
-  { slug: 'career', title: 'Career & Growth', desc: 'Navigating the future of work', icon: 'CG' },
-  { slug: 'productivity', title: 'Productivity', desc: 'Deep work, systems, and rituals', icon: 'PR' },
-  { slug: 'essays', title: 'Essays', desc: 'Slow ideas, written to last', icon: 'ES' },
-  { slug: 'tech', title: 'Technology', desc: 'Code, architecture, and engineering', icon: 'TC' },
-];
 
 export default async function ExplorePage() {
   let articles = [];
   try { articles = await db.articles.list({ status: 'published', limit: 50 }); } catch { articles = []; }
+
+  // DB-driven categories (falls back gracefully in demo/offline mode).
+  let categories = [];
+  try {
+    const raw = await db.categories.list();
+    categories = raw.map((c) => ({
+      slug: c.slug,
+      title: c.name,
+      desc: c.description || c.kicker || '',
+      icon: (c.name.match(/\b\w/g) || []).map((w) => w[0]).join('').toUpperCase().slice(0, 2) || '??',
+    }));
+  } catch { categories = []; }
 
   const catCounts = {};
   const catFeatured = {};
@@ -65,11 +68,11 @@ export default async function ExplorePage() {
         <Reveal>
           <section className="max-w-[1280px] mx-auto px-5 py-12">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {CATEGORIES.map((cat) => {
+              {categories.map((cat) => {
                 const count = catCounts[cat.slug] || 0;
                 const featured = catFeatured[cat.slug];
                 return (
-                  <Link key={cat.slug} href={`/${cat.slug}`}
+                  <Link key={cat.slug} href={`/category/${cat.slug}`}
                     className="group relative overflow-hidden rounded-2xl border border-[--brand-border] p-6 hover:border-[--brand-text]/15 hover:bg-[--brand-accent-soft]/20 transition-all duration-300"
                   >
                     <div className="absolute top-4 right-4 w-10 h-10 rounded-xl bg-[--brand-accent-soft]/60 flex items-center justify-center text-xs font-bold text-[--brand-text-secondary] group-hover:bg-[--brand-accent-soft] transition-colors">

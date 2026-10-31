@@ -21,7 +21,7 @@ import { findSection } from '@/lib/sections';
 export const revalidate = 3600;
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://insights.manikantar.in';
-const SITE_NAME = 'INSIGHTS';
+const SITE_NAME = 'NEXT DRAFT';
 
 async function getArticle(slug) {
   try { return await db.articles.getBySlug(slug); } catch { return null; }
@@ -30,7 +30,7 @@ async function getArticle(slug) {
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   const article = await getArticle(slug);
-  if (!article) return { title: 'Not found — INSIGHTS' };
+  if (!article) return { title: 'Not found — NEXT DRAFT' };
 
   const title = article.seo?.title || `${article.title} — ${SITE_NAME}`;
   const description = article.seo?.description || article.excerpt || mdToText(article.content, 160);
@@ -189,7 +189,7 @@ export default async function ArticlePage({ params }) {
                   <div>
                     <div className="text-base font-bold text-[--brand-text]">Written by Manikanta</div>
                     <p className="mt-1 text-sm text-[--brand-text-secondary] leading-relaxed">
-                      Writer, builder, and creator of INSIGHTS. Writing about AI, business, and the craft of building things that matter.
+                      Writer, builder, and creator of NEXT DRAFT. Writing about AI, business, and the craft of building things that matter.
                     </p>
                     <Link href="/author" className="mt-3 inline-flex items-center gap-1 text-sm font-medium text-[--brand-text] hover:opacity-70 transition-opacity">
                       View all articles &rarr;

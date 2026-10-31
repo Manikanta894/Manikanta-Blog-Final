@@ -55,3 +55,57 @@ SUPABASE_MEDIA_BUCKET=media
   library; click **Copy URL** on any image to paste it manually anywhere.
 
 Max upload size is 8MB per image (configurable in `app/api/upload/route.js`).
+
+## Cloudflare R2 (recommended persistent storage)
+
+The app now prefers Cloudflare R2 for media storage. R2 is S3-compatible and
+works with the same server-side upload flow. The bucket should stay **private**;
+images and PDFs are delivered through the app proxy at `/api/media/file?key=...`.
+
+### Required environment variables
+
+Set these in `.env.local` (server-side only; never expose them to the browser):
+
+```env
+R2_ACCOUNT_ID=your-cloudflare-account-id
+R2_ACCESS_KEY_ID=your-r2-access-key-id
+R2_SECRET_ACCESS_KEY=your-r2-secret-access-key
+R2_BUCKET=your-bucket-name
+```
+
+Optional:
+
+```env
+R2_ENDPOINT=https://<account-id>.r2.cloudflarestorage.com
+R2_REGION=auto
+R2_PUBLIC_BASE_URL=https://your-public-r2-domain
+```
+
+If `R2_ENDPOINT` is omitted, it is derived from `R2_ACCOUNT_ID`.
+`R2_PUBLIC_BASE_URL` is optional and only needed if you later switch to direct
+public R2 URLs. The default safe delivery mode is the app proxy.
+
+### Bucket setup
+
+1. Create an R2 bucket in the Cloudflare dashboard.
+2. Keep it private (do not enable public access).
+3. Create an R2 API token with read/write access to that bucket.
+4. Add the variables above to `.env.local`.
+5. Restart the app.
+
+### Behavior
+
+- Images: max 8MB.
+- PDFs: max 25MB.
+- Allowed MIME types are enforced by the upload route.
+- Object keys are UUID-based with date prefixes.
+- Metadata is stored in the configured database (Mongo/Supabase/demo).
+- No base64 or in-memory fallback is used when R2 is configured.
+- Admin Media Library supports upload and delete for images and PDFs.
+
+### Public image display
+
+Images are displayed through `/api/media/file?key=...`, so no public bucket is
+required. If you want direct public R2 URLs instead, configure a custom domain
+and set `R2_PUBLIC_BASE_URL`; the upload route would then need to be adjusted to
+return direct public URLs.

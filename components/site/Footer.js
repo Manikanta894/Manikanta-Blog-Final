@@ -89,8 +89,8 @@ export default function Footer() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 pb-16 border-b border-white/[0.06]">
             <div className="max-w-md">
               <div className="flex items-center gap-3 mb-4">
-                <img src="/logo-mark.svg" alt="INSIGHTS" className="h-8 w-auto brightness-0 invert" />
-                <span className="text-[22px] font-semibold tracking-tight">INSIGHTS</span>
+                <img src="/logo-mark.svg" alt="NEXT DRAFT" className="h-8 w-auto brightness-0 invert" />
+                <span className="text-[22px] font-semibold tracking-tight">NEXT DRAFT</span>
               </div>
               <p className="text-[15px] text-white/50 leading-relaxed">
                 A premium digital publication exploring artificial intelligence, business strategy, and the future of work. We publish deep dives, frameworks, and essays that help you think better and build smarter.
@@ -104,7 +104,7 @@ export default function Footer() {
 
             <div className="relative lg:pl-8">
               <span className="text-[11px] font-semibold text-white/30 uppercase tracking-[0.15em] mb-4 block">Newsletter</span>
-              <p className="text-sm text-white/50 mb-4">Get the best of INSIGHTS delivered to your inbox every weekday morning.</p>
+              <p className="text-sm text-white/50 mb-4">Get the best of NEXT DRAFT delivered to your inbox every weekday morning.</p>
               <NewsletterForm variant="inline" />
             </div>
           </div>
@@ -164,16 +164,28 @@ export default function Footer() {
 
           {/* ═══ STATS BAR ═══ */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 py-8 md:py-12 border-b border-white/[0.06]">
-            <StatCounter value={12} label="Articles Published" />
-            <StatCounter value={5} label="Sections" />
-            <StatCounter value={5000} label="Monthly Readers" />
-            <StatCounter value={6} label="Years Writing" />
+            <div className="text-center">
+      <div className="font-display italic text-2xl md:text-3xl text-white">Weekly</div>
+      <div className="mt-1 text-[11px] text-white/40 uppercase tracking-wider">Publication Cadence</div>
+    </div>
+            <div className="text-center">
+      <div className="font-display italic text-2xl md:text-3xl text-white">6</div>
+      <div className="mt-1 text-[11px] text-white/40 uppercase tracking-wider">Sections</div>
+    </div>
+            <div className="text-center">
+      <div className="font-display italic text-2xl md:text-3xl text-white">India</div>
+      <div className="mt-1 text-[11px] text-white/40 uppercase tracking-wider">Crafted In</div>
+    </div>
+            <div className="text-center">
+      <div className="font-display italic text-2xl md:text-3xl text-white">∞</div>
+      <div className="mt-1 text-[11px] text-white/40 uppercase tracking-wider">Ideas</div>
+    </div>
           </div>
 
           {/* ═══ BOTTOM ═══ */}
           <div className="flex flex-col md:flex-row justify-between items-center gap-4 pt-8 text-xs text-white/30">
             <div className="flex items-center gap-2">
-              <span>&copy; {year} INSIGHTS. All rights reserved.</span>
+              <span>&copy; {year} NEXT DRAFT. All rights reserved.</span>
             </div>
             <div className="flex items-center gap-4">
               <Link href="/privacy" className="hover:text-white/50 transition-colors">Privacy</Link>

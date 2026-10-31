@@ -46,7 +46,7 @@ async function callOpenRouter(key, model, messages) {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${key}`,
       'HTTP-Referer': 'https://insights.app',
-      'X-Title': 'INSIGHTS',
+      'X-Title': 'NEXT DRAFT',
     },
     body: JSON.stringify({ model, messages, temperature: 0.8, max_tokens: 6500 }),
   });
@@ -114,8 +114,8 @@ function mockArticle(section) {
   ].join('\n');
   return {
     title, excerpt, content: body,
-    seo: { title: `${title} — INSIGHTS`, description: excerpt, keywords: [section, 'analysis', 'ideas'] },
-    hashtags: [`#${section.replace('-', '')}`, '#Insights', '#DeepWork', '#Ideas', '#Business'],
+    seo: { title: `${title} — NEXT DRAFT`, description: excerpt, keywords: [section, 'analysis', 'ideas'] },
+    hashtags: [`#${section.replace('-', '')}`, '#NextDraft', '#DeepWork', '#Ideas', '#Business'],
   };
 }
 
@@ -131,9 +131,9 @@ function hydrateInlineImages(markdown, section) {
 }
 
 export async function generateArticle(section, angle = '') {
-  const system = `You are the senior editor of "INSIGHTS", a premium digital publication with the editorial voice of The Economist crossed with Every.to and Stratechery. Voice: considered, sharp, concrete, first-principles, opinionated but evidence-led. Never generic, never filler, never a string of platitudes — every paragraph must contain a specific claim, example, number, or mechanism, not just mood. Vary sentence length deliberately: short declarative sentences punctuating longer structural ones. No clichés ("in today's fast-paced world", "unlock your potential", "in conclusion"). Write like a specific, well-read human editor with a point of view, not like a generic AI summary of a topic.`;
+  const system = `You are the senior editor of "NEXT DRAFT", a premium digital publication with the editorial voice of The Economist crossed with Every.to and Stratechery. Voice: considered, sharp, concrete, first-principles, opinionated but evidence-led. Never generic, never filler, never a string of platitudes — every paragraph must contain a specific claim, example, number, or mechanism, not just mood. Vary sentence length deliberately: short declarative sentences punctuating longer structural ones. No clichés ("in today's fast-paced world", "unlock your potential", "in conclusion"). Write like a specific, well-read human editor with a point of view, not like a generic AI summary of a topic.`;
 
-  const user = `Write a comprehensive, magazine-quality, SEO-optimized long-form article for the "${section}" section of INSIGHTS.${angle ? ` Angle: ${angle}.` : ''}
+  const user = `Write a comprehensive, magazine-quality, SEO-optimized long-form article for the "${section}" section of NEXT DRAFT.${angle ? ` Angle: ${angle}.` : ''}
 
 STRUCTURE REQUIREMENTS (this is a long-form piece, not a blog snippet):
 - Total length: 1,600-2,200 words of actual body content (not counting headings). Short thin articles are the one thing you must avoid.

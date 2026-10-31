@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { db } from '@/packages/db';
+import { ADMIN_SESSION_COOKIE, isValidSession } from '@/lib/auth';
 
 const HASHNODE_API = 'https://gql.hashnode.com';
 
@@ -18,6 +19,8 @@ const PUBLISH_MUTATION = `
 
 export async function POST(request) {
   try {
+    const cookieValue = request.cookies.get(ADMIN_SESSION_COOKIE)?.value;
+    if (!(await isValidSession(cookieValue))) return NextResponse.json({ error: 'unauthorized' }, { status: 401 });
     const { title, content, excerpt, coverImage, hashtags } = await request.json();
     if (!title || !content) {
       return NextResponse.json({ error: 'Title and content are required' }, { status: 400 });

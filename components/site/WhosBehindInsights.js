@@ -14,7 +14,7 @@ export default function WhosBehindInsights() {
           <Sparkles size={14} /> About
         </div>
         <h1 className="cool-hero text-[--brand-text] mb-4">
-          About <span className="font-display italic text-gradient">INSIGHTS</span>
+          About <span className="font-display italic text-gradient">NEXT DRAFT</span>
         </h1>
         <p className="text-lg md:text-xl text-[--brand-text-secondary] leading-relaxed max-w-xl">
           Ideas. Intelligence. Impact. A digital publication on AI, business, and the future of work.
@@ -26,7 +26,7 @@ export default function WhosBehindInsights() {
         <div>
           <h2 className="text-2xl font-bold text-[--brand-text]">Manikanta</h2>
           <p className="mt-2 text-[--brand-text-secondary] leading-relaxed max-w-lg">
-            Writer, builder, and the mind behind INSIGHTS. I write about AI, business, strategy, career, and the future of work — always with a focus on substance over noise.
+            Writer, builder, and the mind behind NEXT DRAFT. I write about AI, business, strategy, career, and the future of work — always with a focus on substance over noise.
           </p>
           <div className="flex flex-wrap items-center gap-3 mt-4">
             <span className="flex items-center gap-1.5 text-sm text-[--brand-text-secondary]">
@@ -49,7 +49,7 @@ export default function WhosBehindInsights() {
         <div className="p-6 rounded-2xl bg-gradient-to-br from-[--brand-accent-soft] to-transparent border border-[--brand-accent]/10">
           <Quote size={24} className="text-[--brand-accent] mb-4" />
           <h3 className="text-lg font-bold text-[--brand-text] mb-2">Why this publication exists</h3>
-          <p className="text-sm text-[--brand-text-secondary] leading-relaxed">The web is full of noise. INSIGHTS exists to cut through it — delivering signal, not fluff. Every piece is crafted with the reader&#39;s time and intelligence in mind.</p>
+          <p className="text-sm text-[--brand-text-secondary] leading-relaxed">The web is full of noise. NEXT DRAFT exists to cut through it — delivering signal, not fluff. Every piece is crafted with the reader&#39;s time and intelligence in mind.</p>
         </div>
         <div className="p-6 rounded-2xl border border-[--brand-border] bg-[--brand-card]">
           <h3 className="text-lg font-bold text-[--brand-text] mb-3">What to expect</h3>

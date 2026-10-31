@@ -3,3 +3,12 @@ node_modules
 .env
 .env.local
 .vercel
+
+# Logs and temporary files
+*.log
+*.tmp
+$null
+_*.ps1
+run-dev.bat
+procs.mjs
+smoke.log
