@@ -54,6 +54,11 @@ local Docker, Vercel, Railway, Render, or your own VPS. Zero lock-in.
 └─ .env.example
 ```
 
+## Documentation
+
+- [Admin User Manual](docs/USER_GUIDE.md) — comprehensive beginner guide for logging in, securing your account, writing, AI generation, media, newsletter, settings, and troubleshooting.
+- [Admin Quick Start](docs/ADMIN_QUICK_START.md) — short daily reference.
+
 ## Quick start (5 minutes, no external services)
 
 ```bash
