@@ -1,5 +1,6 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import QRCode from 'qrcode';
 import { useRouter } from 'next/navigation';
 import { Loader2, Lock, ShieldCheck } from 'lucide-react';
 
@@ -16,6 +17,11 @@ export default function AdminLogin() {
   const [recoveryCode, setRecoveryCode] = useState('');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
+  const [qrDataUrl, setQrDataUrl] = useState('');
+  useEffect(() => {
+    if (!otpauthUri) { setQrDataUrl(''); return; }
+    QRCode.toDataURL(otpauthUri, { width: 200, margin: 1 }).then(setQrDataUrl).catch(() => setQrDataUrl(''));
+  }, [otpauthUri]);
   const router = useRouter();
 
   const submitPassword = async (e) => {
@@ -125,6 +131,7 @@ export default function AdminLogin() {
               )}
               {secret && (
                 <form onSubmit={submitSetupVerify}>
+                  {qrDataUrl && <div className="flex justify-center mb-3"><img src={qrDataUrl} alt="TOTP QR" className="rounded-lg border border-[--brand-border]" /></div>}
                   <p className="text-sm text-[--brand-text-secondary] mb-2">Enter this key in your authenticator app:</p>
                   <div className="bg-[--brand-bg] border border-[--brand-border] rounded-xl p-3 font-mono text-xs break-all mb-3">{secret}</div>
                   {otpauthUri && <p className="text-[10px] text-[--brand-text-secondary] break-all mb-3">{otpauthUri}</p>}

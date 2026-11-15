@@ -218,6 +218,15 @@ async function handler(request, ctx) {
           limit: parseInt(url.searchParams.get('limit') || '200'),
         }),
       });
+      if (method === 'POST' && !p1) {
+        const body = await request.json();
+        if (!body?.platform || !body?.content) return err('platform and content are required', 400);
+        const allowed = ['pending','scheduled','posting','posted','failed','cancelled'];
+        const status = allowed.includes(body.status) ? body.status : 'pending';
+        const item = await db.socialQueue.create({ ...body, status });
+        await db.logs.create({ action: 'social.create', status: 'ok', meta: { id: item.id, platform: body.platform } });
+        return j({ item });
+      }
       if (p1 && method === 'GET') return j({ item: await db.socialQueue.getById(p1) });
       if (p1 && method === 'PATCH') {
         const patch = await request.json();
@@ -231,8 +240,8 @@ async function handler(request, ctx) {
       if (p1 && p2 && method === 'POST') {
         const item = await db.socialQueue.getById(p1);
         if (!item) return err('not found', 404);
-        if (p2 === 'approve')  return j({ item: await db.socialQueue.update(p1, { status: 'approved' }) });
-        if (p2 === 'reject')   return j({ item: await db.socialQueue.update(p1, { status: 'rejected' }) });
+        if (p2 === 'approve')  return j({ item: await db.socialQueue.update(p1, { status: 'pending' }) });
+        if (p2 === 'reject')   return j({ item: await db.socialQueue.update(p1, { status: 'cancelled' }) });
         if (p2 === 'schedule') {
           const { scheduledAt } = await request.json();
           return j({ item: await db.socialQueue.update(p1, { status: 'scheduled', scheduledAt }) });

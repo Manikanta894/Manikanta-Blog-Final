@@ -161,7 +161,7 @@ create table if not exists public.social_queue (
   article_id uuid references public.articles(id) on delete cascade,
   platform text not null,
   content jsonb not null,
-  status text default 'pending' check (status in ('pending','scheduled','posting','posted','failed','cancelled')),
+  status text default 'pending' check (status in ('pending','pending_approval','approved','scheduled','posting','posted','failed','rejected','cancelled')),
   scheduled_at timestamptz,
   attempted_at timestamptz,
   posted_at timestamptz,
